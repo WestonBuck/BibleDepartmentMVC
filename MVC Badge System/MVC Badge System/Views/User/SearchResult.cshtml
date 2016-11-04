@@ -1,0 +1,18 @@
+﻿<!--Keenan Gates and Emily Pielemeier
+    11/07/16
+    MVC Badge System: Sprint 1-->
+
+<!--Don't use the standard layout for the user list-->
+@model MVC_Badge_System.Models.SearchViewModel
+    @{ 
+        Layout = null;
+    }
+
+<datalist id="user_list">
+    @foreach (var item in Model.SearchResults)
+    {
+        <!--First Name Last Name (email@email.com) w/ a hidden attribute that is the user ID-->
+        <option value="@item.first_name @item.last_name (@item.email)" name="@item.user_id"/>
+    }
+</datalist>
+

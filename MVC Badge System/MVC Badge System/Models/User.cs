@@ -12,7 +12,7 @@ namespace MVC_Badge_System.Models
         public string last_name { get; set; }
         public string email { get; set; }
         public string photo_url { get; set; }
-        public string type { get; set; }
+        public string user_type { get; set; }
         public string shareable_link { get; set; }
     }
 }
