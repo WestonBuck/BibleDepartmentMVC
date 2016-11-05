@@ -7,7 +7,7 @@
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhotoUrl { get; set; }
-        public string Type { get; set; }
+        public string UserType { get; set; }
         public string ShareableLink { get; set; }
     }
 }

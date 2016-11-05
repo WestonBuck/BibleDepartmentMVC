@@ -12,6 +12,9 @@ namespace MVC_Badge_System.Db
                                          "Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
                                          "MultiSubnetFailover=False";
 
+        //
+        // GIFT
+        //
         public static void CreateGift(Gift gift)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
@@ -87,6 +90,9 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        //
+        // BADGE
+        //
         public static void CreateBadge(Badge b)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
@@ -166,22 +172,81 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        //
+        // USER
+        //
         public static void CreateUser(User u)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO USERS VALUES('@id','@fname','@lname','@email','@photoURL','@type','@shareLink');";
+                string sql = @"INSERT INTO USERS VALUES('@fname','@lname','@email','@photoURL','@type','@shareLink');";
 
                 conn.Query<User>(sql,
                     new
                     {
-                        id = u.UserId,
                         fname = u.FirstName,
                         lname = u.LastName,
                         email = u.Email,
                         photoURL = u.PhotoUrl,
-                        type = u.Type,
+                        type = u.UserType,
                         shareLink = u.ShareableLink
+                    });
+            }
+        }
+
+        public static void UpdateUser(User user)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("UPDATE USER SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
+                           "photo_url = @PhotoUrl, user_type = @UserType, shareable_link = @ShareableLink " +
+                           "WHERE user_id = @UserId",
+                           new
+                           {
+                               FirstName = user.FirstName,
+                               LastName = user.LastName,
+                               Email = user.Email,
+                               PhotoUrl = user.PhotoUrl,
+                               UserType = user.UserType,
+                               ShareableLink = user.ShareableLink,
+                               UserId = user.UserId
+                           });
+            }
+        }
+
+        public static User GetUser(int userId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.QueryFirstOrDefault<User>("SELECT * FROM USER u WHERE u.user_id = @UserId",
+                    new
+                    {
+                        UserId = userId
+                    });
+            }
+        }
+
+        public static IEnumerable<User> GetAllUsers()
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.Query<User>("SELECT * FROM USER");
+            }
+        }
+
+        public static void DeleteUser(User user)
+        {
+            DeleteUser(user.UserId);
+        }
+
+        public static void DeleteUser(int userId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM USER WHERE user_id = @UserId",
+                    new
+                    {
+                        UserId = userId
                     });
             }
         }
