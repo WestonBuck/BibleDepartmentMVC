@@ -91,12 +91,12 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES VALUES('@id','@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty','');";
+                string sql = @"INSERT INTO BADGES(badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
+                    "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
 
                 conn.Query<Badge>(sql,
                     new
                     {
-                        id = b.BadgeId,
                         type = b.Type,
                         startDate = b.BeginDate,
                         retireDate = b.RetirementDate,
@@ -104,7 +104,64 @@ namespace MVC_Badge_System.Db
                         self = b.SelfGive,
                         student = b.StudentGive,
                         staff = b.StaffGive,
-                        faculty = b.FacultyGive
+                        faculty = b.FacultyGive,
+                    });
+            }
+        }
+
+        public static void UpdateBadge(Badge b)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("UPDATE BADGES SET badge_type = @Type, begin_date = @startDate, retirement_date = @retireDate " +
+                           "name = @name, self_give = @self, staff_give = @staff, student_give = @student, faculty_give = @faculty" +
+                           "WHERE badge_id = @id",
+                           new
+                           {
+                               id = b.BadgeId,
+                               type = b.Type,
+                               startDate = b.BeginDate,
+                               retireDate = b.RetirementDate,
+                               name = b.Name,
+                               self = b.SelfGive,
+                               student = b.StudentGive,
+                               staff = b.StaffGive,
+                               faculty = b.FacultyGive,
+                           });
+            }
+        }
+
+        public static Badge GetBadge(int badgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.QueryFirstOrDefault<Badge>("SELECT * FROM BADGES WHERE badge_id = @BadgeId",
+                    new{ BadgeId = badgeId}
+                    );
+            }
+        }
+
+        public static List<Badge> GetAllBadges()
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.Query<Badge>("SELECT * FROM BADGES").AsList();
+            }
+        }
+
+        public static void DeleteBadge(Badge badge)
+        {
+            DeleteBadge(badge.BadgeId);
+        }
+
+        public static void DeleteBadge(int badgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM BADGES WHERE badge_id = @BadgeId",
+                    new
+                    {
+                        BadgeId = badgeId
                     });
             }
         }
