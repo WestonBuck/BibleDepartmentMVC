@@ -7,7 +7,7 @@ namespace MVC_Badge_System.Models
         public int BadgeId { get; set; }
         public string Type { get; set; }
         public DateTime RetirementDate { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime BeginDate { get; set; }
         public string Name { get; set; }
         public bool SelfGive { get; set; }
         public bool StudentGive { get; set; }

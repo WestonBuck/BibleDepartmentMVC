@@ -86,5 +86,47 @@ namespace MVC_Badge_System.Db
                     });
             }
         }
+
+        public static void CreateBadge(Badge b)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = @"INSERT INTO BADGES VALUES('@id','@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty','');";
+
+                conn.Query<Badge>(sql,
+                    new
+                    {
+                        id = b.BadgeId,
+                        type = b.Type,
+                        startDate = b.BeginDate,
+                        retireDate = b.RetirementDate,
+                        name = b.Name,
+                        self = b.SelfGive,
+                        student = b.StudentGive,
+                        staff = b.StaffGive,
+                        faculty = b.FacultyGive
+                    });
+            }
+        }
+
+        public static void CreateUser(User u)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = @"INSERT INTO USERS VALUES('@id','@fname','@lname','@email','@photoURL','@type','@shareLink');";
+
+                conn.Query<User>(sql,
+                    new
+                    {
+                        id = u.UserId,
+                        fname = u.FirstName,
+                        lname = u.LastName,
+                        email = u.Email,
+                        photoURL = u.PhotoUrl,
+                        type = u.Type,
+                        shareLink = u.ShareableLink
+                    });
+            }
+        }
     }
 }
