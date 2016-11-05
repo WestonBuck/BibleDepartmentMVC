@@ -33,16 +33,16 @@ namespace MVC_Badge_System.Controllers
             var allResults = new List<User>();
 
             // Dummy data to be replaced
-            var temp1 = new User_(){ user_id = 6, first_name = "bagel", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp2 = new User_() { user_id = 9, first_name = "argle", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp3 = new User_() { user_id = 6, first_name = "bass", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp4 = new User_() { user_id = 9, first_name = "angle", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp5 = new User_() { user_id = 6, first_name = "baggrt", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp6 = new User_() { user_id = 9, first_name = "ace", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp7 = new User_() { user_id = 6, first_name = "bagen", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp8 = new User_() { user_id = 9, first_name = "charlie", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp9 = new User_() { user_id = 6, first_name = "balerm", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
-            var temp0 = new User_() { user_id = 9, first_name = "cadence", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", type = "xxx", shareable_link = "xxx" };
+            var temp1 = new User(){ user_id = 6, first_name = "bagel", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp2 = new User() { user_id = 9, first_name = "argle", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp3 = new User() { user_id = 6, first_name = "bass", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp4 = new User() { user_id = 9, first_name = "angle", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp5 = new User() { user_id = 6, first_name = "baggrt", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp6 = new User() { user_id = 9, first_name = "ace", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp7 = new User() { user_id = 6, first_name = "bagen", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp8 = new User() { user_id = 9, first_name = "charlie", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp9 = new User() { user_id = 6, first_name = "balerm", last_name = "tiger", email = "taco.cat@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
+            var temp0 = new User() { user_id = 9, first_name = "cadence", last_name = "lion", email = "steven@gmail.com", photo_url = "xxx", user_type = "xxx", shareable_link = "xxx" };
            
             allResults.Add(temp1);
             allResults.Add(temp2);
