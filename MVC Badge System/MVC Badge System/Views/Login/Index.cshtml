@@ -1,0 +1,61 @@
+﻿@model GoogleAuth_Domain.UserJson
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Hello, you are logged in!</h2>
+
+<div>
+    <h4>Google User Json</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.family_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.family_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.locale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.locale)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.given_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.given_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.picture)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.picture)
+        </dd>
+    </dl>
+</div>

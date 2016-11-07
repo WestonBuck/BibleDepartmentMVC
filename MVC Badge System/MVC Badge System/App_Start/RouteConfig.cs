@@ -1,4 +1,5 @@
-﻿using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace MVC_Badge_System
 {
@@ -11,7 +12,7 @@ namespace MVC_Badge_System
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
