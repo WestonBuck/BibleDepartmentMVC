@@ -26,7 +26,7 @@ CREATE TABLE BADGE (
 	BADGE_ID int not null,
 	TYPE varchar(MAX),
 	RETIREMENT_DATE date,
-	START_DATE date not null,
+	BADGE_START_DATE date not null,
 	NAME varchar(MAX),
 	SELF_GIVE bit,
 	STUDENT_GIVE bit,
