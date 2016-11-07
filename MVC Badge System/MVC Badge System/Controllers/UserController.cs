@@ -2,14 +2,9 @@
 // MVC Badge System: Sprint 1
 // 11/07/16
 
-using Newtonsoft.Json;
-using MVC_Badge_System;
 using MVC_Badge_System.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MVC_Badge_System.Controllers
