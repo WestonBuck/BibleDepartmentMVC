@@ -19,7 +19,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("INSERT INTO GIFT(badge_id, sender_id, recippient_id, tree_loc_x, tree_loc_y, comment)" +
+                conn.Query("INSERT INTO GIFT(BADGE_ID, SENDER_ID, RECIPIENT_ID, TREE_LOC_X, TREE_LOC_Y, COMMENT)" +
                            "VALUES (@BadgeId, @SenderId, @RecipientId, @TreeLocX, @TreeLocY, @Comment)",
                            new
                            {
@@ -37,9 +37,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("UPDATE GIFT SET badge_id = @BadgeId, sender_id = @SenderId, recipient_id = @RecipientId " +
-                           "tree_loc_x = @TreeLocX, tree_loc_y = @TreeLocY, comment = @Comment " +
-                           "WHERE gift_id = @GiftId",
+                conn.Query("UPDATE GIFT SET BADGE_ID = @BadgeId, SENDER_ID = @SenderId, RECIPIENT_ID = @RecipientId " +
+                           "TREE_LOC_X = @TreeLocX, TREE_LOC_Y = @TreeLocY, COMMENT = @Comment " +
+                           "WHERE GIFT_ID = @GiftId",
                            new
                            {
                                BadgeId = gift.BadgeId,
@@ -60,7 +60,7 @@ namespace MVC_Badge_System.Db
                 return conn.QueryFirstOrDefault<Gift>("SELECT GIFT_ID GiftId, BADGE_ID BadgeId, " +
                                                       "SENDER_ID SnederId, RECIPIENT_ID RecipientId, " +
                                                       "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY," +
-                                                      "COMMENT Comment FROM GIFT g WHERE g.gift_id = @GId",
+                                                      "COMMENT Comment FROM GIFT WHERE GIFT_ID = @GId",
                     new
                     {
                         GId = giftId
@@ -72,7 +72,10 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<Gift>("SELECT * FROM GIFT");
+                return conn.Query<Gift>("SELECT GIFT_ID GiftId, BADGE_ID BadgeId, " +
+                                        "SENDER_ID SnederId, RECIPIENT_ID RecipientId, " +
+                                        "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY," +
+                                        "COMMENT Comment FROM GIFT");
             }
         }
 
@@ -85,7 +88,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("DELETE FROM GIFT WHERE gift_id = @GiftId",
+                conn.Query("DELETE FROM GIFT WHERE GIFT_ID = @GiftId",
                     new
                     {
                         GiftId = giftId
@@ -100,7 +103,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES(badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
+                string sql = @"INSERT INTO BADGES(BADGE_TYPE, BEGIN_DATE, RETIREMENT_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE)" +
                               "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
 
                 conn.Query<Badge>(sql,
@@ -122,9 +125,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("UPDATE BADGES SET badge_type = @Type, begin_date = @startDate, retirement_date = @retireDate " +
-                           "name = @name, self_give = @self, staff_give = @staff, student_give = @student, faculty_give = @faculty" +
-                           "WHERE badge_id = @id",
+                conn.Query("UPDATE BADGES SET BADGE_TYPE = @Type, BEGIN_DATE = @startDate, RETIREMENT_DATE = @retireDate " +
+                           "NAME = @name, SELF_GIVE = @self, STAFF_GIVE = @staff, STUDENT_GIVE = @student, FACULTY_GIVE = @faculty" +
+                           "WHERE BADGE_ID = @id",
                            new
                            {
                                id = b.BadgeId,
@@ -147,7 +150,7 @@ namespace MVC_Badge_System.Db
                 return conn.QueryFirstOrDefault<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type," +
                                                        "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate," +
                                                        "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive," +
-                                                       "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES WHERE badge_id = @BId",
+                                                       "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES WHERE BADGE_ID = @BId",
                     new{ BId = badgeId}
                     );
             }
@@ -173,7 +176,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("DELETE FROM BADGES WHERE badge_id = @BadgeId",
+                conn.Query("DELETE FROM BADGES WHERE BADGE_ID = @BadgeId",
                     new
                     {
                         BadgeId = badgeId
@@ -207,9 +210,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("UPDATE USER SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
-                           "photo_url = @PhotoUrl, user_type = @UserType, shareable_link = @ShareableLink " +
-                           "WHERE user_id = @UserId",
+                conn.Query("UPDATE USER SET FIRST_NAME = @FirstName, LAST_NAME = @LastName, EMAIL = @Email, " +
+                           "PHOTO_URL = @PhotoUrl, USER_TYPE = @UserType, SHAREABLE_LINK = @ShareableLink " +
+                           "WHERE USER_ID = @UserId",
                            new
                            {
                                FirstName = user.FirstName,
@@ -256,7 +259,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("DELETE FROM USER WHERE user_id = @UserId",
+                conn.Query("DELETE FROM USER WHERE USER_ID = @UserId",
                     new
                     {
                         UserId = userId
