@@ -59,7 +59,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.QueryFirstOrDefault<Gift>("SELECT GIFT_ID GiftId, BADGE_ID BadgeId, " +
                                                       "SENDER_ID SnederId, RECIPIENT_ID RecipientId, " +
-                                                      "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY," +
+                                                      "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY, " +
                                                       "COMMENT Comment FROM GIFT WHERE GIFT_ID = @GId",
                     new
                     {
@@ -74,7 +74,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.Query<Gift>("SELECT GIFT_ID GiftId, BADGE_ID BadgeId, " +
                                         "SENDER_ID SnederId, RECIPIENT_ID RecipientId, " +
-                                        "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY," +
+                                        "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY, " +
                                         "COMMENT Comment FROM GIFT");
             }
         }
@@ -103,7 +103,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES(BADGE_TYPE, BEGIN_DATE, RETIREMENT_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE)" +
+                string sql = "INSERT INTO BADGES(BADGE_TYPE, BEGIN_DATE, RETIREMENT_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE)" +
                               "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
 
                 conn.Query<Badge>(sql,
@@ -147,9 +147,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type," +
-                                                       "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate," +
-                                                       "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive," +
+                return conn.QueryFirstOrDefault<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type, " +
+                                                       "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate, " +
+                                                       "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive, " +
                                                        "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES WHERE BADGE_ID = @BId",
                     new{ BId = badgeId}
                     );
@@ -160,9 +160,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type," +
-                                         "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate," +
-                                         "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive," +
+                return conn.Query<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type, " +
+                                         "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate, " +
+                                         "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive, " +
                                          "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES").AsList();
             }
         }
@@ -191,7 +191,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO USERS VALUES('@fname','@lname','@email','@photoURL','@type','@shareLink');";
+                string sql = "INSERT INTO USERS VALUES(@fname, @lname, @email, @photoURL, @type, @shareLink);";
 
                 conn.Query<User>(sql,
                     new
@@ -230,8 +230,8 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
-                                                      "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
+                return conn.QueryFirstOrDefault<User>("SELECT USER_ID UserId, FIRST_NAME FirstName, " +
+                                                      "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl, " +
                                                       "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER u WHERE u.user_id = @UserId",
                     new
                     {
@@ -244,8 +244,8 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
-                                        "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
+                return conn.Query<User>("SELECT USER_ID UserId, FIRST_NAME FirstName, " +
+                                        "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl, " +
                                         "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER");
             }
         }
