@@ -1,8 +1,8 @@
-Drop table USER_;
-Drop table GIFT;
-Drop table BADGE;
+DROP TABLE USERS;
+DROP TABLE GIFT;
+DROP TABLE BADGE;
 
-CREATE TABLE USER_ (
+CREATE TABLE USERS (
 	USER_ID int not null IDENTITY(1,1),
 	FIRST_NAME varchar(100) not null,
 	LAST_NAME varchar(100) not null,
@@ -23,8 +23,8 @@ CREATE TABLE GIFT (
 );
 
 CREATE TABLE BADGE (
-	BADGE_ID int not null,
-	TYPE varchar(MAX),
+	BADGE_ID int not null IDENTITY(1,1),
+	USER_TYPE varchar(MAX),
 	RETIREMENT_DATE date,
 	BADGE_START_DATE date not null,
 	NAME varchar(MAX),

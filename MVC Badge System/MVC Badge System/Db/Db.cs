@@ -104,7 +104,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = "INSERT INTO BADGES(BADGE_TYPE, BEGIN_DATE, RETIREMENT_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE)" +
-                              "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
+                              "VALUES(@type, @startDate, @retireDate, @name, @self, @student, @staff, @faculty);";
 
                 conn.Query<Badge>(sql,
                     new
@@ -210,7 +210,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("UPDATE USER SET FIRST_NAME = @FirstName, LAST_NAME = @LastName, EMAIL = @Email, " +
+                conn.Query("UPDATE USERS SET FIRST_NAME = @FirstName, LAST_NAME = @LastName, EMAIL = @Email, " +
                            "PHOTO_URL = @PhotoUrl, USER_TYPE = @UserType, SHAREABLE_LINK = @ShareableLink " +
                            "WHERE USER_ID = @UserId",
                            new
@@ -232,7 +232,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.QueryFirstOrDefault<User>("SELECT USER_ID UserId, FIRST_NAME FirstName, " +
                                                       "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl, " +
-                                                      "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER u WHERE u.user_id = @UserId",
+                                                      "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USERS WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -246,7 +246,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.Query<User>("SELECT USER_ID UserId, FIRST_NAME FirstName, " +
                                         "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl, " +
-                                        "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER");
+                                        "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USERS");
             }
         }
 
