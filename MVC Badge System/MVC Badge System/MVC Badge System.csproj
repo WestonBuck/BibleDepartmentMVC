@@ -179,6 +179,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Db\Db.cs" />
     <Compile Include="EmailManager.cs" />
+    <Compile Include="CSVReader.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
