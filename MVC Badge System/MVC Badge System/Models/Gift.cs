@@ -2,12 +2,12 @@
 {
     public class Gift
     {
-        public int gift_id { get; set; }
-        public int badge_id { get; set; }
-        public int sender_id { get; set; }
-        public int recipient_id { get; set; }
-        public int tree_loc_x { get; set; }
-        public int tree_loc_y { get; set; }
-        public string comment { get; set; }
+        public int GiftId { get; set; }
+        public int BadgeId { get; set; }
+        public int SenderId { get; set; }
+        public int RecipientId { get; set; }
+        public int TreeLocX { get; set; }
+        public int TreeLocY { get; set; }
+        public string Comment { get; set; }
     }
 }
