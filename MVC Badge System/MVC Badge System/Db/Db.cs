@@ -57,10 +57,13 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<Gift>("SELECT * FROM GIFT g WHERE g.gift_id = @GiftId",
+                return conn.QueryFirstOrDefault<Gift>("SELECT GIFT_ID GiftId, BADGE_ID BadgeId, " +
+                                                      "SENDER_ID SnederId, RECIPIENT_ID RecipientId, " +
+                                                      "TREE_LOC_X TreeLocX, TREE_LOC_Y TreeLocY," +
+                                                      "COMMENT Comment FROM GIFT g WHERE g.gift_id = @GId",
                     new
                     {
-                        GiftId = giftId
+                        GId = giftId
                     });
             }
         }
@@ -98,7 +101,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = @"INSERT INTO BADGES(badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
-                    "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
+                              "VALUES('@type','@startDate','@retireDate','@name','@self','@student','@staff','@faculty');";
 
                 conn.Query<Badge>(sql,
                     new
@@ -141,8 +144,11 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<Badge>("SELECT * FROM BADGES WHERE badge_id = @BadgeId",
-                    new{ BadgeId = badgeId}
+                return conn.QueryFirstOrDefault<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type," +
+                                                       "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate," +
+                                                       "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive," +
+                                                       "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES WHERE badge_id = @BId",
+                    new{ BId = badgeId}
                     );
             }
         }
@@ -151,7 +157,10 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<Badge>("SELECT * FROM BADGES").AsList();
+                return conn.Query<Badge>("SELECT BADGE_ID BadgeId, BADGE_TYPE Type," +
+                                         "RETIREMENT_DATE RetirementDate, BEGIN_DATE BeginDate," +
+                                         "NAME Name, SELF_GIVE SelfGive, STUDENT_GIVE StudentGive," +
+                                         "STAFF_GIVE StaffGive, FACULTY_GIVE FacultyGive FROM BADGES").AsList();
             }
         }
 
@@ -218,7 +227,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<User>("SELECT * FROM USER u WHERE u.user_id = @UserId",
+                return conn.QueryFirstOrDefault<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
+                                                      "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
+                                                      "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER u WHERE u.user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -230,7 +241,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<User>("SELECT * FROM USER");
+                return conn.Query<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
+                                        "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
+                                        "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER");
             }
         }
 

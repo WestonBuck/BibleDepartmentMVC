@@ -2,12 +2,12 @@
 
 DROP TABLE USERS;
 CREATE TABLE USERS (
-USR_ID int,
+USER_ID int,
 FIRST_NAME varchar(32),
 LAST_NAME varchar(32),
 EMAIL varchar(40),
 PHOTO_URL varchar(256),
-USR_TYPE varchar(16),
+USER_TYPE varchar(16),
 SHARABLE_LINK varchar(256)
 );
 INSERT INTO USERS VALUES('10010','Weston','Dial','weston.dial@eagles.oc.edu','','student','');
