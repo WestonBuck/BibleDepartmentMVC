@@ -12,7 +12,7 @@
     @foreach (var item in Model.SearchResults)
     {
         <!--First Name Last Name (email@email.com) w/ a hidden attribute that is the user ID-->
-        <option value="@item.first_name @item.last_name (@item.email)" name="@item.user_id"/>
+        <option value="@item.FirstName @item.LastName (@item.Email)" name="@item.UserId"/>
     }
 </datalist>
 
