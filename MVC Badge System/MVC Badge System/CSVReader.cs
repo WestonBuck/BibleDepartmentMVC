@@ -65,50 +65,50 @@ namespace MVC_Badge_System
                     {
                         case 2:
                             string[] tempName = words[0].Split(' ');
-                            tempUser.first_name = tempName[0];
-                            tempUser.last_name = tempName[1];
-                            tempUser.email = words[1];
-                            tempUser.user_type = "xxx";
-                            tempUser.shareable_link = "xxx";
+                            tempUser.FirstName = tempName[0];
+                            tempUser.LastName = tempName[1];
+                            tempUser.Email = words[1];
+                            tempUser.UserType = "xxx";
+                            tempUser.ShareableLink = "xxx";
 
                             tempUserList.Add(tempUser);
                             break;
                         case 3:
-                            tempUser.first_name = words[0];
-                            tempUser.last_name = words[1];
-                            tempUser.email = words[2];
-                            tempUser.user_type = "xxx";
-                            tempUser.shareable_link = "xxx";
+                            tempUser.FirstName = words[0];
+                            tempUser.LastName = words[1];
+                            tempUser.Email = words[2];
+                            tempUser.UserType = "xxx";
+                            tempUser.ShareableLink = "xxx";
 
                             tempUserList.Add(tempUser);
                             break;
                         case 4:
-                            tempUser.first_name = words[0];
-                            tempUser.last_name = words[1];
-                            tempUser.email = words[2];
-                            tempUser.photo_url = words[3];
-                            tempUser.user_type = "xxx";
-                            tempUser.shareable_link = "xxx";
+                            tempUser.FirstName = words[0];
+                            tempUser.LastName = words[1];
+                            tempUser.Email = words[2];
+                            tempUser.PhotoUrl = words[3];
+                            tempUser.UserType = "xxx";
+                            tempUser.ShareableLink = "xxx";
 
                             tempUserList.Add(tempUser);
                             break;
                         case 5:
-                            tempUser.first_name = words[0];
-                            tempUser.last_name = words[1];
-                            tempUser.email = words[2];
-                            tempUser.photo_url = words[3];
-                            tempUser.user_type = words[4];
-                            tempUser.shareable_link = "xxx";
+                            tempUser.FirstName = words[0];
+                            tempUser.LastName = words[1];
+                            tempUser.Email = words[2];
+                            tempUser.PhotoUrl = words[3];
+                            tempUser.UserType = words[4];
+                            tempUser.ShareableLink = "xxx";
 
                             tempUserList.Add(tempUser);
                             break;
                         case 6:
-                            tempUser.first_name = words[0];
-                            tempUser.last_name = words[1];
-                            tempUser.email = words[2];
-                            tempUser.photo_url = words[3];
-                            tempUser.user_type = words[4];
-                            tempUser.shareable_link = words[5];
+                            tempUser.FirstName  = words[0];
+                            tempUser.LastName = words[1];
+                            tempUser.Email = words[2];
+                            tempUser.PhotoUrl = words[3];
+                            tempUser.UserType = words[4];
+                            tempUser.ShareableLink = words[5];
 
                             tempUserList.Add(tempUser);
                             break;
@@ -177,14 +177,14 @@ namespace MVC_Badge_System
 
                     if (words.Length == 8)
                     {
-                        tempBadge.type = words[0];
-                        tempBadge.retirement_date = DateTime.Parse(words[1]);
-                        tempBadge.start_date = DateTime.Parse(words[2]);
-                        tempBadge.name = words[3];
-                        tempBadge.self_give = (words[4] == "true" || words[4] == "True" || words[4] == "T");
-                        tempBadge.student_give = (words[5] == "true" || words[5] == "True" || words[5] == "T");
-                        tempBadge.staff_give = (words[6] == "true" || words[6] == "True" || words[6] == "T");
-                        tempBadge.faculty_give = (words[7] == "true" || words[7] == "True" || words[7] == "T");
+                        tempBadge.Type = words[0];
+                        tempBadge.RetirementDate = DateTime.Parse(words[1]);
+                        tempBadge.BeginDate = DateTime.Parse(words[2]);
+                        tempBadge.Name = words[3];
+                        tempBadge.SelfGive = (words[4] == "true" || words[4] == "True" || words[4] == "T");
+                        tempBadge.StudentGive = (words[5] == "true" || words[5] == "True" || words[5] == "T");
+                        tempBadge.StaffGive = (words[6] == "true" || words[6] == "True" || words[6] == "T");
+                        tempBadge.FacultyGive = (words[7] == "true" || words[7] == "True" || words[7] == "T");
 
                         tempBadgeList.Add(tempBadge);
                     }
@@ -254,12 +254,12 @@ namespace MVC_Badge_System
 
                     if (words.Length == 6)
                     {
-                        tempGift.badge_id = Int32.Parse(words[0]);
-                        tempGift.sender_id = Int32.Parse(words[1]);
-                        tempGift.recipient_id = Int32.Parse(words[2]);
-                        tempGift.tree_loc_x = Int32.Parse(words[3]);
-                        tempGift.tree_loc_y = Int32.Parse(words[4]);
-                        tempGift.comment = words[5];
+                        tempGift.BadgeId = Int32.Parse(words[0]);
+                        tempGift.SenderId = Int32.Parse(words[1]);
+                        tempGift.RecipientId = Int32.Parse(words[2]);
+                        tempGift.TreeLocX = Int32.Parse(words[3]);
+                        tempGift.TreeLocY = Int32.Parse(words[4]);
+                        tempGift.Comment = words[5];
 
                         tempGiftList.Add(tempGift);
                     }
