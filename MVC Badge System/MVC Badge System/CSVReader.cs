@@ -50,72 +50,25 @@ namespace MVC_Badge_System
                     string[] words = line.Split(',');
                     User tempUser = new User();
 
-                    // check to see if the line is the line of classification
-                    if (words[0] == "name" || words[0] == "Name")
-                    {
-                        line = file.ReadLine();
-                        lineNumber++;
-                        words = line.Split(',');
-                    }
-
                     // determines the number of elements per row as many elements are optional
                     // user_type and shareable_link cannot be null
                     // sample data contains only 2 comma seperated fields
-                    switch (words.Length)
+                    if (words.Length >= 6)
                     {
-                        case 2:
-                            string[] tempName = words[0].Split(' ');
-                            tempUser.FirstName = tempName[0];
-                            tempUser.LastName = tempName[1];
-                            tempUser.Email = words[1];
-                            tempUser.UserType = "xxx";
-                            tempUser.ShareableLink = "xxx";
+                        tempUser.first_name = words[0];
+                        tempUser.last_name = words[1];
+                        tempUser.email = words[2];
+                        tempUser.photo_url = words[3];
+                        tempUser.user_type = words[4];
+                        tempUser.shareable_link = words[5];
 
-                            tempUserList.Add(tempUser);
-                            break;
-                        case 3:
-                            tempUser.FirstName = words[0];
-                            tempUser.LastName = words[1];
-                            tempUser.Email = words[2];
-                            tempUser.UserType = "xxx";
-                            tempUser.ShareableLink = "xxx";
-
-                            tempUserList.Add(tempUser);
-                            break;
-                        case 4:
-                            tempUser.FirstName = words[0];
-                            tempUser.LastName = words[1];
-                            tempUser.Email = words[2];
-                            tempUser.PhotoUrl = words[3];
-                            tempUser.UserType = "xxx";
-                            tempUser.ShareableLink = "xxx";
-
-                            tempUserList.Add(tempUser);
-                            break;
-                        case 5:
-                            tempUser.FirstName = words[0];
-                            tempUser.LastName = words[1];
-                            tempUser.Email = words[2];
-                            tempUser.PhotoUrl = words[3];
-                            tempUser.UserType = words[4];
-                            tempUser.ShareableLink = "xxx";
-
-                            tempUserList.Add(tempUser);
-                            break;
-                        case 6:
-                            tempUser.FirstName  = words[0];
-                            tempUser.LastName = words[1];
-                            tempUser.Email = words[2];
-                            tempUser.PhotoUrl = words[3];
-                            tempUser.UserType = words[4];
-                            tempUser.ShareableLink = words[5];
-
-                            tempUserList.Add(tempUser);
-                            break;
-                        default:
-                            Console.WriteLine("Formating error line " + lineNumber);
-                            break;
-                    } // end switch(words.length)
+                        tempUserList.Add(tempUser);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Formating error line " + lineNumber);
+                        break;
+                    } // end if(words.length)
                 } // end while(!= eof)
 
                 using (IDbConnection db = new SqlConnection(this.wPath()))
@@ -146,16 +99,9 @@ namespace MVC_Badge_System
             string line;
             int lineNumber = 0;
             List<Badge> tempBadgeList = new List<Badge>();
-            //const string CSV = ".csv";
 
             Console.WriteLine("Input the file name path: ");
             fileName = Console.ReadLine();
-
-            //if(fileName.Substring(fileName.Length-4,4) != CSV)
-            //{
-            //    fileName = fileName + CSV;
-            //}
-
 
             if (File.Exists(fileName))
             {
@@ -166,14 +112,6 @@ namespace MVC_Badge_System
                     lineNumber++;
                     string[] words = line.Split(',');
                     Badge tempBadge = new Badge();
-
-                    // check to see if the line is the line of classification
-                    if (words[0] == "type" || words[0] == "Type")
-                    {
-                        line = file.ReadLine();
-                        lineNumber++;
-                        words = line.Split(',');
-                    }
 
                     if (words.Length == 8)
                     {
@@ -208,7 +146,6 @@ namespace MVC_Badge_System
             {
                 Console.WriteLine("File name incorrect/does not exist!\n");
             }
-
         } // end input badge list
 
 
@@ -223,15 +160,9 @@ namespace MVC_Badge_System
             string line;
             int lineNumber = 0;
             List<Gift> tempGiftList = new List<Gift>();
-            //const string CSV = ".csv";
 
             Console.WriteLine("Input the file name path: ");
             fileName = Console.ReadLine();
-
-            //if(fileName.Substring(fileName.Length-4,4) != CSV)
-            //{
-            //    fileName = fileName + CSV;
-            //}
 
 
             if (File.Exists(fileName))
@@ -243,14 +174,6 @@ namespace MVC_Badge_System
                     lineNumber++;
                     string[] words = line.Split(',');
                     Gift tempGift = new Gift();
-
-                    // check to see if the line is the line of classification
-                    if (words[0] == "badge id" || words[0] == "Badge ID" || words[0] == "badge_id" || words[0] == "Badge_ID")
-                    {
-                        line = file.ReadLine();
-                        lineNumber++;
-                        words = line.Split(',');
-                    }
 
                     if (words.Length == 6)
                     {
@@ -283,6 +206,6 @@ namespace MVC_Badge_System
             {
                 Console.WriteLine("File name incorrect/does not exist!\n");
             }
-} // end input badge list
+        } // end input badge list
     }
 }
