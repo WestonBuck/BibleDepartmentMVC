@@ -55,12 +55,12 @@ namespace MVC_Badge_System
                     // sample data contains only 2 comma seperated fields
                     if (words.Length >= 6)
                     {
-                        tempUser.first_name = words[0];
-                        tempUser.last_name = words[1];
-                        tempUser.email = words[2];
-                        tempUser.photo_url = words[3];
-                        tempUser.user_type = words[4];
-                        tempUser.shareable_link = words[5];
+                        tempUser.FirstName = words[0];
+                        tempUser.LastName = words[1];
+                        tempUser.Email = words[2];
+                        tempUser.PhotoUrl = words[3];
+                        tempUser.UserType = words[4];
+                        tempUser.ShareableLink = words[5];
 
                         tempUserList.Add(tempUser);
                     }
