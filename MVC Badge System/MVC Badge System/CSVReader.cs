@@ -53,7 +53,7 @@ namespace MVC_Badge_System
                     // determines the number of elements per row as many elements are optional
                     // user_type and shareable_link cannot be null
                     // sample data contains only 2 comma seperated fields
-                    if (words.Length >= 6)
+                    if (words.Length == 6)
                     {
                         tempUser.FirstName = words[0];
                         tempUser.LastName = words[1];
@@ -113,7 +113,7 @@ namespace MVC_Badge_System
                     string[] words = line.Split(',');
                     Badge tempBadge = new Badge();
 
-                    if (words.Length == 8)
+                    if (words.Length == 10)
                     {
                         tempBadge.Type = words[0];
                         tempBadge.RetirementDate = DateTime.Parse(words[1]);
@@ -123,6 +123,8 @@ namespace MVC_Badge_System
                         tempBadge.StudentGive = (words[5] == "true" || words[5] == "True" || words[5] == "T");
                         tempBadge.StaffGive = (words[6] == "true" || words[6] == "True" || words[6] == "T");
                         tempBadge.FacultyGive = (words[7] == "true" || words[7] == "True" || words[7] == "T");
+                        tempBadge.ImageLink = words[8];
+                        tempBadge.Description = words[9];
 
                         tempBadgeList.Add(tempBadge);
                     }
