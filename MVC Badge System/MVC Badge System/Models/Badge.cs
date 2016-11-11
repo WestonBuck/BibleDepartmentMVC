@@ -5,6 +5,7 @@ namespace MVC_Badge_System.Models
     public class Badge
     {
         public int BadgeId { get; set; }
+        public string Description { get; set; }
         public string Type { get; set; }
         public DateTime RetirementDate { get; set; }
         public DateTime BeginDate { get; set; }
