@@ -8,7 +8,7 @@
             type: 'GET',
             dataType: 'html',
             data: { studentId: studentId, badgeId: badgeId },
-            success: function (data) {                
+            success: function (data) {
                 $('#gst-bmm-modal').html(data);
                 $('#gifts-modal').modal('show');
            },
