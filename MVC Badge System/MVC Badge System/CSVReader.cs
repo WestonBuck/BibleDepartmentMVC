@@ -113,7 +113,7 @@ namespace MVC_Badge_System
                     string[] words = line.Split(',');
                     Badge tempBadge = new Badge();
 
-                    if (words.Length == 10)
+                    if (words.Length >= 10)
                     {
                         tempBadge.Type = words[0];
 
@@ -143,7 +143,7 @@ namespace MVC_Badge_System
                     }
                     else
                     {
-                        Console.WriteLine("Formatiing error line " + lineNumber);
+                        Console.WriteLine("Formatting error line " + lineNumber);
                     } // end if(words.length)
                 } // end while (!= eof)
 
