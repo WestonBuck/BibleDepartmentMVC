@@ -12,11 +12,11 @@ namespace MVC_Badge_System
     public class CSVReader
     {
         // contains the path of the database
-        private string wPath()
-        {
-            string pathName = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            return pathName;
-        }
+        //private string wPath()
+        //{
+        //    string pathName = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //    return pathName;
+        //}
 
 
         ////////////////////////////////////////////////////////
@@ -71,14 +71,14 @@ namespace MVC_Badge_System
                     } // end if(words.length)
                 } // end while(!= eof)
 
-                using (IDbConnection db = new SqlConnection(this.wPath()))
+                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) // Path name from Db.cs
                 {
                     foreach (User u in tempUserList)
                     {
-                        db.Execute("INSERT INTO USER_ (FIRST_NAME, LAST_NAME, EMAIL, PHOTO_URL, USER_TYPE, SHAREABLE_LINK) VALUES (@first_Name, @last_Name, @email, @photo_url, @user_type, @shareable_link)", u);
+                        db.Execute("INSERT INTO USERS (FIRST_NAME, LAST_NAME, EMAIL, PHOTO_URL, USER_TYPE, SHAREABLE_LINK) VALUES (@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink)", u);
                     }
                 }
-
+                Console.WriteLine("User database filled");
                 file.Close();
             }
             else
@@ -116,7 +116,20 @@ namespace MVC_Badge_System
                     if (words.Length == 10)
                     {
                         tempBadge.Type = words[0];
-                        tempBadge.RetirementDate = DateTime.Parse(words[1]);
+
+                        if (words[1].Length >= 6) // min length of a datetime x/x/xx
+                        {
+                            tempBadge.RetirementDate = DateTime.Parse(words[1]);
+                        }
+                        else
+                        {
+                            // The maximum datetime for the database
+                            // This will indicate that the badge has no retirement date
+                            //when the field is blank in the .csv
+                            // The database can accept null values in retirement date
+                            tempBadge.RetirementDate = DateTime.Parse("12/31/9999");
+                        }
+
                         tempBadge.BeginDate = DateTime.Parse(words[2]);
                         tempBadge.Name = words[3];
                         tempBadge.SelfGive = (words[4] == "true" || words[4] == "True" || words[4] == "T");
@@ -134,14 +147,15 @@ namespace MVC_Badge_System
                     } // end if(words.length)
                 } // end while (!= eof)
 
-                using (IDbConnection db = new SqlConnection(this.wPath()))
+                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) // path name from Db.cs
                 {
                     foreach (Badge b in tempBadgeList)
                     {
-                        db.Execute("INSERT INTO BADGE (TYPE, RETIREMENT_DATE, START_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE) VALUES (@type, @retirement_date, @start_date, @name, @self_give, @student_give, @staff_give, @faculty_give)", b);
+                        db.Execute("INSERT INTO BADGE (TYPE, RETIREMENT_DATE, BADGE_START_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE, IMAGE_LINK, BADGE_DESC) VALUES (@Type, @RetirementDate, @beginDate, @Name, @selfgive, @studentgive, @staffgive, @facultygive, @imagelink, @description)", b);
                     }
                 }
 
+                Console.WriteLine("Badge database filled");
                 file.Close();
             }
             else
@@ -190,18 +204,19 @@ namespace MVC_Badge_System
                     }
                     else
                     {
-                        Console.WriteLine("Formatiing error line " + lineNumber);
+                        Console.WriteLine("Formatting error line " + lineNumber);
                     } // end if(words.length)
                 } // end while (!= eof)
 
-                using (IDbConnection db = new SqlConnection(this.wPath()))
+                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) //Path name from Db.cs
                 {
                     foreach (Gift g in tempGiftList)
                     {
-                        db.Execute("INSERT INTO GIFT (BADGE_ID, SENDER_ID, RECIPIENT_ID, TREE_LOC_X, TREE_LOC_Y, COMMENT) VALUES (@badge_id, @sender_id, @recipient_id, @tree_loc_x, @tree_loc_y, @comment)", g);
+                        db.Execute("INSERT INTO GIFT (BADGE_ID, SENDER_ID, RECIPIENT_ID, TREE_LOC_X, TREE_LOC_Y, COMMENT) VALUES (@badgeid, @senderid, @recipientid, @treelocx, @treelocy, @comment)", g);
                     }
                 }
 
+                Console.WriteLine("Gift database filled");
                 file.Close();
             }
             else
