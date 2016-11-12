@@ -169,6 +169,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\SearchBarStyle.css" />
+    <Content Include="Content\BadgeModalModule.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SearchModule.js" />
     <Content Include="css\bootstrap-responsive.css" />
@@ -220,6 +221,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmailTestController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -256,6 +258,8 @@
     <Content Include="Views\EmailTest\Index.cshtml" />
     <Content Include="Views\Home\GiveBadge.cshtml" />
     <Content Include="Views\Home\Confirmation.cshtml" />
+    <Content Include="Views\Student\GetGiftsReceived.cshtml" />
+    <Content Include="Views\Student\TestGiftsModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

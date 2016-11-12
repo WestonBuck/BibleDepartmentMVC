@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVC_Badge_System.Models.Gift>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            @{
+                if (Model.Any())// if there is at least one gift in the list
+                {
+                    <div class="modal-title" id="gifts-modal-label">
+                        <!--<img src="Model.First().Badge.ImageLink" />-->
+                        <img class="img-responsive" style="max-width: 100px;display:inline-block;" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+                        <!--<h1>Model.First().Badge.Name</h1>-->
+                        <h1 style="display:inline-block;">@Model.First().BadgeId</h1>
+                    </div>
+                }
+            }
+        </div>
+        <div class="modal-body">
+            <div id="gifts-container" class="container-fluid">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Date Received
+                                <!--[DisplayName("Date Received")]-->
+                                <!--Html.DisplayFor(modelItem => model.DateReceieved)-->
+                            </th>
+                            <th>
+                                Given By
+                                <!--[DisplayName("Given By")]-->
+                                <!--Html.DisplayFor(modelItem => model.Sender)-->
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Comment)
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                MM/DD/YYYY
+                                <!--Html.DisplayFor(modelItem => item.DateReceieved)-->
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SenderId)
+                                <!--Html.DisplayFor(modelItem => item.Sender.FirstName) Html.DisplayFor(modelItem => item.Sender.LastName)-->
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comment)
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
