@@ -7,7 +7,7 @@ using System;
 
 namespace MVC_Badge_System.Controllers
 {
-    public class StudentController : Controller
+    public class GiftController : Controller
     {
         /// <summary>
         /// Get: TestGiftsModal.

@@ -4,7 +4,7 @@
     var getGifts = function (studentId, badgeId) {
 
         $.ajax({
-            url: '/Student/GetGiftsReceived',
+            url: '/Gift/GetGiftsReceived',
             type: 'GET',
             dataType: 'html',
             data: { studentId: studentId, badgeId: badgeId },
