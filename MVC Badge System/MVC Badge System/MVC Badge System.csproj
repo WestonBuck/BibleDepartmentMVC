@@ -221,11 +221,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmailTestController.cs" />
-<<<<<<< 95bf4cfb030e886b65c4e3d4f6f0f93c789e15f5
     <Compile Include="Controllers\GiftController.cs" />
-=======
-    <Compile Include="Controllers\StudentController.cs" />
->>>>>>> created modal using dummy data with hardcoded fields for join tables, testable with TestGiftsModal
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />

@@ -7,39 +7,30 @@
 <h2>TestGiftsModal</h2>
 
 <!--
-    This is the modal that will pop up for viewing the gifts associated for individual badges.
-    You must use this exact ID
+    This is the modal that will pop up for viewing the gifts associated for individual badges
 -->
-<span id="gst-bmm-modal"></span>
+<div class="modal fade" id="gifts-modal" tabindex="-1" role="dialog" aria-labelledby="gifts-modal-label" aria-hidden="true">
+</div>
 <!--
-    This input's "value" is the user id of the student who receieved the gifts 
+    This the student id for the recipient of the gifts 
 -->
-<input id="gst-bmm-student-id" type="hidden" value="1" />
+<input id="bmm-student-id" type="hidden" value="1" />
 <!--
     To use the popup on a badge:
     * Include gst-bmm class
+    * Set data-student-id to the student's User.UserId in the database
     * Set data-badge-id to the badge's Badge.BadgeId in the database
 
     To disable showing the popup for a badge:
     * Include gst-bmm-disabled class
 -->
-<img class="gst-bmm" data-badge-id="2" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+<img class="img-responsive gst-bmm" data-badge-id="2" style="max-width: 100px;display:inline-block;" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
 
 <!--disabled example-->
-<img class="gst-bmm gst-bmm-disabled" data-badge-id="3" style="filter: brightness(1.5);" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+<img class="img-responsive gst-bmm gst-bmm-disabled" data-badge-id="3" style="max-width: 100px;display:inline-block;filter: brightness(1.5);" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
 
 <!--one more example, to prove the popup works for multiple badges-->
-<img class="gst-bmm" data-badge-id="4" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
-
-
-<!--These styles are just to make the images look prettier-->
-<style>
-    img {
-        max-width: 100px;
-        height: auto;
-        display: inline-block;
-    }
-</style>
+<img class="img-responsive gst-bmm" data-badge-id="4" style="max-width: 100px;display:inline-block;" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
 
 @section scriptsIncludes {
     <script src="~/content/BadgeModalModule.js?Build=@Guid.NewGuid().ToString()"></script>
