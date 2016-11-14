@@ -24,7 +24,7 @@ CREATE TABLE GIFT (
 
 CREATE TABLE BADGE (
 	BADGE_ID int not null IDENTITY(1,1),
-	USER_TYPE varchar(MAX),
+	TYPE varchar(MAX),
 	RETIREMENT_DATE date,
 	BADGE_START_DATE date not null,
 	NAME varchar(MAX),
