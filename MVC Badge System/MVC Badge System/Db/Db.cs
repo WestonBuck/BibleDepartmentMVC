@@ -193,18 +193,10 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO USERS VALUES('@fname','@lname','@email','@photoURL','@type','@shareLink');";
+                string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, sharable_link)" +
+                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
 
-                conn.Query<User>(sql,
-                    new
-                    {
-                        fname = u.FirstName,
-                        lname = u.LastName,
-                        email = u.Email,
-                        photoURL = u.PhotoUrl,
-                        type = u.UserType,
-                        shareLink = u.ShareableLink
-                    });
+                conn.Query(sql, u);
             }
         }
 
@@ -212,19 +204,10 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("UPDATE USER SET FIRST_NAME = @FirstName, LAST_NAME = @LastName, EMAIL = @Email, " +
-                           "PHOTO_URL = @PhotoUrl, USER_TYPE = @UserType, SHAREABLE_LINK = @ShareableLink " +
-                           "WHERE USER_ID = @UserId",
-                           new
-                           {
-                               FirstName = user.FirstName,
-                               LastName = user.LastName,
-                               Email = user.Email,
-                               PhotoUrl = user.PhotoUrl,
-                               UserType = user.UserType,
-                               ShareableLink = user.ShareableLink,
-                               UserId = user.UserId
-                           });
+                string sql = "UPDATE USERS SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
+                             "photo_url = @PhotoUrl, user_type = @UserType, sharable_link = @ShareableLink " +
+                             "WHERE user_id = @UserId";
+                conn.Query(sql, user);
             }
         }
 
@@ -232,9 +215,9 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
-                                                      "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
-                                                      "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER u WHERE u.user_id = @UserId",
+                return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
+                                                      "last_name LastName, email Email, photo_url PhotoUrl," +
+                                                      "user_type UserType, sharable_link SharableLink FROM USERS u WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -242,13 +225,13 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static IEnumerable<User> GetAllUsers()
+        public static List<User> GetAllUsers()
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.Query<User>("SELECT USER_ID UserId, FIRST_NAME FirstName," +
-                                        "LAST_NAME LastName, EMAIL Email, PHOTO_URL PhotoUrl," +
-                                        "USER_TYPE UserType, SHARABLE_LINK SharableLink FROM USER");
+                return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
+                                        "last_name LastName, email Email, photo_url PhotoUrl," +
+                                        "user_type UserType, sharable_link SharableLink FROM USERS").AsList();
             }
         }
 
@@ -261,7 +244,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                conn.Query("DELETE FROM USER WHERE USER_ID = @UserId",
+                conn.Query("DELETE FROM USERS WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
