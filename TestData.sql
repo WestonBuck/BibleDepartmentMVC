@@ -58,9 +58,9 @@ VALUES('did some praising','Flower','11/11/2017','2/2/2013','Praise a lot','0','
 insert into BADGES
 VALUES('knows how to praise','apple','11/11/2022','1/1/2000','Certified praise expert','0','0','0','0','');
 
-/* create APPLE_FLOWER table */
-DROP table APPLE_FLOWER
-CREATE TABLE APPLE_FLOWER (
+/* create prerequisite table */
+DROP table PREREQUISITE
+CREATE TABLE PREREQUISITE (
 parent_id int,
 child_id int
 );
