@@ -64,5 +64,5 @@ CREATE TABLE PREREQUISITE (
 parent_id int,
 child_id int
 );
-insert into APPLE_FLOWER
+insert into PREREQUISITE
 values (3,2);
