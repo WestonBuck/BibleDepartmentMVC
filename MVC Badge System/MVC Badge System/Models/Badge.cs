@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MVC_Badge_System.Models
 {
@@ -14,5 +15,6 @@ namespace MVC_Badge_System.Models
         public bool StudentGive { get; set; }
         public bool StaffGive { get; set; }
         public bool FacultyGive { get; set; }
+        public List<Badge> Prerequisites { get; set; }
     }
 }

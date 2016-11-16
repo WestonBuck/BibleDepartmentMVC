@@ -31,9 +31,9 @@ tree_loc_y int,
 comment text
 );
 INSERT INTO BADGE_GIFTS
-VALUES('7-9-2015','1','10011','10010','5','5','uderwhelming');
+VALUES('7-9-2015','1','2','1','5','5','uderwhelming');
 INSERT INTO BADGE_GIFTS
-VALUES('8-8-2015','2','10010','10011','6','6','GOOD');
+VALUES('8-8-2015','2','1','2','6','6','GOOD');
 
 /* create badges table */
 
@@ -54,9 +54,9 @@ picture text
 INSERT INTO BADGES 
 VALUES('did some praying','Leaf','10/10/2017','1/1/2012','Prays a lot','1','1','1','1','');
 INSERT INTO BADGES 
-VALUES('did some praising','Flower','11/11/2017','2/2/2013','Praise a lot','0','0','0','0','');
+VALUES('did some praising','Flower','11/11/2017','2/2/2013','Praise a lot','1','2','0','0','');
 insert into BADGES
-VALUES('knows how to praise','apple','11/11/2022','1/1/2000','Certified praise expert','0','0','0','0','');
+VALUES('knows how to praise','apple','11/11/2022','1/1/2000','Certified praise expert','0','0','1','0','');
 
 /* create prerequisite table */
 DROP table PREREQUISITE
