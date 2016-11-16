@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MVC_Badge_System.Models
 {
     public class Badge
     {
         public int BadgeId { get; set; }
+        public string Description { get; set; }
         public string Type { get; set; }
         public DateTime RetirementDate { get; set; }
         public DateTime BeginDate { get; set; }
@@ -15,5 +17,6 @@ namespace MVC_Badge_System.Models
         public bool FacultyGive { get; set; }
         public string ImageLink { get; set; }
         public string Description { get; set; }
+		public List<Badge> Prerequisites { get; set; }
     }
 }
