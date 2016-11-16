@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Models\Badge.cs" />
     <Compile Include="Models\Gift.cs" />
+    <Compile Include="Models\Prerequisite.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

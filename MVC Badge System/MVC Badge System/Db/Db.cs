@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Dapper;
 using MVC_Badge_System.Models;
 
@@ -131,12 +132,19 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                return conn.QueryFirstOrDefault<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
+                Badge b = conn.QueryFirstOrDefault<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                                        "retirement_date RetirementDate, begin_date BeginDate," +
                                                        "name Name, self_give SelfGive, student_give StudentGive," +
                                                        "staff_give StaffGive, faculty_give FacultyGive FROM BADGES WHERE badge_id = @BId",
                     new { BId = badgeId }
                     );
+
+                if (b.Type == hasDependancyType)
+                {
+                    b.Prerequisites = GetPrerequisites(b.BadgeId);
+                }
+
+                return b;
             }
         }
 
@@ -152,11 +160,7 @@ namespace MVC_Badge_System.Db
                 {
                     if (b.Type == hasDependancyType)
                     {
-                        if (b.Prerequisites == null)
-                            b.Prerequisites = new List<Badge>();
-
-                        //todo add prerequisites to badge
-                        //b.Prerequisites.Add(GetPrerequisites(b.BadgeId);
+                        b.Prerequisites = GetPrerequisites(b.BadgeId);
                     }
                 }
 
@@ -243,6 +247,117 @@ namespace MVC_Badge_System.Db
                     new
                     {
                         UserId = userId
+                    });
+            }
+        }
+
+        //
+        // PREREQUISITES
+        //
+        public static void CreatePrerequisite(int ParentId, int ChildId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "INSERT INTO PREREQUISITE (parent_id, child_id)" +
+                             "VALUES (@ParentId, @ChildId);";
+                conn.Query(sql,
+                    new
+                    {
+                        ParentId,
+                        ChildId
+                    });
+            }
+        }
+
+        public static void CreatePrerequisite(Badge Parent, Badge Child)
+        {
+            CreatePrerequisite(Parent.BadgeId, Child.BadgeId);
+        }
+
+        public static void CreatePrerequisite(Prerequisite p)
+        {
+            CreatePrerequisite(p.ParentId, p.ChildId);
+        }
+
+        public static void UpdatePrerequisite(Prerequisite p)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "UPDATE PREREQUISITE SET parent_id = @ParentId, child_id = @ChildId " +
+                             "WHERE prerequisite_id = @PrerequisiteId;";
+
+                conn.Query(sql, p);
+            }
+        }
+
+        public static Prerequisite GetPrerequisite(int PrerequisiteId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT parent_id ParentId, child_id ChildId " +
+                             "FROM PREREQUISITE WHERE prerequisite_id = @PrerequisiteId;";
+
+                Prerequisite p = conn.Query<Prerequisite>(sql,
+                    new
+                    {
+                        PrerequisiteId
+                    }).FirstOrDefault();
+
+                p.Parent = GetBadge(p.ParentId);
+                p.Child = GetBadge(p.ChildId);
+
+                return p;
+            }
+        }
+
+        public static Badge GetParentOfPrerequisite(int ChildId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT prerequisite_id PrerequisiteId, parent_id ParentId " +
+                             "FROM PREREQUISITE WHERE child_id = @ChildId;";
+
+                Prerequisite p = conn.Query<Prerequisite>(sql,
+                    new
+                    {
+                        ChildId
+                    }).FirstOrDefault();
+
+                return GetBadge(p.ParentId);
+            }
+        }
+
+        public static List<Badge> GetPrerequisites(int ParentId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT prerequisite_id PrerequisiteId, child_id ChildId " +
+                             "FROM PREREQUISITE WHERE parent_id = @ParentId;";
+
+                List<Prerequisite> preList = conn.Query<Prerequisite>(sql,
+                    new
+                    {
+                        ParentId
+                    }).AsList();
+
+                List<Badge> badgeList = new List<Badge>();
+                foreach (Prerequisite p in preList)
+                {
+                    badgeList.Add(GetBadge(p.ChildId));
+                }
+
+                return badgeList;
+            }
+        }
+
+        public static void DeletePrerequisite(int PrerequisiteId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM PREREQUISITE WHERE prerequisite_id = @PrerequisiteId;",
+                    new
+                    {
+                        PrerequisiteId
                     });
             }
         }
