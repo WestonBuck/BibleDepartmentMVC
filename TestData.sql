@@ -61,6 +61,7 @@ VALUES('knows how to praise','apple','11/11/2022','1/1/2000','Certified praise e
 /* create prerequisite table */
 DROP table PREREQUISITE
 CREATE TABLE PREREQUISITE (
+prerequisite_id int identity,
 parent_id int,
 child_id int
 );
