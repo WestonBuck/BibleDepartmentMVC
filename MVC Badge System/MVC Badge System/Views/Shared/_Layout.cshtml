@@ -10,13 +10,12 @@
     <ul class="nav nav-tabs">
         <li class="active">@Html.ActionLink("Tree", "Index", "Home")</li>
         <li>@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
+
+        <input type="search" id="txtSearch" list="user_list" placeholder="Search..." />
+        <div id="results"></div>
     </ul>
-
-    <div class="tab-content">
-        @RenderBody()
-    </div>
-
-    @*@RenderBody()*@
+        <div class="tab-content"></div>
+    @RenderBody()
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
