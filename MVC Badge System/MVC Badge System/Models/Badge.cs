@@ -16,7 +16,7 @@ namespace MVC_Badge_System.Models
         public bool StaffGive { get; set; }
         public bool FacultyGive { get; set; }
         public string ImageLink { get; set; }
-        public string Description { get; set; }
+       // public string Description { get; set; }
 		public List<Badge> Prerequisites { get; set; }
     }
 }
