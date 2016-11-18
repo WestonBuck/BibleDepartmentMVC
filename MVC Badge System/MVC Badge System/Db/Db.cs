@@ -60,6 +60,7 @@ namespace MVC_Badge_System.Db
 
                 gift.Recipient = GetUser(gift.RecipientId);
                 gift.Sender = GetUser(gift.SenderId);
+                gift.BadgeGift = GetBadge(gift.BadgeId);
 
                 return gift;
             }
@@ -78,6 +79,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;

@@ -15,5 +15,6 @@ namespace MVC_Badge_System.Models
 
         public User Sender { get; set; }
         public User Recipient { get; set; }
+        public Badge BadgeGift { get; set; }
     }
 }
