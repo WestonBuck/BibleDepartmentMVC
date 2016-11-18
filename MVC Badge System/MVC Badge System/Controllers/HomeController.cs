@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Badge_System.Models;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -21,14 +22,14 @@ namespace MVC_Badge_System.Controllers
             return View();
         }
 
-        [HttpPost]
+     
         public ActionResult Confirmation(string studentName, string badgeName, string comment)
         {
-            ViewBag.studentName = studentName;
-            ViewBag.badgeName = "badgeName";
-            ViewBag.comment = comment;
-            ViewBag.Message = "This is the confirmation page";
-            return View();
+            ConfirmationData _confData = new ConfirmationData();
+            _confData.name = studentName;
+            _confData.badge = badgeName;
+            _confData.comment = comment;
+            return View(_confData);
         }
 
     }

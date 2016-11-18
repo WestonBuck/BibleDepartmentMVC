@@ -230,6 +230,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Badge.cs" />
+    <Compile Include="Models\ConfirmationData.cs" />
     <Compile Include="Models\Gift.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
