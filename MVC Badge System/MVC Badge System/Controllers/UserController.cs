@@ -3,6 +3,7 @@
 // 11/07/16
 
 using MVC_Badge_System.Models;
+using MVC_Badge_System.Db;
 using System;
 using System.Linq;
 using System.Data;
@@ -20,6 +21,15 @@ namespace MVC_Badge_System.Controllers
         {
             return View();
         }
+
+
+        public ActionResult List()
+        {
+            List<User> users = new List<User>();
+            return View(users);
+
+        }
+
 
         [HttpPost]
         public ActionResult GetUser(string filter)

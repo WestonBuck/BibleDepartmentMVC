@@ -256,6 +256,7 @@
     <Content Include="Views\EmailTest\Index.cshtml" />
     <Content Include="Views\Home\GiveBadge.cshtml" />
     <Content Include="Views\Home\Confirmation.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
