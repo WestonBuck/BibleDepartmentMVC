@@ -9,7 +9,7 @@
             dataType: 'html',
             data: { studentId: studentId, badgeId: badgeId },
             success: function (data) {                
-                $('#gifts-modal').html(data);
+                $('#gst-bmm-modal').html(data);
                 $('#gifts-modal').modal('show');
            },
             error: function (xhr, ajaxOptions, thrownError) { 
@@ -24,7 +24,7 @@
             $('.gst-bmm').click(function (e) {
                 //if the badge isn't disabled, and the badge has a badge-id and a student-id, show the modal popup
                 if (!$(this).hasClass('gst-bmm-disabled')) {
-                    var studentId = $('#bmm-student-id').val();
+                    var studentId = $('#gst-bmm-student-id').val();
                     var badgeId = $(this).data('badge-id');
                     if (studentId && badgeId) {
                         console.log('getting gifts for student: ' + studentId + ' with badge: ' + badgeId);
