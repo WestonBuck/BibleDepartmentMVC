@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Badge_System.Models
 {
     public class Gift
     {
+        [DisplayName("Date Received")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime GiftDate { get; set; }
         public int GiftId { get; set; }
         public int BadgeId { get; set; }
@@ -13,6 +17,7 @@ namespace MVC_Badge_System.Models
         public int TreeLocY { get; set; }
         public string Comment { get; set; }
 
+        [DisplayName("Given By")]
         public User Sender { get; set; }
         public User Recipient { get; set; }
         public Badge BadgeGift { get; set; }

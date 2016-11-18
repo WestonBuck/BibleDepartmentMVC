@@ -26,14 +26,10 @@
                         <table class="table">
                             <tr>
                                 <th>
-                                    Date Received
-                                    <!--[DisplayName("Date Received")]-->
-                                    <!--Html.DisplayFor(modelItem => model.DateReceieved)-->
+                                    @Html.DisplayNameFor(model => model.GiftDate)
                                 </th>
                                 <th>
-                                    Given By
-                                    <!--[DisplayName("Given By")]-->
-                                    <!--Html.DisplayFor(modelItem => model.Sender)-->
+                                    @Html.DisplayNameFor(model => model.Sender)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Comment)
@@ -44,12 +40,10 @@
                             {
                                 <tr>
                                     <td>
-                                        MM/DD/YYYY
-                                        <!--Html.DisplayFor(modelItem => item.DateReceieved)-->
+                                        @Html.DisplayFor(modelItem => item.GiftDate)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SenderId)
-                                        <!--Html.DisplayFor(modelItem => item.Sender.FirstName) Html.DisplayFor(modelItem => item.Sender.LastName)-->
+                                        @Html.DisplayFor(modelItem => item.Sender.FirstName) @Html.DisplayFor(modelItem => item.Sender.LastName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Comment)

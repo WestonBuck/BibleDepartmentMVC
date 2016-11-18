@@ -31,9 +31,10 @@ namespace MVC_Badge_System.Controllers
         {
             //FIXME: validate the student id exists, the student id is for a user whose type is student, and the badge id exists
             List<Gift> gifts = new List<Gift>();
+            User recip = new User() { UserId = studentId, FirstName = "Avery", LastName = "Goodstudent" };
             //dummy data to be replaced by database action
-            gifts.Add(new Gift() { GiftId = 1, BadgeId = badgeId, SenderId = 2002, RecipientId = studentId, Comment = "good job!"});
-            gifts.Add(new Gift() { GiftId = 2, BadgeId = badgeId, SenderId = 2003, RecipientId = studentId, Comment = "impressive" });
+            gifts.Add(new Gift() { GiftId = 1, BadgeId = badgeId, Sender = new User() { UserId = 2002, FirstName = "John", LastName = "Doe"}, Recipient = recip, Comment = "good job!"});
+            gifts.Add(new Gift() { GiftId = 2, BadgeId = badgeId, Sender = new User() { UserId = 2002, FirstName = "Jane", LastName = "Doe" }, Recipient = recip, Comment = "impressive" });
 
             return PartialView(gifts);
         }
