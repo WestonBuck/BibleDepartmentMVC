@@ -20,8 +20,13 @@ namespace MVC_Badge_System.Controllers
 
             return View();
         }
-        public ActionResult Confirmation()
+
+        [HttpPost]
+        public ActionResult Confirmation(string studentName, string badgeName, string comment)
         {
+            ViewBag.studentName = studentName;
+            ViewBag.badgeName = "badgeName";
+            ViewBag.comment = comment;
             ViewBag.Message = "This is the confirmation page";
             return View();
         }
