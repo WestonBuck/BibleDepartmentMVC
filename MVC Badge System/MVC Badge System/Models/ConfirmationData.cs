@@ -10,5 +10,6 @@ namespace MVC_Badge_System.Models
         public string name { get; set; }
         public string badge { get; set; }
         public string comment { get; set; }
+        public string userName { get; set; }
     }
 }
