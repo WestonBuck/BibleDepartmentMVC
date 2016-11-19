@@ -25,11 +25,52 @@ namespace MVC_Badge_System.Controllers
 
         public ActionResult List()
         {
-            List<User> users = new List<User>();
+            List<User> users = Db.Db.GetAllUsers();
             return View(users);
 
         }
 
+        public ActionResult Create()
+        {
+            User user = new User();
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            Db.Db.CreateUser(user);
+            return RedirectToAction("List");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            User user = Db.Db.GetUser(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(User user)
+        {
+            Db.Db.UpdateUser(user);
+            return RedirectToAction("List");
+        }
+
+        public ActionResult Details(User user)
+        {
+            Db.Db.GetUser(user.UserId);
+            return View(user);
+        }
+        
+        public ActionResult Delete(int id)
+        {
+            User user = Db.Db.GetUser(id);
+            if (user != null)
+            {
+                Db.Db.DeleteUser(user);
+            }
+            return RedirectToAction("List");
+        }
 
         [HttpPost]
         public ActionResult GetUser(string filter)
