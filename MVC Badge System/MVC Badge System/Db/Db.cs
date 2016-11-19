@@ -192,7 +192,7 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, sharable_link)" +
+                string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, shareable_link)" +
                               "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
 
                 conn.Query(sql, u);
@@ -204,7 +204,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = "UPDATE USERS SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
-                             "photo_url = @PhotoUrl, user_type = @UserType, sharable_link = @ShareableLink " +
+                             "photo_url = @PhotoUrl, user_type = @UserType, shareable_link = @ShareableLink " +
                              "WHERE user_id = @UserId";
                 conn.Query(sql, user);
             }
@@ -216,7 +216,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
                                                       "last_name LastName, email Email, photo_url PhotoUrl," +
-                                                      "user_type UserType, sharable_link SharableLink FROM USERS u WHERE user_id = @UserId",
+                                                      "user_type UserType, shareable_link SharableLink FROM USERS u WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -230,7 +230,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
                                         "last_name LastName, email Email, photo_url PhotoUrl," +
-                                        "user_type UserType, sharable_link SharableLink FROM USERS").AsList();
+                                        "user_type UserType, shareable_link SharableLink FROM USERS").AsList();
             }
         }
 
