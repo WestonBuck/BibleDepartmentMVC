@@ -261,6 +261,7 @@
     <Content Include="Views\Home\Confirmation.cshtml" />
     <Content Include="Views\Gift\GetGiftsReceived.cshtml" />
     <Content Include="Views\Gift\TestGiftsModal.cshtml" />
+    <Content Include="Views\Gift\GridIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

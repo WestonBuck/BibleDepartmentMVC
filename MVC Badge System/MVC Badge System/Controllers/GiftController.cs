@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 using System.Collections.Generic;
 using MVC_Badge_System.Models;
 
@@ -6,6 +6,17 @@ namespace MVC_Badge_System.Controllers
 {
     public class GiftController : Controller
     {
+		// GET: Gift
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+		public ActionResult GridIndex()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Get: TestGiftsModal.
         /// Proof of concept for using the GetGifts partial view
