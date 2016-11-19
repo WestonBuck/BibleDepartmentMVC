@@ -30,8 +30,9 @@ namespace MVC_Badge_System.Controllers
         public ActionResult GetGiftsReceived(int studentId, int badgeId)
         {
             //FIXME: validate the student id exists, the student id is for a user whose type is student, and the badge id exists
+            //FIXME: call the actual database service when it gets written
             List<Gift> gifts = new List<Gift>();
-            Badge b = new Badge() { ImageLink = "http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png", Name = "Prays a lot", BadgeId = badgeId};
+            Badge b = new Badge() { ImageLink = "http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png", Name = badgeId + " Prays a lot", BadgeId = badgeId};
             User recip = new User() { UserId = studentId, FirstName = "Avery", LastName = "Goodstudent" };
             //dummy data to be replaced by database action
             gifts.Add(new Gift() { GiftId = 1, BadgeId = badgeId, BadgeGift = b, Sender = new User() { UserId = 2002, FirstName = "John", LastName = "Doe"}, Recipient = recip, Comment = "good job!"});
