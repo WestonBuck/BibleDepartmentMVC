@@ -1,28 +1,28 @@
 ﻿<!DOCTYPE html>
 
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="theme" href="/css/bootstrap-theme.css">
+<link rel="JS" href="/JS/bootstrap.js">
+
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/bootstrap.css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <ul class="nav nav-tabs">
-        <li class="active">@Html.ActionLink("Tree", "Index", "Home")</li>
-        <li>@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
+        <li>@Html.ActionLink("Tree", "Index", "Home")</li>
+        <li>@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
+        <li>@Html.ActionLink("Create Badge", "CreateEditBadge", "Home")</li>
         <input type="search" id="txtSearch" list="user_list" placeholder="Search..." />
-        <div id="results">
-    </ul>
-        <div class="tab-content"></div>
+        <div id="results"></div>
+</ul>
+    <div class="tab-content"></div>
 
     @RenderBody()
-    @Scripts.Render("~/scripts/jquery")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
-    @RenderSection("scriptsIncludes", false)
-    @RenderSection("inlineScript", false)
 </body>
 
 </html>
@@ -75,49 +75,3 @@
         @RenderSection("scripts", required: false)
     </body>
     </html>*@
-
-
-
-
-@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - MVC Badge System</p>
-        </footer>
-    </div>
-
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    @RenderSection("scriptsIncludes", false)
-    @RenderSection("inlineScript", false)
-</body>
-</html>*@

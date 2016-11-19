@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Badge_System.Models;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -20,11 +21,36 @@ namespace MVC_Badge_System.Controllers
 
             return View();
         }
-        public ActionResult Confirmation()
+
+     
+        public ActionResult Confirmation(string studentName, string badgeName, string comment, string userName)
         {
-            ViewBag.Message = "This is the confirmation page";
-            return View();
+            ConfirmationData _confData = new ConfirmationData();
+            Gift _gift = new Gift();
+            User _user = new Models.User();
+            
+            
+            _confData.name = studentName;
+            _confData.badge = badgeName;
+            _confData.comment = comment;
+            _confData.userName = userName;
+
+            
+            //Do query to get the email connected to the name
+            EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", "colby.dial@eagles.oc.edu" , "The code sent you this", "noreply",
+                response =>
+                {
+                    Console.WriteLine("Email successfully sent.");
+                });
+            return View(_confData);
         }
 
+
+        public ActionResult CreateEditBadge()
+        {
+            ViewBag.Message = "Your Give Badge tab page";
+
+            return View();
+        }
     }
 }
