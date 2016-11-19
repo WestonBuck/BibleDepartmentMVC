@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<link rel="stylesheet" href="css/bootstrap.css">
 
 <html>
 <head>
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,9 +16,13 @@
         <div class="tab-content"></div>
 
     @RenderBody()
-    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/scripts/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
+    @RenderSection("scriptsIncludes", false)
+    @RenderSection("inlineScript", false)
 </body>
 
 </html>
