@@ -45,5 +45,12 @@ namespace MVC_Badge_System.Controllers
             return View(_confData);
         }
 
+
+        public ActionResult CreateEditBadge()
+        {
+            ViewBag.Message = "Your Give Badge tab page";
+
+            return View();
+        }
     }
 }
