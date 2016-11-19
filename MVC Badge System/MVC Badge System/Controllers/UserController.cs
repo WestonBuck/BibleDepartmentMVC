@@ -39,6 +39,7 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Create(User user)
         {
+            user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view
             Db.Db.CreateUser(user);
             return RedirectToAction("List");
         }
