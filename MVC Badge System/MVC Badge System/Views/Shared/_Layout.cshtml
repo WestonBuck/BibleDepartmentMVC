@@ -1,13 +1,12 @@
 ﻿<!DOCTYPE html>
 
-<link rel="stylesheet" href="/css/bootstrap.css">
-<link rel="theme" href="/css/bootstrap-theme.css">
-<link rel="JS" href="/JS/bootstrap.js">
+
 
 <html>
 <head>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="theme" href="/css/bootstrap-theme.css">
+    <link rel="JS" href="/JS/bootstrap.js">
 </head>
 <body>
     <ul class="nav nav-tabs">
@@ -20,9 +19,11 @@
     <div class="tab-content"></div>
 
     @RenderBody()
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
+    @RenderSection("scriptsIncludes", required: false)
+    @RenderSection("inlineScript", required: false)
 </body>
 
 </html>
