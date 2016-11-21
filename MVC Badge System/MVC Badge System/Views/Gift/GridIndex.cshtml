@@ -11,53 +11,92 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BadgeId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SenderId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RecipientId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TreeLocX)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TreeLocY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-        <th></th>
+        @for (int i = 0; i <= 6; i++)
+        {
+            <td>
+                <button type="button" height="80%" width="80%"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
+            </td>
+        }
     </tr>
 
-@foreach (var item in Model) {
+    @for (int i = 0; i <= 30;)
+    {
+        <tr>
+            @for (int j = 0; j <= 6; j++)
+            {
+                if (i <= 30)
+                {
+                <td>
+                    <button type="button" height="90%" width="90%"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
+                </td>
+                } else
+                {
+                    <td></td>
+                }
+                i++;
+            }
+        </tr>
+    }
+
+    @*actual table*@
+    @*
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BadgeId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SenderId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RecipientId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TreeLocX)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TreeLocY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GiftId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GiftId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GiftId })
-        </td>
+        @foreach (var coreBadge in Model) {
+            if (Model.Badge.Type == "core")
+            {
+                <td>
+                    <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
+                </td>
+            }
+        }
     </tr>
-}
+    @foreach (var competencyBadge in Model)
+    {
+        <tr>
+            @for (int i = 0; i <= 6; i++)
+            {
+                if (Model.Badge.Type == "competency")
+                {
+                    <td>
+                        <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
+                    </td>
+                    continue; // move along the foreach
+                }
+                else if(Model.Badge.Type == null)
+                {
+                    <td></td> // create an empty
+                }
+                else
+                {
+                    i--;
+                    continue; // move along the foreach
+                }
+            }
+        </tr>
+    }
 
+    @foreach (var comendationBadge in Model)
+    {
+        <tr>
+            @for (int i = 0; i <= 6; i++)
+            {
+                if (Model.Badge.Type == "comendation")
+                {
+                    <td>
+                        <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
+                    </td>
+                    continue; // move along the foreach
+                }
+                else if (Model.Badge.Type == null)
+                {
+                    <td></td> // create an empty
+                }
+                else
+                {
+                    i--;
+                    continue; // move along the foreach
+                }
+            }
+        </tr>
+    }*@
 </table>
