@@ -35,12 +35,12 @@ namespace MVC_Badge_System.Controllers
         /// <returns></returns>
         public ActionResult Login(string returnUrl = null)
         {
-            if (returnUrl == null || returnUrl.Length == 0)
+            if (string.IsNullOrEmpty(returnUrl))
             {
                 returnUrl = Url.Action("Index", null, null, Request.Url.Scheme);
             }
             string redirectTokenUri = Url.Action("Token", null, null, Request.Url.Scheme);
-            string redirectLoginUrl = GoogleAuth_Domain.GoogleInterface.GetLoginUrl(_scope, redirectTokenUri, returnUrl, _homeDomain);
+            string redirectLoginUrl = GoogleInterface.GetLoginUrl(_scope, redirectTokenUri, returnUrl, _homeDomain);
             return Redirect(redirectLoginUrl);
         }
 
@@ -52,9 +52,9 @@ namespace MVC_Badge_System.Controllers
         /// <returns></returns>
         public ActionResult Logout(string returnUrl = null)
         {
-            GoogleAuth_Domain.GoogleInterface.RevokeToken(GetSessionToken());
+            GoogleInterface.RevokeToken(GetSessionToken());
             SetSessionToken(null);
-            if (returnUrl != null && returnUrl.Length > 0)
+            if (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
             }
@@ -71,7 +71,7 @@ namespace MVC_Badge_System.Controllers
         public ActionResult Token(string code, string state)
         {
             string redirectUri = Url.Action("Token", null, null, Request.Url.Scheme);
-            TokenJson token = GoogleAuth_Domain.GoogleInterface.GetToken(code, redirectUri);
+            TokenJson token = GoogleInterface.GetToken(code, redirectUri);
             SetSessionToken(token);
             return Redirect(state);
         }
@@ -87,7 +87,7 @@ namespace MVC_Badge_System.Controllers
             {
                 return null;
             }
-            user = GoogleAuth_Domain.GoogleInterface.GetUserInfo(GetSessionToken());
+            user = GoogleInterface.GetUserInfo(GetSessionToken());
             return user;
         }
         /// <summary>
@@ -130,7 +130,7 @@ namespace MVC_Badge_System.Controllers
             TokenJson token = GetSessionToken();
             if (token != null)
             {
-                TokenInfoJson tokenInfo = GoogleAuth_Domain.GoogleInterface.GetTokenInfo(token);
+                TokenInfoJson tokenInfo = GoogleInterface.GetTokenInfo(token);
                 if (tokenInfo.expires_in > 0)
                 {
                     return true;

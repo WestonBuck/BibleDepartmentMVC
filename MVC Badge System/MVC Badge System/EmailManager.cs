@@ -4,6 +4,14 @@ using RestSharp.Authenticators;
 
 namespace MVC_Badge_System
 {
+    /// <summary>
+    /// Because we're only using a sandboxed domain, we are limited to  sending mail to these emails:
+    /// * colby.dial@eagles.oc.edu
+    /// * keennan.gates@eagles.oc.edu
+    /// * weston.buck@eagles.oc.edu
+    /// * timothy.shimp@eagles.oc.edu
+    /// * emily.pielemeier@eagles.oc.edu
+    /// </summary>
     public class EmailManager
     {
         /// <summary>

@@ -66,6 +66,35 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        public static List<Gift> GetGifstGivenTo(int id)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string query = "SELECT g.gift_date GiftDate, g.gift_id GiftId, g.badge_id BadgeId, " +
+                               "g.sender_id SenderId, g.recipient_id RecipientId, " +
+                               "g.tree_loc_x TreeLocX, g.tree_loc_y TreeLocY, g.comment Comment," +
+                               "u.user_id UserId, u.first_name FirstName, u.last_name LastName, " +
+                               "u.email Email, u.photo_url PhotoUrl, u.user_type UserType, u.shareable_link ShareableLink " +
+                               "FROM BADGE_GIFTS g " +
+                               "INNER JOIN USERS u ON g.recipient_id = u.user_id " +
+                               "WHERE g.recipient_id = @UserId";
+
+                List<Gift> giftList = conn.Query<Gift, User, Gift>(
+                    query,
+                    (g, u) =>
+                    {
+                        g.Sender = u;
+                        return g;
+                    },
+                    new
+                    {
+                        UserId = id
+                    },
+                    splitOn: "UserId").AsList();
+                return giftList;
+            }
+        }
+
         public static List<Gift> GetAllGifts()
         {
             using (IDbConnection conn = new SqlConnection(Connection))

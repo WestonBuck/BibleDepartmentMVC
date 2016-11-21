@@ -34,7 +34,11 @@ namespace MVC_Badge_System.Controllers
             // collect the results that match the filter from the data base
             using (IDbConnection db = new SqlConnection(Db.Db.Connection))
             {                                                                                                                                                                                                                               // Case insensitive
-                allResults = db.Query<User>("Select FIRST_NAME AS FirstName, LAST_NAME AS LastName, Email, PHOTO_URL AS PhotoUrl, USER_TYPE AS UserType, SHAREABLE_LINK AS ShareableLink From USERS WHERE FIRST_NAME LIKE '" + filter + "%' COLLATE SQL_Latin1_General_CP1_CI_AS").ToList();
+                allResults = db.Query<User>("SELECT first_name FirstName, last_name LastName, email Email, photo_url PhotoUrl, user_type UserType, shareable_link ShareableLink FROM USERS WHERE first_name LIKE '@firstName%' COLLATE SQL_Latin1_General_CP1_CI_AS",
+                    new
+                    {
+                        firstName = filter
+                    }).AsList();
             }
             
             // sort the items alphabetically
