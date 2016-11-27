@@ -3,6 +3,7 @@
 // 11/07/16
 
 using MVC_Badge_System.Models;
+using MVC_Badge_System.Db;
 using System;
 using System.Linq;
 using System.Data;
@@ -19,6 +20,61 @@ namespace MVC_Badge_System.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+
+        public ActionResult List()
+        {
+            List<User> users = Db.Db.GetAllUsers();
+            return View(users);
+
+        }
+
+        public ActionResult Create()
+        {
+            User user = new User();
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view
+            Db.Db.CreateUser(user);
+            return RedirectToAction("List");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            User user = Db.Db.GetUser(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(User user)
+        {
+            if (String.IsNullOrEmpty(user.ShareableLink))
+            {
+                user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view}
+            }
+            Db.Db.UpdateUser(user);
+            return RedirectToAction("List");
+        }
+
+        public ActionResult Details(int id)
+        {
+            User user = Db.Db.GetUser(id);
+            return View(user);
+        }
+        
+        public ActionResult Delete(int id)
+        {
+            User user = Db.Db.GetUser(id);
+            if (user != null)
+            {
+                Db.Db.DeleteUser(user);
+            }
+            return RedirectToAction("List");
         }
 
         [HttpPost]
