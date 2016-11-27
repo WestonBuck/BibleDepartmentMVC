@@ -8,11 +8,11 @@
         Layout = null;
     }
 
-<datalist id="user_list">
+<!--For use in a datalist-->
     @foreach (var item in Model.SearchResults)
     {
         <!--First Name Last Name (email@email.com) w/ a hidden attribute that is the user ID-->
         <option value="@item.FirstName @item.LastName (@item.Email)" name="@item.UserId"/>
     }
-</datalist>
+
 

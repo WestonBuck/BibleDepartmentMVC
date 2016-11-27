@@ -13,8 +13,11 @@
         <li>@Html.ActionLink("Tree", "Index", "Home")</li>
         <li>@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
         <li>@Html.ActionLink("Create Badge", "CreateEditBadge", "Home")</li>
-        <input type="search" id="txtSearch" list="user_list" placeholder="Search..." />
-        <div id="results"></div>
+        <div class="gst-studentsearch" id="gst-ss-redirect" gst-onselect="console.log">
+            <input type="search" list="redirect_list" placeholder="Search..." />
+            <datalist id="redirect_list" class="gst-ss-results"></datalist>
+        </div>
+        
 </ul>
     <div class="tab-content"></div>
 
