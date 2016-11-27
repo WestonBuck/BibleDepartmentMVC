@@ -53,13 +53,17 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Edit(User user)
         {
+            if (String.IsNullOrEmpty(user.ShareableLink))
+            {
+                user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view}
+            }
             Db.Db.UpdateUser(user);
             return RedirectToAction("List");
         }
 
-        public ActionResult Details(User user)
+        public ActionResult Details(int id)
         {
-            Db.Db.GetUser(user.UserId);
+            User user = Db.Db.GetUser(id);
             return View(user);
         }
         
