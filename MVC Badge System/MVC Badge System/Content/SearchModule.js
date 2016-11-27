@@ -74,7 +74,7 @@ window.SearchModule = (function ($) {
                         var parentDivID = parentDiv.attr('id');
                         var onSelectFunc = selectHandlers[parentDivID];
                         if (typeof onSelectFunc === 'function') {
-                            onSelectFunc(selected);
+                            onSelectFunc($(options[i]).attr('name'));
                         }
                     }
                 }
