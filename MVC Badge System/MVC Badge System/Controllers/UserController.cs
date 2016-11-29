@@ -77,6 +77,11 @@ namespace MVC_Badge_System.Controllers
             return RedirectToAction("List");
         }
 
+        public ActionResult TestSearchBar()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult GetUser(string filter)
         {

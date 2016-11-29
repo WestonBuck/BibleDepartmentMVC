@@ -1,39 +1,66 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="theme" href="/css/bootstrap-theme.css">
-    <link rel="JS" href="/JS/bootstrap.js">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="theme" href="/css/bootstrap-theme.css">
+	<link rel="JS" href="/JS/bootstrap.js">
 </head>
 <body>
-    <ul class="nav nav-tabs">
-        <li>@Html.ActionLink("Tree", "Index", "Home")</li>
-        <li>@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
-        <li>@Html.ActionLink("Create Badge", "CreateEditBadge", "Home")</li>
-        <div class="gst-studentsearch" id="gst-ss-redirect">
-            <input type="search" list="redirect_list" placeholder="Search..." />
-            <datalist id="redirect_list" class="gst-ss-results"></datalist>
-        </div>
-        
+	<ul class="nav nav-tabs">
+		@{
+			string curController = ViewContext.RouteData.Values["Controller"].ToString();
+			string curAction = ViewContext.RouteData.Values["Action"].ToString();
+			string userType = "student";//FIXME:hardcoded--needs to be based on session and use User.Type enum
+		}
+		<!--Student tabs-->
+		@if (userType == "student")
+		{
+			<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
+			<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
+
+		}
+		<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
+		<!--Admin tabs-->
+		@if (userType == "admin")
+		{
+			<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
+			<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
+		}
+		
+		<!--Search bar for admin, faculty, and staff-->
+		@if (userType == "admin" || userType == "faculty" || userType == "staff")
+		{
+			<div class="gst-studentsearch" id="gst-ss-redirect">
+				<input type="search" list="redirect_list" placeholder="Search..." />
+				<datalist id="redirect_list" class="gst-ss-results"></datalist>
+			</div>
+		}
+		
+		
+		
 </ul>
-    <div class="tab-content"></div>
+	<div class="tab-content"></div>
  
-    @Scripts.Render("~/scripts/jquery")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/scripts/bootstrap.min.js"></script>
-	<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
-	<script type="text/javascript">
-        $(document).ready(function () {
-            window.SearchModule.init();
-        });
-    </script>
-	
+	@Scripts.Render("~/scripts/jquery")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	<script src="~/scripts/jquery-1.10.2.min.js"></script>
+	<script src="~/scripts/bootstrap.min.js"></script>
+	<!--Search bar for admin, faculty, and staff-->
+	@if (userType == "admin" || userType == "faculty" || userType == "staff")
+	{
+		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				window.SearchModule.init();
+			});
+		</script>
+	}
+
 	@RenderBody()
 	
-    @RenderSection("scripts", required: false)
-    @RenderSection("scriptsIncludes", false)
-    @RenderSection("inlineScript", false)
+	@RenderSection("scripts", required: false)
+	@RenderSection("scriptsIncludes", false)
+	@RenderSection("inlineScript", false)
 </body>
 </html>
