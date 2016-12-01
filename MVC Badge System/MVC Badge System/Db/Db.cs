@@ -9,8 +9,6 @@ namespace MVC_Badge_System.Db
 {
     public class Db
     {
-        //for badge type, what we call ones with dependancies
-        private static string hasDependancyType = "apple";
 
         public const string Connection = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;" +
                                          "Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
@@ -43,7 +41,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static Gift GetGift(int giftId)
+        public static Gift GetGift(int? giftId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -89,7 +87,7 @@ namespace MVC_Badge_System.Db
             DeleteGift(gift.GiftId);
         }
 
-        public static void DeleteGift(int giftId)
+        public static void DeleteGift(int? giftId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -128,7 +126,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static Badge GetBadge(int badgeId)
+        public static Badge GetBadge(int? badgeId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -139,7 +137,7 @@ namespace MVC_Badge_System.Db
                     new { BId = badgeId }
                     );
 
-                if (b.Type == hasDependancyType)
+                if (b.Type == BadgeType.Apple)
                 {
                     b.Prerequisites = GetPrerequisites(b.BadgeId);
                 }
@@ -158,7 +156,7 @@ namespace MVC_Badge_System.Db
                                          "staff_give StaffGive, faculty_give FacultyGive FROM BADGES").AsList();
                 foreach (Badge b in badgeList)
                 {
-                    if (b.Type == hasDependancyType)
+                    if (b.Type == BadgeType.Apple)
                     {
                         b.Prerequisites = GetPrerequisites(b.BadgeId);
                     }
@@ -173,7 +171,7 @@ namespace MVC_Badge_System.Db
             DeleteBadge(badge.BadgeId);
         }
 
-        public static void DeleteBadge(int badgeId)
+        public static void DeleteBadge(int? badgeId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -210,7 +208,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static User GetUser(int userId)
+        public static User GetUser(int? userId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -239,7 +237,7 @@ namespace MVC_Badge_System.Db
             DeleteUser(user.UserId);
         }
 
-        public static void DeleteUser(int userId)
+        public static void DeleteUser(int? userId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -254,7 +252,7 @@ namespace MVC_Badge_System.Db
         //
         // PREREQUISITES
         //
-        public static void CreatePrerequisite(int ParentId, int ChildId)
+        public static void CreatePrerequisite(int? ParentId, int? ChildId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -290,7 +288,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static Prerequisite GetPrerequisite(int PrerequisiteId)
+        public static Prerequisite GetPrerequisite(int? PrerequisiteId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -310,7 +308,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static Badge GetParentOfPrerequisite(int ChildId)
+        public static Badge GetParentOfPrerequisite(int? ChildId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -327,7 +325,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<Badge> GetPrerequisites(int ParentId)
+        public static List<Badge> GetPrerequisites(int? ParentId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -350,7 +348,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static void DeletePrerequisite(int PrerequisiteId)
+        public static void DeletePrerequisite(int? PrerequisiteId)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {

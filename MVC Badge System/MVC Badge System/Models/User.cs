@@ -1,8 +1,20 @@
-﻿namespace MVC_Badge_System.Models
+﻿using Microsoft.CSharp.RuntimeBinder;
+
+namespace MVC_Badge_System.Models
 {
     public class User
     {
-        public int UserId { get; set; }
+        public User()
+        {
+            UserId = null;
+            FirstName = null;
+            LastName = null;
+            Email = null;
+            PhotoUrl = null;
+            UserType = null;
+            ShareableLink = null;
+        }
+        public int? UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

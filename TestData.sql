@@ -41,7 +41,7 @@ DROP TABLE BADGES;
 CREATE TABLE BADGES (
 badge_id int identity,
 descript varchar(32),
-badge_type varchar(32),
+badge_type int,
 retirement_date datetime,
 begin_date datetime,
 name varchar(32),
@@ -52,11 +52,11 @@ faculty_give bit,
 picture text
 );
 INSERT INTO BADGES 
-VALUES('did some praying','Leaf','10/10/2017','1/1/2012','Prays a lot','1','1','1','1','');
+VALUES('did some praying','2','10/10/2017','1/1/2012','Prays a lot','1','1','1','1',null);
 INSERT INTO BADGES 
-VALUES('did some praising','Flower','11/11/2017','2/2/2013','Praise a lot','1','2','0','0','');
+VALUES('did some praising','1','11/11/2017','2/2/2013','Praise a lot','1','2','0','0',null);
 insert into BADGES
-VALUES('knows how to praise','apple','11/11/2022','1/1/2000','Certified praise expert','0','0','1','0','');
+VALUES('knows how to praise','0','11/11/2022','1/1/2000','Certified praise expert','0','0','1','0',null);
 
 /* create prerequisite table */
 DROP table PREREQUISITE
