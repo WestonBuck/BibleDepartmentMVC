@@ -2,6 +2,13 @@
 
 namespace MVC_Badge_System.Models
 {
+    public enum UserType : int
+    {
+        Admin,
+        Faculty,
+        Staff,
+        Student
+    }
     public class User
     {
         public User()
@@ -19,7 +26,7 @@ namespace MVC_Badge_System.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhotoUrl { get; set; }
-        public string UserType { get; set; }
+        public UserType? UserType { get; set; }
         public string ShareableLink { get; set; }
     }
 }
