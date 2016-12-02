@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "TestGiftsModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TestGiftsModal</h2>
+
+<!--
+    This is the modal that will pop up for viewing the gifts associated for individual badges.
+    You must use this exact ID
+-->
+<span id="gst-bmm-modal"></span>
+<!--
+    This input's "value" is the user id of the student who receieved the gifts 
+-->
+<input id="gst-bmm-student-id" type="hidden" value="1" />
+<!--
+    To use the popup on a badge:
+    * Include gst-bmm class
+    * Set data-badge-id to the badge's Badge.BadgeId in the database
+
+    To disable showing the popup for a badge:
+    * Include gst-bmm-disabled class
+-->
+<img class="gst-bmm" data-badge-id="2" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+
+<!--disabled example-->
+<img class="gst-bmm gst-bmm-disabled" data-badge-id="3" style="filter: brightness(1.5);" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+
+<!--one more example, to prove the popup works for multiple badges-->
+<img class="gst-bmm" data-badge-id="4" src="http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png" />
+
+
+<!--These styles are just to make the images look prettier-->
+<style>
+    img {
+        max-width: 100px;
+        height: auto;
+        display: inline-block;
+    }
+</style>
+
+@section scriptsIncludes {
+    <script src="~/content/BadgeModalModule.js?Build=@Guid.NewGuid().ToString()"></script>
+}
+
+@section inlineScript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.BadgeModalModule.init();
+        });
+    </script>
+}

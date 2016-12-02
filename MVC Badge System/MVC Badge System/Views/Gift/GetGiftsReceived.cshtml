@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MVC_Badge_System.Models.Gift>
+
+<div class="modal fade" id="gifts-modal" tabindex="-1" role="dialog" aria-labelledby="gifts-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                @{
+                    if (Model.Any() && Model.First().BadgeGift != null)// if there is at least one gift in the list
+                    {
+                        <div class="modal-title" id="gifts-modal-label">
+                            <img class="img-responsive" style="max-width: 100px;display:inline-block;" src="@Model.First().BadgeGift.ImageLink" />
+                            <h1 style="display:inline-block;">@Model.First().BadgeGift.Name</h1>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-body">
+                <div id="gifts-container" class="container-fluid">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.GiftDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sender)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Comment)
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GiftDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sender.FirstName) @Html.DisplayFor(modelItem => item.Sender.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Comment)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

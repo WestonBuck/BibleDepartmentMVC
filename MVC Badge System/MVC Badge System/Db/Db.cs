@@ -58,6 +58,7 @@ namespace MVC_Badge_System.Db
 
                 gift.Recipient = GetUser(gift.RecipientId);
                 gift.Sender = GetUser(gift.SenderId);
+                gift.BadgeGift = GetBadge(gift.BadgeId);
 
                 return gift;
             }
@@ -140,6 +141,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;
@@ -279,7 +281,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, sharable_link)" +
-                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
+                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @SharableLink);";
 
                 conn.Query(sql, u);
             }
@@ -290,7 +292,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = "UPDATE USERS SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
-                             "photo_url = @PhotoUrl, user_type = @UserType, sharable_link = @ShareableLink " +
+                             "photo_url = @PhotoUrl, user_type = @UserType, sharable_link = @SharableLink " +
                              "WHERE user_id = @UserId";
                 conn.Query(sql, user);
             }

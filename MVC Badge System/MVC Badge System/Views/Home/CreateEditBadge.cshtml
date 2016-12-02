@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "CreateEditBadge";
+}
+<form class="form-horizontal">
+    <fieldset>
+
+        <!-- Form Name -->
+        <legend>Create Badge</legend>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="BadgeName">Badge Name:</label>
+            <div class="col-md-4">
+                <input id="BadgeName" name="BadgeName" type="text" placeholder="Name" class="form-control input-md">
+
+            </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="badgeType">Type:</label>
+            <div class="col-md-4">
+                <select id="badgeType" name="badgeType" class="form-control">
+                    <option value="1">Option one</option>
+                    <option value="2">Option two</option>
+                    <option value="">Option three</option>
+                    <option value="">Option four</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- File Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="ImageUpload">Upload an Image:</label>
+            <div class="col-md-4">
+                <input id="ImageUpload" name="ImageUpload" class="input-file" type="file">
+            </div>
+        </div>
+
+        <!-- Multiple Checkboxes -->
+        <div class="form-group">
+           
+            <label class="col-md-4 control-label" for="checkboxes">Who can give this badge?</label>
+            <br /> <br /> <br />
+            <div class="col-md-4"> 
+                <div class="checkbox">
+                    <label for="checkboxes-0">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                        Student
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label for="checkboxes-1">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
+                        Faculty
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label for="checkboxes-2">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
+                        Staff
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label for="checkboxes-3">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-3" value="4">
+                        Admin
+                    </label>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="StartDate">Start Date:</label>
+            <div class="col-md-4">
+                <input id="StartDate" name="StartDate" type="text" placeholder="11/11/11" class="form-control input-md">
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="Retiredate">Retire Date:</label>
+            <div class="col-md-4">
+                <input id="Retiredate" name="Retiredate" type="text" placeholder="11/11/11" class="form-control input-md">
+
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="SubmitBtn"></label>
+            <div class="col-md-4">
+                <button id="SubmitBtn" name="SubmitBtn" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>

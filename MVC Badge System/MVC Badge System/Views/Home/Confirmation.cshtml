@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Confirmation";
+    @model MVC_Badge_System.Models.ConfirmationData
+}
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+</style>
+<div class="center">
+    <h1> You sent a badge!</h1>
+    <h3> Recipient: @Model.name</h3>
+    <h3> Badge: @Model.badge</h3>
+    <h3> Comment: @Model.comment</h3>
+</div>
+<form role="form" action="/Home/GiveBadge">
+    <div class="form-group"><p class="col-sm-2 control-label">
+         <button type="submit" class="btn btn-default" href="">
+               Give Another Badge
+        </button> 
+        </p>
+    </div>
+</form>
+
