@@ -9,13 +9,13 @@ first_name varchar(32),
 last_name varchar(32),
 email varchar(40),
 photo_url varchar(256),
-user_type varchar(16),
+user_type int,
 sharable_link varchar(256)
 );
 INSERT INTO USERS
-VALUES('Weston','Dial','weston.dial@eagles.oc.edu','','student','');
+VALUES('Weston','Dial','weston.dial@eagles.oc.edu','',3,'');
 INSERT INTO USERS
-VALUES('Colby','Wood','colby.wood@eagles.oc.edu','','faculty','');
+VALUES('Colby','Wood','colby.wood@eagles.oc.edu','',2,'');
 
 /* create gifts table */
 
@@ -59,7 +59,8 @@ insert into BADGES
 VALUES('knows how to praise','0','11/11/2022','1/1/2000','Certified praise expert','0','0','1','0',null);
 
 /* create prerequisite table */
-DROP table PREREQUISITE
+
+DROP table PREREQUISITE;
 CREATE TABLE PREREQUISITE (
 prerequisite_id int identity,
 parent_id int,
