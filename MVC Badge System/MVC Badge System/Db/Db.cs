@@ -63,6 +63,70 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        public static List<Gift> GetGifts(int? userID)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                List<Gift> giftList = conn.Query<Gift>("SELECT gift_date GiftDate, gift_id GiftId, badge_id BadgeId, " +
+                                                       "sender_id SenderId, recipient_id RecipientId, " +
+                                                       "tree_loc_x TreeLocX, tree_loc_y TreeLocY," +
+                                                       "comment Comment FROM BADGE_GIFTS WHERE recipient_id = @uID",
+                                                       new { uID = userID }).AsList();
+
+                foreach (Gift g in giftList)
+                {
+                    g.Recipient = GetUser(g.RecipientId);
+                    g.Sender = GetUser(g.SenderId);
+                }
+
+                return giftList;
+            }
+        }
+
+        public static List<Gift> GetGifts(User user)
+        {
+            return GetGifts(user.UserId);
+        }
+
+        public static List<Gift> GetGifts(int? userID, int? badgeID)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                List<Gift> giftList = conn.Query<Gift>("SELECT gift_date GiftDate, gift_id GiftId, badge_id BadgeId, " +
+                                                       "sender_id SenderId, recipient_id RecipientId, " +
+                                                       "tree_loc_x TreeLocX, tree_loc_y TreeLocY," +
+                                                       "comment Comment FROM BADGE_GIFTS WHERE recipient_id = @uID and badge_id = @bID",
+                                                       new
+                                                       {
+                                                           uID = userID,
+                                                           bID = badgeID
+                                                       }).AsList();
+
+                foreach (Gift g in giftList)
+                {
+                    g.Recipient = GetUser(g.RecipientId);
+                    g.Sender = GetUser(g.SenderId);
+                }
+
+                return giftList;
+            }
+        }
+
+        public static List<Gift> GetGifts(int? userID, Badge badge)
+        {
+            return GetGifts(userID, badge.BadgeId);
+        }
+
+        public static List<Gift> GetGifts(User user, Badge badge)
+        {
+            return GetGifts(user.UserId, badge.BadgeId);
+        }
+
+        public static List<Gift> GetGifts(User user, int? badgeID)
+        {
+            return GetGifts(user.UserId, badgeID);
+        }
+
         public static List<Gift> GetAllGifts()
         {
             using (IDbConnection conn = new SqlConnection(Connection))
@@ -146,6 +210,30 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        public static List<Badge> GetBadges(BadgeType type)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
+                             "retirement_date RetirementDate, begin_date BeginDate, " +
+                             "name Name, self_give SelfGive, student_give StudentGive, " +
+                             "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
+                             "WHERE badge_type = 1;";
+
+                List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
+
+                foreach (Badge b in badgeList)
+                {
+                    if (b.Type == BadgeType.Apple)
+                    {
+                        b.Prerequisites = GetPrerequisites(b.BadgeId);
+                    }
+                }
+
+                return badgeList;
+            }
+        }
+
         public static List<Badge> GetAllBadges()
         {
             using (IDbConnection conn = new SqlConnection(Connection))
@@ -219,6 +307,19 @@ namespace MVC_Badge_System.Db
                     {
                         UserId = userId
                     });
+            }
+        }
+
+        public static List<User> GetUsersSearch(string searchTerm)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                searchTerm = "%" + searchTerm + "%";
+                return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
+                                        "last_name LastName, email Email, photo_url PhotoUrl," +
+                                        "user_type UserType, sharable_link SharableLink FROM USERS " +
+                                        "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search",
+                                        new { Search = searchTerm }).AsList();
             }
         }
 
