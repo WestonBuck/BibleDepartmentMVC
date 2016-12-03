@@ -145,18 +145,18 @@ namespace MVC_Badge_System.Controllers
         /// Get the current session's Google OAuth 2.0 token
         /// </summary>
         /// <returns></returns>
-        private TokenJson GetSessionToken()
+        private static TokenJson GetSessionToken()
         {
-            return Session["token"] as TokenJson;
+            return System.Web.HttpContext.Current.Session["token"] as TokenJson;
         }
 
         /// <summary>
         /// Set the current session's Google OAuth 2.0 token
         /// </summary>
         /// <param name="token"></param>
-        private void SetSessionToken(TokenJson token)
+        private static void SetSessionToken(TokenJson token)
         {
-            Session["token"] = token;
+            System.Web.HttpContext.Current.Session["token"] = token;
         }
     }
 }
