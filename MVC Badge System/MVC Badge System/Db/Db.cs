@@ -66,7 +66,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<Gift> GetGifstGivenTo(int id)
+        public static List<Gift> GetGiftsGivenTo(int id)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
