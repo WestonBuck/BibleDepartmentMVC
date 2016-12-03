@@ -10,7 +10,7 @@ namespace MVC_Badge_System.Db
     public class Db
     {
 
-        public const string Connection = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;" +
+        public static string Connection = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;" +
                                          "Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
                                          "MultiSubnetFailover=False";
 
@@ -64,7 +64,7 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<Gift> GetGifts(int? userID)
+        public static List<Gift> GetGiftsGivenTo(int? userID)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -84,12 +84,12 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<Gift> GetGifts(User user)
+        public static List<Gift> GetGiftsGivenTo(User user)
         {
             return GetGifts(user.UserId);
         }
 
-        public static List<Gift> GetGifts(int? userID, int? badgeID)
+        public static List<Gift> GetGiftsGivenTo(int? userID, int? badgeID)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
@@ -113,17 +113,17 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<Gift> GetGifts(int? userID, Badge badge)
+        public static List<Gift> GetGiftsGivenTo(int? userID, Badge badge)
         {
             return GetGifts(userID, badge.BadgeId);
         }
 
-        public static List<Gift> GetGifts(User user, Badge badge)
+        public static List<Gift> GetGiftsGivenTo(User user, Badge badge)
         {
             return GetGifts(user.UserId, badge.BadgeId);
         }
 
-        public static List<Gift> GetGifts(User user, int? badgeID)
+        public static List<Gift> GetGiftsGivenTo(User user, int? badgeID)
         {
             return GetGifts(user.UserId, badgeID);
         }
@@ -280,8 +280,8 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, sharable_link)" +
-                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @SharableLink);";
+                string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, shareable_link)" +
+                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
 
                 conn.Query(sql, u);
             }
@@ -292,7 +292,7 @@ namespace MVC_Badge_System.Db
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = "UPDATE USERS SET first_name = @FirstName, last_name = @LastName, email = @Email, " +
-                             "photo_url = @PhotoUrl, user_type = @UserType, sharable_link = @SharableLink " +
+                             "photo_url = @PhotoUrl, user_type = @UserType, shareable_link = @ShareableLink " +
                              "WHERE user_id = @UserId";
                 conn.Query(sql, user);
             }
@@ -304,7 +304,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
                                                       "last_name LastName, email Email, photo_url PhotoUrl," +
-                                                      "user_type UserType, sharable_link SharableLink FROM USERS u WHERE user_id = @UserId",
+                                                      "user_type UserType, shareable_link SharableLink FROM USERS u WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -331,7 +331,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
                                         "last_name LastName, email Email, photo_url PhotoUrl," +
-                                        "user_type UserType, sharable_link SharableLink FROM USERS").AsList();
+                                        "user_type UserType, sharable_link ShareableLink FROM USERS").AsList();
             }
         }
 
