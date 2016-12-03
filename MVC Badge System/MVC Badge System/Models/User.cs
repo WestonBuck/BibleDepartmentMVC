@@ -1,12 +1,30 @@
-﻿using System.ComponentModel;
+using Microsoft.CSharp.RuntimeBinder;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Badge_System.Models
 {
+    public enum UserType : int
+    {
+        Admin,
+        Faculty,
+        Staff,
+        Student
+    }
     public class User
     {
+        public User()
+        {
+            UserId = null;
+            FirstName = null;
+            LastName = null;
+            Email = null;
+            PhotoUrl = null;
+            UserType = null;
+            ShareableLink = null;
+        }
         [DisplayName("ID")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         [DisplayName("First Name")]
         [Required(ErrorMessage = "First Name required")]
         public string FirstName { get; set; }
@@ -22,7 +40,7 @@ namespace MVC_Badge_System.Models
         public string PhotoUrl { get; set; }
         [DisplayName("Type")]
         [Required(ErrorMessage = "User Type required")]
-        public string UserType { get; set; }
+        public UserType? UserType { get; set; }
         [DisplayName("Shareable Link")]
         [DataType(DataType.Url)]
         public string ShareableLink { get; set; }
