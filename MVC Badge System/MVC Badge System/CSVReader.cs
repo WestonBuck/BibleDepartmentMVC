@@ -59,7 +59,23 @@ namespace MVC_Badge_System
                         tempUser.LastName = words[1];
                         tempUser.Email = words[2];
                         tempUser.PhotoUrl = words[3];
-                        tempUser.UserType = words[4];
+                        switch(words[4])
+                        {
+                            case "admin":
+                                tempUser.UserType = UserType.Admin;
+                                break;
+                            case "faculty":
+                                tempUser.UserType = UserType.Faculty;
+                                break;
+                            case "staff":
+                                tempUser.UserType = UserType.Staff;
+                                break;
+                            case "student":
+                                tempUser.UserType = UserType.Student;
+                                break;
+                            default:
+                                throw new InvalidDataException("Invalid user type on line: " + line);
+                        }
                         tempUser.ShareableLink = words[5];
 
                         tempUserList.Add(tempUser);
@@ -115,7 +131,20 @@ namespace MVC_Badge_System
 
                     if (words.Length >= 10)
                     {
-                        tempBadge.Type = words[0];
+                        switch (words[0])
+                        {
+                            case "commendation":
+                                tempBadge.Type = BadgeType.Leaf;
+                                break;
+                            case "competency":
+                                tempBadge.Type = BadgeType.Flower;
+                                break;
+                            case "core":
+                                tempBadge.Type = BadgeType.Apple;
+                                break;
+                            default:
+                                throw new InvalidDataException("Invalid badge type on line: " + line);
+                        }
 
                         if (words[1].Length >= 6) // min length of a datetime x/x/xx
                         {

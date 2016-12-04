@@ -86,7 +86,7 @@ namespace MVC_Badge_System.Db
 
         public static List<Gift> GetGiftsGivenTo(User user)
         {
-            return GetGifts(user.UserId);
+            return GetGiftsGivenTo(user.UserId);
         }
 
         public static List<Gift> GetGiftsGivenTo(int? userID, int? badgeID)
@@ -115,17 +115,17 @@ namespace MVC_Badge_System.Db
 
         public static List<Gift> GetGiftsGivenTo(int? userID, Badge badge)
         {
-            return GetGifts(userID, badge.BadgeId);
+            return GetGiftsGivenTo(userID, badge.BadgeId);
         }
 
         public static List<Gift> GetGiftsGivenTo(User user, Badge badge)
         {
-            return GetGifts(user.UserId, badge.BadgeId);
+            return GetGiftsGivenTo(user.UserId, badge.BadgeId);
         }
 
         public static List<Gift> GetGiftsGivenTo(User user, int? badgeID)
         {
-            return GetGifts(user.UserId, badgeID);
+            return GetGiftsGivenTo(user.UserId, badgeID);
         }
 
         public static List<Gift> GetAllGifts()
@@ -331,7 +331,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
                                         "last_name LastName, email Email, photo_url PhotoUrl," +
-                                        "user_type UserType, sharable_link ShareableLink FROM USERS").AsList();
+                                        "user_type UserType, shareable_link ShareableLink FROM USERS").AsList();
             }
         }
 

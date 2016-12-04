@@ -30,7 +30,7 @@ namespace MVC_Badge_System.Controllers
             //FIXME: call the actual database service when it gets written
             Badge b = new Badge() { ImageLink = "http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png", Name = badgeId + " Prays a lot", BadgeId = badgeId};
             User recip = Db.Db.GetUser(studentId);
-            List<Gift> gifts = Db.Db.GetGifstGivenTo(recip.UserId);
+            List<Gift> gifts = Db.Db.GetGiftsGivenTo(recip.UserId);
 
             return PartialView(gifts);
         }
