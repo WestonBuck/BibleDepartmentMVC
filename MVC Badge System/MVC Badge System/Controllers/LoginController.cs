@@ -3,6 +3,14 @@ using System.Web.Mvc;
 
 namespace MVC_Badge_System.Controllers
 {
+    /// <summary>
+    /// Logs the user into Google.
+    /// Common use of the LoginController will be the following:
+    /// if (!LoginController.IsSessionValid())
+    /// {
+    ///     return RedirectToAction("Login", "Login", new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
+    /// }
+    /// </summary>
     public class LoginController : Controller
     {
 
@@ -16,17 +24,16 @@ namespace MVC_Badge_System.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            ActionResult loginAction;
-            if (!CheckForSession(out loginAction))
+            if (!IsSessionValid())
             {
-                return loginAction;
+                return Login();
             }
 
             UserJson user = GetGoogleUser();
             return View(user);
         }
 
-        
+
         /// <summary>
         /// GET: Login.
         /// Sends the user through the Google authentication steps
@@ -48,7 +55,7 @@ namespace MVC_Badge_System.Controllers
         /// GET: Logout.
         /// Logs the user out of Google
         /// </summary>
-        /// <param name="returnUrl">The URL that the user will be returned to once login is complete. If a return URL is not given, will return a simple "You have been logged out" page.</param>
+        /// <param name="returnUrl">The URL that the user will be returned to once logout is complete. If a return URL is not given, will return a simple "You have been logged out" page.</param>
         /// <returns></returns>
         public ActionResult Logout(string returnUrl = null)
         {
@@ -90,42 +97,12 @@ namespace MVC_Badge_System.Controllers
             user = GoogleInterface.GetUserInfo(GetSessionToken());
             return user;
         }
-        /// <summary>
-        /// Checks if the user has a session with Google, and if the session is still valid. Example usage would be:
-        /// ActionResult loginAction;
-        /// if (!CheckForSession(out loginAction))
-        /// {
-        ///     return loginAction;
-        /// }
-        /// else
-        /// {
-        /// //continue as normal
-        /// }
-        /// </summary>
-        /// <param name="actionResult">If the user is not logged in: The next ActionResult a Controller should return in order to login in</param>
-        /// <param name="returnUrl">The URL that the user will be returned to once login is complete. If a return URL is not given, will return to the current page's URL</param>
-        /// <returns></returns>
-        public bool CheckForSession(out ActionResult actionResult, string returnUrl = null)
-        {
-            if (returnUrl == null)
-            {
-                returnUrl = Request.Url.PathAndQuery;
-            }
-           
-            if (IsSessionValid())
-            {
-                actionResult = null;
-                return true;
-            }
-            actionResult = Login(returnUrl);
-            return false;
-        }
 
         /// <summary>
-        /// Checks if the current session's token is still valid.
+        /// Checks if the current session's token is still valid. If the session is invalid, the user will need to re-login.
         /// </summary>
         /// <returns></returns>
-        private bool IsSessionValid()
+        public static bool IsSessionValid()
         {
             TokenJson token = GetSessionToken();
             if (token != null)
@@ -145,18 +122,18 @@ namespace MVC_Badge_System.Controllers
         /// Get the current session's Google OAuth 2.0 token
         /// </summary>
         /// <returns></returns>
-        private TokenJson GetSessionToken()
+        private static TokenJson GetSessionToken()
         {
-            return Session["token"] as TokenJson;
+            return System.Web.HttpContext.Current.Session["token"] as TokenJson;
         }
 
         /// <summary>
         /// Set the current session's Google OAuth 2.0 token
         /// </summary>
         /// <param name="token"></param>
-        private void SetSessionToken(TokenJson token)
+        private static void SetSessionToken(TokenJson token)
         {
-            Session["token"] = token;
+            System.Web.HttpContext.Current.Session["token"] = token;
         }
     }
 }

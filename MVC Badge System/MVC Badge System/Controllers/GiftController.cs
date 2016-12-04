@@ -6,6 +6,17 @@ namespace MVC_Badge_System.Controllers
 {
     public class GiftController : Controller
     {
+
+        public ActionResult TreeIndex()
+        {
+            return View();
+        }
+
+        public ActionResult GridIndex()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Get: TestGiftsModal.
         /// Proof of concept for using the GetGifts partial view

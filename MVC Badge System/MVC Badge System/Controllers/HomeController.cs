@@ -11,7 +11,10 @@ namespace MVC_Badge_System.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            if (!LoginController.IsSessionValid())
+            {
+                return RedirectToAction("Login", "Login", new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
+            }
 
             return View();
         }
