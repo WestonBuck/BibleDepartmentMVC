@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using MVC_Badge_System.Models
+
+<!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" href="/css/bootstrap.css">
@@ -7,13 +9,12 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		@{
-			string curController = ViewContext.RouteData.Values["Controller"].ToString();
+		@{  string curController = ViewContext.RouteData.Values["Controller"].ToString();
 			string curAction = ViewContext.RouteData.Values["Action"].ToString();
-			string userType = "student";//FIXME:hardcoded--needs to be based on session and use User.Type enum
+			UserType userType = UserType.Student;//FIXME:hardcoded--needs to be based on session
 		}
 		<!--Student tabs-->
-		@if (userType == "student")
+		@if (userType == UserType.Student)
 		{
 			<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
 			<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
@@ -21,14 +22,14 @@
 		}
 		<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
 		<!--Admin tabs-->
-		@if (userType == "admin")
+		@if (userType == UserType.Admin)
 		{
 			<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
 			<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
 		}
 		
 		<!--Search bar for admin, faculty, and staff-->
-		@if (userType == "admin" || userType == "faculty" || userType == "staff")
+		@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
 		{
 			<div class="gst-studentsearch" id="gst-ss-redirect">
 				<input type="search" list="redirect_list" placeholder="Search..." />
@@ -48,7 +49,7 @@
 	<script src="~/scripts/jquery-1.10.2.min.js"></script>
 	<script src="~/scripts/bootstrap.min.js"></script>
 	<!--Search bar for admin, faculty, and staff-->
-	@if (userType == "admin" || userType == "faculty" || userType == "staff")
+	@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
 	{
 		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script type="text/javascript">

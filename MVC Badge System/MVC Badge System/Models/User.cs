@@ -44,17 +44,5 @@ namespace MVC_Badge_System.Models
         [DisplayName("Shareable Link")]
         [DataType(DataType.Url)]
         public string ShareableLink { get; set; }
-
-        public enum Type
-        {
-            [Description("Student")]
-            student,
-            [Description("Staff")]
-            staff,
-            [Description("Faculty")]
-            faculty,
-            [Description("Administrator")]
-            administrator
-        }
     }
 }
