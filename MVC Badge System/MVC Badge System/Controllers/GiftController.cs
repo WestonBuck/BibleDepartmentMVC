@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Collections.Generic;
 using MVC_Badge_System.Models;
+using System.Web;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -37,11 +38,17 @@ namespace MVC_Badge_System.Controllers
         /// <returns></returns>
         public ActionResult GetGiftsReceived(int studentId, int badgeId)
         {
-            //FIXME: validate the student id exists, the student id is for a user whose type is student, and the badge id exists
-            //FIXME: call the actual database service when it gets written
-            Badge b = new Badge() { ImageLink = "http://cliparts.co/cliparts/dT9/XoX/dT9XoXXT7.png", Name = badgeId + " Prays a lot", BadgeId = badgeId};
             User recip = Db.Db.GetUser(studentId);
-            List<Gift> gifts = Db.Db.GetGiftsGivenTo(recip.UserId);
+            Badge badge = Db.Db.GetBadge(badgeId);
+            if (recip == null || recip.UserType != UserType.Student)
+            {
+                throw new HttpException(404, "Invalid recipient!");
+            }
+            if (badge == null)
+            {
+                throw new HttpException(404, "Invalid badge!");
+            }
+            List<Gift> gifts = Db.Db.GetGiftsGivenTo(recip.UserId, badgeId);
 
             return PartialView(gifts);
         }
