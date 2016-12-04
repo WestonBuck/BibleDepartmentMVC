@@ -16,7 +16,6 @@ INSERT INTO USERS
 VALUES('Weston','Dial','weston.dial@eagles.oc.edu','',3,'');
 INSERT INTO USERS
 VALUES('Colby','Wood','colby.wood@eagles.oc.edu','',2,'');
->>>>>>> feature/db
 
 /* create gifts table */
 

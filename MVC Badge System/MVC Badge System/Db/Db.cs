@@ -135,7 +135,6 @@ namespace MVC_Badge_System.Db
                 List<Gift> giftList = conn.Query<Gift>("SELECT gift_date GiftDate, gift_id GiftId, badge_id BadgeId, " +
                                                        "sender_id SenderId, recipient_id RecipientId, " +
                                                        "tree_loc_x TreeLocX, tree_loc_y TreeLocY," +
->>>>>>> feature/db
                                                        "comment Comment FROM BADGE_GIFTS").AsList();
 
                 foreach (Gift g in giftList)
