@@ -28,25 +28,25 @@ namespace MVC_Badge_System.Controllers
      
         public ActionResult Confirmation(User Recepient, string badgeName, string comment, User sender)
         {
-            var time;
-            time = DateTime.Now.TimeOfDay;
+            var GiftTime = DateTime.Now.TimeOfDay;
+            GiftTime = DateTime.Now.TimeOfDay;
             Gift newGift = new Gift();
             User user = new Models.User();
             newGift.Comment = comment;
             newGift.Recipient = Recepient;
             newGift.Sender = sender;
-            newGift.GiftDate = System.DateTime.T
+            //newGift.GiftDate = GiftTime;
 
             
-            _confData.name = studentName;
-            _confData.badge = badgeName;
-            _confData.comment = comment;
-            _confData.userName = userName;
+            //_confData.name = studentName;
+            //_confData.badge = badgeName;
+            //_confData.comment = comment;
+            //_confData.userName = userName;
 
             
             //Do query to get the email connected to the name
             EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", "colby.dial@eagles.oc.edu" , "The code sent you this", "noreply", response => {});
-            return View(_confData);
+            return View();
         }
 
 
