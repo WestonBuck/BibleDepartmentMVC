@@ -1,4 +1,5 @@
 ﻿@using MVC_Badge_System.Models
+@using MVC_Badge_System.Controllers
 
 <!DOCTYPE html>
 <html>
@@ -11,28 +12,34 @@
 	<ul class="nav nav-tabs">
 		@{  string curController = ViewContext.RouteData.Values["Controller"].ToString();
 			string curAction = ViewContext.RouteData.Values["Action"].ToString();
-			UserType userType = UserType.Student;//FIXME:hardcoded--needs to be based on session
+			User curUser = LoginController.GetSessionUser();
+			bool isLoggedIn = curUser != null;
 		}
-		<!--Student tabs-->
-		@if (userType == UserType.Student)
+		@if (isLoggedIn)
 		{
-			<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
-			<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
+			<!--Student tabs-->
+			if (curUser.UserType == UserType.Student)
+			{
+				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
+				<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
 
+			}
+			<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
+			<!--Admin tabs-->
+			if (curUser.UserType == UserType.Admin)
+			{
+				<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
+				<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
+			}
+			<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
 		}
-		<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
-		<!--Admin tabs-->
-		@if (userType == UserType.Admin)
+		else
 		{
-			<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
-			<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
+			<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Index", "Home") }, new { @class = "btn btn-primary" })</span>
 		}
-		
-		<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
-		<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Home", "Index") }, new { @class = "btn btn-primary" })</span>
 
 		<!--Search bar for admin, faculty, and staff-->
-		@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
+		@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
 		{
 			<span class="gst-studentsearch" id="gst-ss-redirect">
 				<input type="search" list="redirect_list" placeholder="Search..." />
@@ -51,7 +58,7 @@
 	<script src="~/scripts/jquery-1.10.2.min.js"></script>
 	<script src="~/scripts/bootstrap.min.js"></script>
 	<!--Search bar for admin, faculty, and staff-->
-	@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
+	@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
 	{
 		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
