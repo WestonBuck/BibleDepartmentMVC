@@ -14,7 +14,7 @@ namespace MVC_Badge_System.Controllers
     public class LoginController : Controller
     {
 
-        private const string _scope = "profile";
+        private const string _scope = "email";
         private const string _homeDomain = "oc.edu";
         
         /// <summary>
