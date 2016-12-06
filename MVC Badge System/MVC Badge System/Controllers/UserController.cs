@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using Dapper;
+using System.Web;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -98,6 +99,17 @@ namespace MVC_Badge_System.Controllers
                 result.SearchResults = result.SearchResults.GetRange(0, range);
 
             return View("SearchResult", result);
+        }
+
+        [HttpPost]
+        public string GetShareableLink(int studentId)
+        {
+            User student = Db.Db.GetUser(studentId);
+            if (student == null || student.UserType != UserType.Student)
+            {
+                throw new HttpException(404, "Invalid student!");
+            }
+            return student.ShareableLink;
         }
     }
 }
