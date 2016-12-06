@@ -270,6 +270,7 @@
     <Content Include="Views\Gift\GridIndex.cshtml" />
     <Content Include="Views\Gift\TreeIndex.cshtml" />
     <Content Include="Views\Badge\List.cshtml" />
+    <Content Include="Views\Home\CreateEditBadge.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

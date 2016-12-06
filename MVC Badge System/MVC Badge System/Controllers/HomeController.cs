@@ -45,7 +45,7 @@ namespace MVC_Badge_System.Controllers
 
             
             //Do query to get the email connected to the name
-            EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", "colby.dial@eagles.oc.edu" , "The code sent you this", "noreply", response => {});
+            EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", Recepient.Email , "The code sent you this", "noreply", response => {});
             return View();
         }
 
