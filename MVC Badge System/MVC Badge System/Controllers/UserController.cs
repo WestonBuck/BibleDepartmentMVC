@@ -84,14 +84,14 @@ namespace MVC_Badge_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetUser(string filter)
+        public ActionResult GetStudent(string filter)
         {
             var range = 5; // number of elements we show in the drop down
             var result = new SearchViewModel();
 
             result.SearchTerm = filter; // the data in the search bar
             result.SearchResults = new List<User>();
-            List<User> allResults = Db.Db.GetUsersSearch(filter);
+            List<User> allResults = Db.Db.GetUsersSearch(filter, UserType.Student);
             // sort the items alphabetically
             result.SearchResults = allResults.OrderBy(user=>user.FirstName).ToList<User>();
             // show only the first [insert range here] items of that list

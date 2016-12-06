@@ -7,7 +7,7 @@ window.SearchModule = (function ($) {
     var selectHandlers = []; // line 41
     var getUser = function (userName, callback) {
         $.ajax({
-            url: '/User/GetUser',
+            url: '/User/GetStudent',
             type: 'POST',
             dataType: 'html',
             data: { filter: userName },

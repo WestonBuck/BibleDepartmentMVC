@@ -313,16 +313,17 @@ namespace MVC_Badge_System.Db
             }
         }
 
-        public static List<User> GetUsersSearch(string searchTerm)
+        public static List<User> GetUsersSearch(string searchTerm, UserType? type)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 searchTerm = "%" + searchTerm + "%";
+                string typeQuery = (type.HasValue) ? " AND user_type = @Type" : "";
                 return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
                                         "last_name LastName, email Email, photo_url PhotoUrl," +
                                         "user_type UserType, shareable_link ShareableLink FROM USERS " +
-                                        "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search",
-                                        new { Search = searchTerm }).AsList();
+                                        "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search" + typeQuery,
+                                        new { Search = searchTerm, Type = type }).AsList();
             }
         }
 
