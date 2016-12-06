@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MVC_Badge_System.Models;
+using MVC_Badge_System.Db;
+using System.Diagnostics;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -26,27 +28,41 @@ namespace MVC_Badge_System.Controllers
         }
 
      
-        public ActionResult Confirmation(User Recepient, string badgeName, string comment, User sender)
+        //pass user recpeient and user sender, get info from those
+        public ActionResult Confirmation(string recepient, string badgeid, string comment)
         {
-            var GiftTime = DateTime.Now.TimeOfDay;
-            GiftTime = DateTime.Now.TimeOfDay;
+            //get our recepient
+            int recepientID = Int32.Parse(recepient);
+            User Recepient = new Models.User();
+            Recepient = Db.Db.GetUser(recepientID);
+
+            //get our sender
+            //access the user who is logged in
+            User sender = new User();
+            //sender = whoever is logged in
+
+            //create a new gift to add to the DB
+            int convertBadgeID = Int32.Parse(badgeid);
             Gift newGift = new Gift();
-            User user = new Models.User();
+            DateTime? GiftTime = DateTime.Now;                  //get the current date
+            newGift.GiftDate = GiftTime;
+            newGift.BadgeId = convertBadgeID;
+            newGift.SenderId = sender.UserId;
+            newGift.RecipientId = Recepient.UserId;
             newGift.Comment = comment;
-            newGift.Recipient = Recepient;
-            newGift.Sender = sender;
-            //newGift.GiftDate = GiftTime;
+            MVC_Badge_System.Db.Db.CreateGift(newGift);         //add gift to db
 
-            
-            //_confData.name = studentName;
-            //_confData.badge = badgeName;
-            //_confData.comment = comment;
-            //_confData.userName = userName;
 
-            
+            //create a confdata model for the view
+            ConfirmationData confData = new ConfirmationData();
+            confData.name = Recepient.FirstName + " " + Recepient.LastName;
+            confData.badge = badgeid;
+            confData.comment = comment;
+            confData.userName = sender.FirstName + " " + sender.LastName;
+
             //Do query to get the email connected to the name
-            EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", Recepient.Email , "The code sent you this", "noreply", response => {});
-            return View();
+            EmailManager.SendTextEmail(comment, "YOU RECIEVED A BADGE", "colby.dial@eagles.oc.edu" , "GSTBADGESYSTEM", "noreply", response => {});
+            return View(confData);
         }
 
 

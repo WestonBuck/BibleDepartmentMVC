@@ -16,6 +16,7 @@
             <!--To get the student's user ID in the database, you can call window.SearchModule.getSelectedUserID($('#recipient'))
                 If you want something to happen after a student is selected, you can call window.SearchModule.setSelectHandler('recipient', function(id) { ... })
                 -->
+            @*This needs to be a user not a string*@
             <div class="gst-studentsearch" id="recipient">
                 <input name="studentName" type="search" list="user_list" placeholder="Search..." required />
                 <datalist id="user_list" class="gst-ss-results">
