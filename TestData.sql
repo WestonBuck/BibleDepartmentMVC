@@ -10,7 +10,7 @@ last_name varchar(32),
 email varchar(40),
 photo_url varchar(256),
 user_type int,
-sharable_link varchar(256)
+shareable_link varchar(256)
 );
 INSERT INTO USERS
 VALUES('Weston','Dial','weston.dial@eagles.oc.edu','',3,'');

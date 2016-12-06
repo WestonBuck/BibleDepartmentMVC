@@ -107,6 +107,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;
@@ -203,7 +204,7 @@ namespace MVC_Badge_System.Db
                     new { BId = badgeId }
                     );
 
-                if (b.Type == BadgeType.Apple)
+                if (b != null && b.Type == BadgeType.Apple)
                 {
                     b.Prerequisites = GetPrerequisites(b.BadgeId);
                 }
