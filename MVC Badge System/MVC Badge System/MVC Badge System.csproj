@@ -170,6 +170,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\SearchBarStyle.css" />
     <Content Include="Content\BadgeModalModule.js" />
+    <Content Include="Content\RedirectModule.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SearchModule.js" />
     <Content Include="css\bootstrap-responsive.css" />

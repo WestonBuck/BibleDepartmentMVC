@@ -28,17 +28,19 @@
 			<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
 		}
 		
+		<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
+		<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Home", "Index") }, new { @class = "btn btn-primary" })</span>
+
 		<!--Search bar for admin, faculty, and staff-->
 		@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
 		{
-			<div class="gst-studentsearch" id="gst-ss-redirect">
+			<span class="gst-studentsearch" id="gst-ss-redirect">
 				<input type="search" list="redirect_list" placeholder="Search..." />
 				<datalist id="redirect_list" class="gst-ss-results"></datalist>
-			</div>
+			</span>
 		}
 		
-		<div>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</div>
-		<div>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Home", "Index") }, new { @class = "btn btn-primary" })</div>
+		
 		
 </ul>   
 	<div class="tab-content"></div>
@@ -52,10 +54,19 @@
 	@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
 	{
 		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
+		<script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script type="text/javascript">
 			$(document).ready(function () {
 				window.SearchModule.init();
+				window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
 			});
+
+			function onSelect(studentId) {
+				RedirectModule.getShareableLink(studentId,
+					function (url) {
+						window.location = url;
+					});
+			}
 		</script>
 	}
 

@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using Dapper;
+using System.Web;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -90,18 +91,7 @@ namespace MVC_Badge_System.Controllers
 
             result.SearchTerm = filter; // the data in the search bar
             result.SearchResults = new List<User>();
-            List<User> allResults;
-
-            // collect the results that match the filter from the data base
-            using (IDbConnection db = new SqlConnection(Db.Db.Connection))
-            {                                                                                                                                                                                                                               // Case insensitive
-                allResults = db.Query<User>("SELECT first_name FirstName, last_name LastName, email Email, photo_url PhotoUrl, user_type UserType, shareable_link ShareableLink FROM USERS WHERE first_name LIKE @firstName+'%' COLLATE SQL_Latin1_General_CP1_CI_AS",
-                    new
-                    {
-                        firstName = filter
-                    }).AsList();
-            }
-            
+            List<User> allResults = Db.Db.GetUsersSearch(filter);
             // sort the items alphabetically
             result.SearchResults = allResults.OrderBy(user=>user.FirstName).ToList<User>();
             // show only the first [insert range here] items of that list
@@ -109,6 +99,17 @@ namespace MVC_Badge_System.Controllers
                 result.SearchResults = result.SearchResults.GetRange(0, range);
 
             return View("SearchResult", result);
+        }
+
+        [HttpPost]
+        public string GetShareableLink(int studentId)
+        {
+            User student = Db.Db.GetUser(studentId);
+            if (student == null || student.UserType != UserType.Student)
+            {
+                throw new HttpException(404, "Invalid student!");
+            }
+            return student.ShareableLink;
         }
     }
 }

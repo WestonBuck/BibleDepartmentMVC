@@ -107,6 +107,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;
@@ -203,7 +204,7 @@ namespace MVC_Badge_System.Db
                     new { BId = badgeId }
                     );
 
-                if (b.Type == BadgeType.Apple)
+                if (b != null && b.Type == BadgeType.Apple)
                 {
                     b.Prerequisites = GetPrerequisites(b.BadgeId);
                 }
@@ -304,7 +305,7 @@ namespace MVC_Badge_System.Db
             {
                 return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
                                                       "last_name LastName, email Email, photo_url PhotoUrl," +
-                                                      "user_type UserType, shareable_link SharableLink FROM USERS u WHERE user_id = @UserId",
+                                                      "user_type UserType, shareable_link ShareableLink FROM USERS u WHERE user_id = @UserId",
                     new
                     {
                         UserId = userId
@@ -319,7 +320,7 @@ namespace MVC_Badge_System.Db
                 searchTerm = "%" + searchTerm + "%";
                 return conn.Query<User>("SELECT user_id UserId, first_name FirstName," +
                                         "last_name LastName, email Email, photo_url PhotoUrl," +
-                                        "user_type UserType, sharable_link SharableLink FROM USERS " +
+                                        "user_type UserType, shareable_link ShareableLink FROM USERS " +
                                         "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search",
                                         new { Search = searchTerm }).AsList();
             }
