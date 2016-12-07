@@ -5,7 +5,9 @@ using System.Web;
 
 namespace MVC_Badge_System.Models
 {
-    public class ccBadgeViewModel
+    public class BadgeViewModel
     {
+        public Badge badges { get; set; }
+        public bool obtained = false;
     }
 }

@@ -1,20 +1,37 @@
-﻿@model IEnumerable<MVC_Badge_System.Models.Gift>
+﻿@model MVC_Badge_System.Models.GridViewModel
 
 @{
     ViewBag.Title = "GridIndex";
 }
 
-<h2>GridIndex</h2>
+<h2>model.student.FirstName's Badges</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<span id="gst-bmm-modal"></span>
+<input id="gst-bmm-student-id" type="hidden" value=model.student.UserId />
+
 <table class="table">
+    @*@for(int i = 0; i < model.grid[0].Count; i++) { @*the list of model.grid[0] should be the longest and will therefore decide the number of rows*
+      <tr>
+      @foreach(List<BadgeViewModel> l in model.grid) {
+          <td>
+              @if(l[i].badge != null) {
+                    if(l[i].obtained) {
+                        <button type="button" height="80%" width="80%" class="gst-bmm" data-badge-id=l[i].badge.BadgeId><img src=l[i].badge.ImageLink /></button>
+                    else {
+                        <button type="button" height="80%" width="80%" class="gst-bmm gst-bmm-disabled" data-badge-id=l[i].badge.BadgeId><img src=l[i].badge.ImageLink /></button>
+                    }
+                    <center>l[i].badge.name</center>
+              }
+          </td>
+      }
+      </tr>
+    }*@
     <tr>
         @for (int i = 0; i <= 6; i++)
         {
             <td>
-                <button type="button" height="80%" width="80%"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
+                <button type="button" height="80%" width="80%" class="gst-bmm gst-bmm-disabled" data-badge-id="1"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" filter: grayscale(100%)/></button>
+                <center>words</center>
             </td>
         }
     </tr>
@@ -27,7 +44,7 @@
                 if (i <= 30)
                 {
                 <td>
-                    <button type="button" height="90%" width="90%"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
+                    <button type="button" height="90%" width="90%" class="gst-bmm" data-badge-id="2"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
                 </td>
                 } else
                 {
@@ -38,65 +55,25 @@
         </tr>
     }
 
-    @*actual table*@
-    @*
-    <tr>
-        @foreach (var coreBadge in Model) {
-            if (Model.Badge.Type == "core")
-            {
-                <td>
-                    <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
-                </td>
-            }
-        }
-    </tr>
-    @foreach (var competencyBadge in Model)
-    {
-        <tr>
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.Badge.Type == "competency")
-                {
-                    <td>
-                        <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
-                    </td>
-                    continue; // move along the foreach
-                }
-                else if(Model.Badge.Type == null)
-                {
-                    <td></td> // create an empty
-                }
-                else
-                {
-                    i--;
-                    continue; // move along the foreach
-                }
-            }
-        </tr>
-    }
-
-    @foreach (var comendationBadge in Model)
-    {
-        <tr>
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.Badge.Type == "comendation")
-                {
-                    <td>
-                        <button type="button" height="90%" width="90%"><img src=@coreBadge.Badge.ImageLink /></button>
-                    </td>
-                    continue; // move along the foreach
-                }
-                else if (Model.Badge.Type == null)
-                {
-                    <td></td> // create an empty
-                }
-                else
-                {
-                    i--;
-                    continue; // move along the foreach
-                }
-            }
-        </tr>
-    }*@
+    
 </table>
+
+<style>
+    .gst-bmm-disabled {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+</style>
+
+@section scriptsIncludes {
+    <script src="~/content/BadgeModalModule.js?Build=@Guid.NewGuid().ToString()"></script>
+}
+
+@section inlineScript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.BadgeModalModule.init();
+        });
+    </script>
+}
