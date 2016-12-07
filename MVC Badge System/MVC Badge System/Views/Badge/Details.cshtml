@@ -1,0 +1,91 @@
+﻿@model MVC_Badge_System.Models.Badge
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Badge</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RetirementDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RetirementDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SelfGive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SelfGive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentGive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentGive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffGive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffGive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FacultyGive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FacultyGive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageLink)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BadgeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
