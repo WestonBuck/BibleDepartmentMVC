@@ -606,6 +606,9 @@ namespace MVC_Badge_System.Db
                     new
                     {
                         BadgeId
+                    });
+            }
+        }
 
         public static void DeletePrerequisite(int? ParentId, int? ChildId)
         {
