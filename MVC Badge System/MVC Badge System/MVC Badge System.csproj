@@ -166,8 +166,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PrerequisiteModule.js" />
     <Content Include="Content\SearchBarStyle.css" />
     <Content Include="Content\BadgeModalModule.js" />
     <Content Include="Content\RedirectModule.js" />
@@ -281,6 +284,9 @@
     <Content Include="Views\Gift\GridIndex.cshtml" />
     <Content Include="Views\Gift\TreeIndex.cshtml" />
     <Content Include="Views\Badge\List.cshtml" />
+    <Content Include="Views\Badge\Create.cshtml" />
+    <Content Include="Views\Badge\Edit.cshtml" />
+    <Content Include="Views\Badge\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

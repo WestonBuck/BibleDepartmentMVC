@@ -189,7 +189,8 @@ namespace MVC_Badge_System.Db
             {
                 string sql =
                     "UPDATE BADGES SET descript = @Description, badge_type = @Type, begin_date = @BeginDate, retirement_date = @RetirementDate, " +
-                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive " +
+                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive, " +
+                    "picture = @Picture " +
                     "WHERE badge_id = @BadgeId";
                 conn.Query(sql, b);
             }
@@ -605,6 +606,16 @@ namespace MVC_Badge_System.Db
                     new
                     {
                         BadgeId
+
+        public static void DeletePrerequisite(int? ParentId, int? ChildId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM PREREQUISITE WHERE parent_id = @ParentId AND child_id = @ChildId;",
+                    new
+                    {
+                        ParentId,
+                        ChildId
                     });
             }
         }
