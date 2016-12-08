@@ -78,6 +78,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;

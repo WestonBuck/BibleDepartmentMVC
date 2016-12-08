@@ -82,7 +82,7 @@ namespace MVC_Badge_System.Controllers
                 }
             }
 
-            tempGComends = tempComendsHold.Distinct().ToList(); // make sure to only show each comend badge once
+            tempGComends = tempComendsHold.GroupBy(p => p.BadgeId).Select(g => g.First()).ToList(); // make sure to only show each comend badge once
 
             // activate cores and competencies that are obtained 
             foreach (Badge core in tempGCores)
