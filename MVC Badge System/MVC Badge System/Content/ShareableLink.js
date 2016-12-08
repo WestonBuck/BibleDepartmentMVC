@@ -1,9 +1,11 @@
-﻿window.ShareableLinkModule = (function($) {
+﻿window.ShareableLinkModule = (function ($) {
+    var id;
+
     var regenerateShareableLink = function() {
         $.ajax({
-            url: '/ShareableLink',
-            type: 'GET',
-            dataType: 'json',
+            url: "/ShareableLink/Index/" + id,
+            type: "GET",
+            dataType: "json",
             success: function(data) {
                 $("#shareable-link").html(data.Url);
             },
@@ -19,6 +21,12 @@
                 .click(function(e) {
                     regenerateShareableLink();
                 });
+        },
+
+        setId: function (userId) {
+            if (id === undefined) {
+                id = userId;
+            }
         }
     }
 })(jQuery);

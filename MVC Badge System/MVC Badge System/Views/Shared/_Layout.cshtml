@@ -47,7 +47,7 @@
 			</span>
 		}
 	
-	    @if (isLoggedIn)
+	    @if (isLoggedIn && curController == "Home" && curAction == "Index")
         {
             <span class="btn btn-primary" id="regen-shareable-link-button">Regenerate Shareable Link</span>
             string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
@@ -70,18 +70,18 @@
 	    <script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
         <script src="~/content/ShareableLink.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script type="text/javascript">
-			$(document).ready(function () {
-			    window.SearchModule.init();
-			    window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
-			    window.ShareableLinkModule.init();
-			});
+		    $(document).ready(function () {
+		        window.SearchModule.init();
+		        window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
+		        window.ShareableLinkModule.init();
+		    });
 
-			function onSelect(studentId) {
-				RedirectModule.getShareableLink(studentId,
-					function (url) {
-						window.location = url;
-					});
-			}
+		    function onSelect(studentId) {
+		        RedirectModule.getShareableLink(studentId,
+		            function (url) {
+		                window.location = url;
+		            });
+		    }
 		</script>
 	}
 
@@ -90,5 +90,8 @@
 	@RenderSection("scripts", required: false)
 	@RenderSection("scriptsIncludes", false)
 	@RenderSection("inlineScript", false)
+<script>
+    window.ShareableLinkModule.setId(@LoginController.GetSessionUser().UserId);
+</script>
 </body>
 </html>

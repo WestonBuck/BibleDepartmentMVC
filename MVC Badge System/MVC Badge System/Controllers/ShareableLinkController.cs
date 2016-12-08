@@ -9,7 +9,7 @@ namespace MVC_Badge_System.Controllers
     {
         public static string GenerateShareableHash(int? userId)
         {
-            User user = Db.Db.GetUser(LoginController.GetSessionUser().UserId);
+            User user = Db.Db.GetUser(userId);
             if (user == null)
             {
                 return null;
@@ -22,9 +22,9 @@ namespace MVC_Badge_System.Controllers
         }
 
         // GET: ShareableLink
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            string hash = GenerateShareableHash(LoginController.GetSessionUser().UserId);
+            string hash = GenerateShareableHash(id);
 
             string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
 
