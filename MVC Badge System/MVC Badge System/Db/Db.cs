@@ -221,7 +221,7 @@ namespace MVC_Badge_System.Db
                              "retirement_date RetirementDate, begin_date BeginDate, " +
                              "name Name, self_give SelfGive, student_give StudentGive, " +
                              "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
-                             "WHERE badge_type = 1;";
+                             "WHERE badge_type = @Type;";
 
                 List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
 
