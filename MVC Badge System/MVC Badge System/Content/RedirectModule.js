@@ -1,7 +1,4 @@
-﻿//Keenan Gates and Emily Pielemeier
-//11/07/16
-//MVC Badge System: Sprint 1
-
+﻿
 window.RedirectModule = (function ($) {
     var getShareableLink = function (studentID, callback) {
         $.ajax({

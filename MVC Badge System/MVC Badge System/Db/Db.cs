@@ -464,5 +464,18 @@ namespace MVC_Badge_System.Db
                     });
             }
         }
+
+        public static void DeletePrerequisite(int? ParentId, int? ChildId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM PREREQUISITE WHERE parent_id = @ParentId AND child_id = @ChildId;",
+                    new
+                    {
+                        ParentId,
+                        ChildId
+                    });
+            }
+        }
     }
 }

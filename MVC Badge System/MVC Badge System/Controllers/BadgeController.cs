@@ -38,6 +38,11 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Edit(Badge badge)
         {
+            Badge before = Db.Db.GetBadge(badge.BadgeId);
+            if (before == null)
+            {
+                throw new HttpException(404, "Invalid badge!");
+            }
             Db.Db.UpdateBadge(badge);
             return RedirectToAction("List");
         }
@@ -80,6 +85,41 @@ namespace MVC_Badge_System.Controllers
             badge.BeginDate = DateTime.Now;
             Db.Db.UpdateBadge(badge);
             return RedirectToAction(returnActionName, returnControllerName);
+        }
+        [HttpPost]
+        public ActionResult SetPrerequisites(int badgeId, int?[] prerequisiteIds)
+        {
+            Badge before = Db.Db.GetBadge(badgeId);
+            if (before == null)
+            {
+                throw new HttpException(404, "Invalid badge!");
+            }
+            if (before.Prerequisites == null)
+            {
+                before.Prerequisites = new List<Badge>();
+            }
+            List<int?> beforeIDs = before.Prerequisites.Select(badge => badge.BadgeId).ToList();
+            List<int?> afterIDs = new List<int?>(prerequisiteIds);
+            //Set comparison [B - A] gives us the new prerequisites
+            List<int?> toCreateChildIDs = afterIDs.Except(beforeIDs).ToList();
+            //Set comparison [A - B] gives us the prerequisites to delete
+            List<int?> toDeleteChildIDs = beforeIDs.Except(afterIDs).ToList(); 
+            
+            foreach (int childId in toCreateChildIDs)
+            {
+                Db.Db.CreatePrerequisite(badgeId, childId);
+            }
+            foreach (int childId in toDeleteChildIDs)
+            {
+                Db.Db.DeletePrerequisite(badgeId, childId);
+            }
+            return Json(new { success = true });
+        }
+
+        public static List<Badge> GetAllBadges()
+        {
+            List<Badge> badges = Db.Db.GetAllBadges();
+            return badges;
         }
     }
 }
