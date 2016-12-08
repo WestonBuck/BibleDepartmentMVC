@@ -174,8 +174,8 @@ namespace MVC_Badge_System.Db
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
-                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive);";
+                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give, picture)" +
+                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive, @ImageLink);";
 
                 conn.Query<Badge>(sql, b);
             }
@@ -187,7 +187,8 @@ namespace MVC_Badge_System.Db
             {
                 string sql =
                     "UPDATE BADGES SET descript = @Description, badge_type = @Type, begin_date = @BeginDate, retirement_date = @RetirementDate, " +
-                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive " +
+                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive, " +
+                    "picture = @ImageLink " +
                     "WHERE badge_id = @BadgeId";
                 conn.Query(sql, b);
             }
@@ -200,7 +201,7 @@ namespace MVC_Badge_System.Db
                 Badge b = conn.QueryFirstOrDefault<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                                        "retirement_date RetirementDate, begin_date BeginDate," +
                                                        "name Name, self_give SelfGive, student_give StudentGive," +
-                                                       "staff_give StaffGive, faculty_give FacultyGive FROM BADGES WHERE badge_id = @BId",
+                                                       "staff_give StaffGive, faculty_give FacultyGive, picture ImageLink FROM BADGES WHERE badge_id = @BId",
                     new { BId = badgeId }
                     );
 
@@ -220,7 +221,7 @@ namespace MVC_Badge_System.Db
                 string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
                              "retirement_date RetirementDate, begin_date BeginDate, " +
                              "name Name, self_give SelfGive, student_give StudentGive, " +
-                             "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
+                             "staff_give StaffGive, faculty_give FacultyGive, picture ImageLink FROM BADGES " +
                              "WHERE badge_type = @Type;";
 
                 List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
@@ -244,7 +245,7 @@ namespace MVC_Badge_System.Db
                 List<Badge> badgeList = conn.Query<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                          "retirement_date RetirementDate, begin_date BeginDate," +
                                          "name Name, self_give SelfGive, student_give StudentGive," +
-                                         "staff_give StaffGive, faculty_give FacultyGive FROM BADGES").AsList();
+                                         "staff_give StaffGive, faculty_give FacultyGive, picture ImageLink FROM BADGES").AsList();
                 foreach (Badge b in badgeList)
                 {
                     if (b.Type == BadgeType.Apple)
