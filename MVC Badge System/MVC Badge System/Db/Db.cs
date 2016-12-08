@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -78,6 +79,7 @@ namespace MVC_Badge_System.Db
                 {
                     g.Recipient = GetUser(g.RecipientId);
                     g.Sender = GetUser(g.SenderId);
+                    g.BadgeGift = GetBadge(g.BadgeId);
                 }
 
                 return giftList;
@@ -170,14 +172,14 @@ namespace MVC_Badge_System.Db
         //
         // BADGE
         //
-        public static void CreateBadge(Badge b)
+        public static int CreateBadge(Badge b)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
-                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive);";
-
-                conn.Query<Badge>(sql, b);
+                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give, picture)" +
+                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive, @Picture); SELECT CAST(SCOPE_IDENTITY() as int)";
+                
+                return conn.Query<int>(sql, b).Single();
             }
         }
 
@@ -200,7 +202,7 @@ namespace MVC_Badge_System.Db
                 Badge b = conn.QueryFirstOrDefault<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                                        "retirement_date RetirementDate, begin_date BeginDate," +
                                                        "name Name, self_give SelfGive, student_give StudentGive," +
-                                                       "staff_give StaffGive, faculty_give FacultyGive FROM BADGES WHERE badge_id = @BId",
+                                                       "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES WHERE badge_id = @BId",
                     new { BId = badgeId }
                     );
 
@@ -220,7 +222,7 @@ namespace MVC_Badge_System.Db
                 string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
                              "retirement_date RetirementDate, begin_date BeginDate, " +
                              "name Name, self_give SelfGive, student_give StudentGive, " +
-                             "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
+                             "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES " +
                              "WHERE badge_type = @Type;";
 
                 List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
@@ -308,7 +310,7 @@ namespace MVC_Badge_System.Db
                 List<Badge> badgeList = conn.Query<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                          "retirement_date RetirementDate, begin_date BeginDate," +
                                          "name Name, self_give SelfGive, student_give StudentGive," +
-                                         "staff_give StaffGive, faculty_give FacultyGive FROM BADGES").AsList();
+                                         "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES").AsList();
                 foreach (Badge b in badgeList)
                 {
                     if (b.Type == BadgeType.Apple)
@@ -525,6 +527,70 @@ namespace MVC_Badge_System.Db
                     new
                     {
                         PrerequisiteId
+                    });
+            }
+        }
+
+        //
+        // DEFAULT BADGES
+        //
+        public static void CreateDefaultBadge(DefaultBadge badge)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "INSERT INTO DEFAULT_BADGES (badge_id, badge_type, tree_loc_x, tree_loc_y)" +
+                             "VALUES (@BadgeId, @Type, @TreeLocX, @TreeLocY);";
+                conn.Query(sql, badge);
+            }
+        }
+
+        public static void UpdateDefaultBadge(DefaultBadge badge)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "UPDATE DEFAULT_BADGES SET tree_loc_x = @TreeLocX, tree_loc_y = @TreeLocY badge_type @Type " +
+                             "WHERE badge_id = @BadgeId;";
+
+                conn.Query(sql, badge);
+            }
+        }
+
+        public static DefaultBadge GetDefaultBadge(int? BadgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT badge_id BadgeId, tree_loc_x TreeLocX, tree_loc_y TreeLocY, badge_type Type " +
+                             "FROM DEAFULT_BADGES WHERE badge_id = @BadgeId;";
+
+                DefaultBadge badge = conn.Query<DefaultBadge>(sql,
+                    new
+                    {
+                        BadgeId
+                    }).FirstOrDefault();
+
+                return badge;
+            }
+        }
+
+        public static List<DefaultBadge> GetAllDefaultBadges()
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT badge_id BadgeId, tree_loc_x TreeLocX, tree_loc_y TreeLocY, badge_type Type " +
+                             "FROM DEFAULT_BADGES;";
+
+                return conn.Query<DefaultBadge>(sql).AsList();
+            }
+        }
+
+        public static void DeleteDefaultBadge(int? BadgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM DEFAULT_BADGES WHERE badge_id = @BadgeId;",
+                    new
+                    {
+                        BadgeId
                     });
             }
         }

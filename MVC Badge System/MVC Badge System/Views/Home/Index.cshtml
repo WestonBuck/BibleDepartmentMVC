@@ -1,8 +1,52 @@
-﻿
+﻿@using MVC_Badge_System.Models
+@model Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Home page</h2>
+<div style="position: relative; display: block; margin: auto; width: 1055px; height: 659px">
+    <img style="display: block; margin: auto;" src="/img/tree.png" />
+    
+    @foreach (var badge in Model.Item2)
+    {
+        bool contains = false;
+        // Proof of concept awfulness
+        foreach (var gift in Model.Item1)
+        {
+            if (gift.BadgeId == badge.BadgeId)
+            {
+                contains = true;
+                break;
+            }
+        }
 
+        string type = badge.Type == BadgeType.Apple ? "apple" : "flower";
+
+        // Set the image to grayscale if they haven't received this badge yet
+        if (contains)
+        {
+            <div style="position: absolute; bottom: @{@badge.TreeLocY}px; left: @{@badge.TreeLocX}px; width: 40px; height: 40px;">
+                <img style="display: block; margin: auto;" src="/img/@{@type}.png" />
+            </div>
+        }
+        else
+        {
+            <div style="position: absolute; bottom: @{@badge.TreeLocY}px; left: @{@badge.TreeLocX}px; width: 40px; height: 40px;">
+                <img style="-webkit-filter: grayscale(1); filter: gray; filter: grayscale(1);" src="/img/@{@type}.png" />
+            </div>
+        }
+    }
+    
+    @foreach (var gift in Model.Item1)
+    {
+        if (gift.BadgeGift.Type != BadgeType.Leaf)
+        {
+            continue;
+        }
+
+        <div style="position: absolute; bottom: @{@gift.TreeLocY}px; left: @{@gift.TreeLocX}px; width: 40px; height: 40px;">
+            <img style="display: block; margin: auto;" src="/img/leaf.png" />
+        </div>
+    }
+</div>
