@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MVC_Badge_System.Models;
 
@@ -16,7 +14,11 @@ namespace MVC_Badge_System.Controllers
                 return RedirectToAction("Login", "Login", new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
             }
 
-            return View();
+            IEnumerable<Gift> gifts = Db.Db.GetGiftsGivenTo(LoginController.GetSessionUser().UserId);
+            IEnumerable<DefaultBadge> badges = Db.Db.GetAllDefaultBadges();
+            Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> data = new Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>>(gifts, badges);
+
+            return View(data);
         }
         public ActionResult GiveBadge()
         {
@@ -30,7 +32,7 @@ namespace MVC_Badge_System.Controllers
         {
             ConfirmationData _confData = new ConfirmationData();
             Gift _gift = new Gift();
-            User _user = new Models.User();
+            User _user = new User();
             
             
             _confData.name = studentName;

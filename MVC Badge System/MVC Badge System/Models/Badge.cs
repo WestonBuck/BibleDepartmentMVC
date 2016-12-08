@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MVC_Badge_System.Models
 {
-    public enum BadgeType : int
+    public enum BadgeType
     {
         Apple,
         Flower,

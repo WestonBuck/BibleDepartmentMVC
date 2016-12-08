@@ -43,12 +43,20 @@ staff_give bit,
 faculty_give bit,
 picture text
 );
-INSERT INTO BADGES 
+
+/* create default badge table */
+
+DROP TABLE DEFAULT_BADGES;
+CREATE TABLE DEFAULT_BADGES (
+badge_id int,
+badge_type int,
+tree_loc_x int,
+tree_loc_y int
+);
 
 /* create prerequisite table */
 
 DROP table PREREQUISITE;
-
 CREATE TABLE PREREQUISITE (
 prerequisite_id int identity,
 parent_id int,

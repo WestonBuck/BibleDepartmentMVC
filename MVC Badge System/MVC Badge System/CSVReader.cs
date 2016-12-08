@@ -111,7 +111,6 @@ namespace MVC_Badge_System
             string fileName;
             string line;
             int lineNumber = 0;
-            List<Badge> tempBadgeList = new List<Badge>();
 
             Console.WriteLine("Input the file name path: ");
             fileName = Console.ReadLine();
@@ -125,6 +124,7 @@ namespace MVC_Badge_System
                     lineNumber++;
                     string[] words = line.Split(',');
                     Badge tempBadge = new Badge();
+                    
 
                     if (words.Length >= 10)
                     {
@@ -165,18 +165,29 @@ namespace MVC_Badge_System
                         tempBadge.Picture = words[8];
                         tempBadge.Description = words[9];
 
-                        tempBadgeList.Add(tempBadge);
+                        int id = Db.Db.CreateBadge(tempBadge);
+
+                        if (!string.IsNullOrEmpty(words[10]) && !string.IsNullOrEmpty(words[11]))
+                        {
+                            DefaultBadge tempDefaultBadge = new DefaultBadge();
+                            int treeLocX;
+                            int treeLocY;
+                            int.TryParse(words[10], out treeLocX);
+                            int.TryParse(words[11], out treeLocY);
+
+                            tempDefaultBadge.BadgeId = id;
+                            tempDefaultBadge.TreeLocX = treeLocX;
+                            tempDefaultBadge.TreeLocY = treeLocY;
+                            tempDefaultBadge.Type = tempBadge.Type;
+
+                            Db.Db.CreateDefaultBadge(tempDefaultBadge);
+                        }
                     }
                     else
                     {
                         Console.WriteLine("Formatting error line " + lineNumber);
                     } // end if(words.length)
                 } // end while (!= eof)
-
-                foreach (Badge b in tempBadgeList)
-                {
-                    Db.Db.CreateBadge(b);
-                }
 
                 Console.WriteLine("Badge database filled");
                 file.Close();
