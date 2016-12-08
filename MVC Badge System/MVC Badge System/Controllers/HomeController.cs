@@ -7,18 +7,23 @@ namespace MVC_Badge_System.Controllers
 {
     public class HomeController : Controller
     {
+        public static Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> GetTreeData(int? userId)
+        {
+            IEnumerable<Gift> gifts = Db.Db.GetGiftsGivenTo(userId);
+            IEnumerable<DefaultBadge> badges = Db.Db.GetAllDefaultBadges();
+            Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> data = new Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>>(gifts, badges);
+            return data;
+        }
+
         public ActionResult Index()
         {
             if (!LoginController.IsSessionValid())
             {
-                return RedirectToAction("Login", "Login", new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
+                return RedirectToAction("Login", "Login",
+                    new {returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery});
             }
 
-            IEnumerable<Gift> gifts = Db.Db.GetGiftsGivenTo(LoginController.GetSessionUser().UserId);
-            IEnumerable<DefaultBadge> badges = Db.Db.GetAllDefaultBadges();
-            Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> data = new Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>>(gifts, badges);
-
-            return View(data);
+            return View(GetTreeData(LoginController.GetSessionUser().UserId));
         }
         public ActionResult GiveBadge()
         {

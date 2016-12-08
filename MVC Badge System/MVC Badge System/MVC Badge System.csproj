@@ -171,6 +171,7 @@
     <Content Include="Content\SearchBarStyle.css" />
     <Content Include="Content\BadgeModalModule.js" />
     <Content Include="Content\RedirectModule.js" />
+    <Content Include="Content\ShareableLink.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SearchModule.js" />
     <Content Include="css\bootstrap-responsive.css" />
@@ -229,6 +230,8 @@
     <Compile Include="Controllers\EmailTestController.cs" />
     <Compile Include="Controllers\GiftController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShareableLinkController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Db\Db.cs" />
@@ -287,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Share\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleAuth_Domain\GoogleAuth_Domain.csproj">

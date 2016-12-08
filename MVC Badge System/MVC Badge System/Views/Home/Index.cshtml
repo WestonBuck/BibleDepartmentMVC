@@ -7,7 +7,7 @@
 
 <div style="position: relative; display: block; margin: auto; width: 1055px; height: 659px">
     <img style="display: block; margin: auto;" src="/img/tree.png" />
-    
+
     @foreach (var badge in Model.Item2)
     {
         bool contains = false;
@@ -29,15 +29,15 @@
             <div style="position: absolute; bottom: @{@badge.TreeLocY}px; left: @{@badge.TreeLocX}px; width: 40px; height: 40px;">
                 <img style="display: block; margin: auto;" src="/img/@{@type}.png" />
             </div>
-        }
-        else
-        {
-            <div style="position: absolute; bottom: @{@badge.TreeLocY}px; left: @{@badge.TreeLocX}px; width: 40px; height: 40px;">
-                <img style="-webkit-filter: grayscale(1); filter: gray; filter: grayscale(1);" src="/img/@{@type}.png" />
-            </div>
+    }
+    else
+    {
+        <div style="position: absolute; bottom: @{@badge.TreeLocY}px; left: @{@badge.TreeLocX}px; width: 40px; height: 40px;">
+            <img style="-webkit-filter: grayscale(1); filter: gray; filter: grayscale(1);" src="/img/@{@type}.png" />
+        </div>
         }
     }
-    
+
     @foreach (var gift in Model.Item1)
     {
         if (gift.BadgeGift.Type != BadgeType.Leaf)

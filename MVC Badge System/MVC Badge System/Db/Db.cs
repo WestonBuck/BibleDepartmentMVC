@@ -343,14 +343,14 @@ namespace MVC_Badge_System.Db
         //
         // USER
         //
-        public static void CreateUser(User u)
+        public static int CreateUser(User u)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, shareable_link)" +
-                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
+                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                conn.Query(sql, u);
+                return conn.Query<int>(sql, u).Single();
             }
         }
 
@@ -390,6 +390,20 @@ namespace MVC_Badge_System.Db
                                         "user_type UserType, shareable_link ShareableLink FROM USERS " +
                                         "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search" + typeQuery,
                                         new { Search = searchTerm, Type = type }).AsList();
+            }
+        }
+
+        public static User GetUserFromShareableHash(string ShareableLink)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
+                                                      "last_name LastName, email Email, photo_url PhotoUrl," +
+                                                      "user_type UserType, shareable_link ShareableLink FROM USERS u WHERE shareable_link = @ShareableLink",
+                    new
+                    {
+                        ShareableLink
+                    });
             }
         }
 
