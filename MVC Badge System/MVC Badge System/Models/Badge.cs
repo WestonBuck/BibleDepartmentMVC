@@ -55,6 +55,7 @@ namespace MVC_Badge_System.Models
         [DisplayName("Given by Faculty")]
         public bool FacultyGive { get; set; }
         [DisplayName("Image Link")]
+        [DataType(DataType.Url)]
         public string ImageLink { get; set; }
         [DisplayName("Prerequisite Badges")]
         public List<Badge> Prerequisites { get; set; }
