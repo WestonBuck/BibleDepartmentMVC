@@ -4,25 +4,26 @@
     ViewBag.Title = "Confirmation";
 }
 <style>
-    .center {
-        margin: auto;
-        width: 50%;
-        border: 3px solid green;
-        padding: 10px;
-    }
+    .bigicon {
+    font-size: 100px;
+}
 </style>
-<div class="center">
-    <h1> You sent a badge!</h1>
-    <h3> Recipient: @Model.name</h3>
-    <h3> Badge: @Model.badge</h3>
-    <h3> Comment: @Model.comment</h3>
-</div>
-<form role="form" action="/Home/GiveBadge">
-    <div class="form-group"><p class="col-sm-2 control-label">
-         <button type="submit" class="btn btn-default" href="">
-               Give Another Badge
-        </button> 
-        </p>
-    </div>
-</form>
 
+<center>
+    <i class="fa fa-meh-o bigicon" aria-hidden="true" ></i>
+    <div class="center">
+        <h1> You sent a badge!</h1>
+        <h3> Recipient: @Model.name</h3>
+        <h3> Badge: @Model.badge</h3>
+        <h3> Comment: @Model.comment</h3>
+    </div>
+    <form role="form" action="/Home/GiveBadge">
+        <div>
+            <p class="col-sm-2 control-label">
+                <button type="submit" class="btn btn-success" href="">
+                    Give Another Badge
+                </button>
+            </p>
+        </div>
+    </form>
+</center>
