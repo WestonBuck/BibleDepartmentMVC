@@ -63,7 +63,7 @@ namespace MVC_Badge_System.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult SetRetirementDate(int id, string returnActionName = "List", string returnControllerName = "Badge")
+        public ActionResult SetRetirementDate(int id, string returnActionName = "List", string returnControllerName = "Badge", int? returnId = null)
         {
             Badge badge = Db.Db.GetBadge(id);
             if (badge == null)
@@ -72,10 +72,14 @@ namespace MVC_Badge_System.Controllers
             }
             badge.RetirementDate = DateTime.Now;
             Db.Db.UpdateBadge(badge);
+            if (returnId.HasValue)
+            {
+                return RedirectToAction(returnActionName, returnControllerName, new { id = returnId });
+            }
             return RedirectToAction(returnActionName, returnControllerName);
         }
 
-        public ActionResult SetBeginDate(int id, string returnActionName = "List", string returnControllerName = "Badge")
+        public ActionResult SetBeginDate(int id, string returnActionName = "List", string returnControllerName = "Badge", int? returnId = null)
         {
             Badge badge = Db.Db.GetBadge(id);
             if (badge == null)
@@ -84,6 +88,10 @@ namespace MVC_Badge_System.Controllers
             }
             badge.BeginDate = DateTime.Now;
             Db.Db.UpdateBadge(badge);
+            if (returnId.HasValue)
+            {
+                return RedirectToAction(returnActionName, returnControllerName, new { id = returnId });
+            }
             return RedirectToAction(returnActionName, returnControllerName);
         }
         [HttpPost]
@@ -97,6 +105,10 @@ namespace MVC_Badge_System.Controllers
             if (before.Prerequisites == null)
             {
                 before.Prerequisites = new List<Badge>();
+            }
+            if (prerequisiteIds == null)
+            {
+                prerequisiteIds = new int?[0];
             }
             List<int?> beforeIDs = before.Prerequisites.Select(badge => badge.BadgeId).ToList();
             List<int?> afterIDs = new List<int?>(prerequisiteIds);

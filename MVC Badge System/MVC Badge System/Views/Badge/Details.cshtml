@@ -9,6 +9,20 @@
 
 <div>
     <h4>Badge</h4>
+    @if (Model.RetirementDate == null || Model.RetirementDate > DateTime.Now)
+    {
+        if (Model.BeginDate == null || Model.BeginDate > DateTime.Now)
+        {
+            @Html.ActionLink("Start", "SetBeginDate", new { id = Model.BadgeId, returnActionName = "Details", returnId = Model.BadgeId  }, new { @class = "btn btn-secondary" })
+        }
+        else
+        {
+            @Html.ActionLink("Retire", "SetRetirementDate", new { id = Model.BadgeId, returnActionName = "Details", returnId = Model.BadgeId }, new { @class = "btn btn-secondary" })
+        }
+        <big> | </big>
+    }
+
+    @Html.ActionLink("New Badge", "Create", null, new { @class = "btn btn-secondary" })
     <hr />
     <dl class="dl-horizontal">
         <dt>
