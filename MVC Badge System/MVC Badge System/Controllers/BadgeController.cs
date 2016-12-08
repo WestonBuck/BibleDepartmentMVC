@@ -12,7 +12,8 @@ namespace MVC_Badge_System.Controllers
         // GET: Badge
         public ActionResult List()
         {
-            return View();
+            List<Badge> badges = Db.Db.GetAllBadges();
+            return View(badges);
         }
 
         public ActionResult Create()
@@ -55,6 +56,30 @@ namespace MVC_Badge_System.Controllers
                 Db.Db.DeleteBadge(badge);
             }
             return RedirectToAction("List");
+        }
+
+        public ActionResult SetRetirementDate(int id, string returnActionName = "List", string returnControllerName = "Badge")
+        {
+            Badge badge = Db.Db.GetBadge(id);
+            if (badge == null)
+            {
+                throw new HttpException(404, "Invalid badge!");
+            }
+            badge.RetirementDate = DateTime.Now;
+            Db.Db.UpdateBadge(badge);
+            return RedirectToAction(returnActionName, returnControllerName);
+        }
+
+        public ActionResult SetBeginDate(int id, string returnActionName = "List", string returnControllerName = "Badge")
+        {
+            Badge badge = Db.Db.GetBadge(id);
+            if (badge == null)
+            {
+                throw new HttpException(404, "Invalid badge!");
+            }
+            badge.BeginDate = DateTime.Now;
+            Db.Db.UpdateBadge(badge);
+            return RedirectToAction(returnActionName, returnControllerName);
         }
     }
 }

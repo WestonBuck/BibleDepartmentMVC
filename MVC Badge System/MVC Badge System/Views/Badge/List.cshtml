@@ -1,29 +1,23 @@
 ﻿@model IEnumerable<MVC_Badge_System.Models.Badge>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Badge List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>List</h2>
+<h2>Badge List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("New Badge", "Create", null, new { @class="btn btn-primary" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RetirementDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BeginDate)
+            <!--Picture-->
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
-        </th>
+        </th>        
         <th>
             @Html.DisplayNameFor(model => model.SelfGive)
         </th>
@@ -36,22 +30,16 @@
         <th>
             @Html.DisplayNameFor(model => model.FacultyGive)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageLink)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RetirementDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BeginDate)
+            @if (!String.IsNullOrEmpty(item.ImageLink))
+            {
+                <img src="@item.ImageLink" style="max-height: 50px; width:auto;" />
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -69,12 +57,20 @@
             @Html.DisplayFor(modelItem => item.FacultyGive)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImageLink)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BadgeId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BadgeId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BadgeId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.BadgeId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.BadgeId })
+            @if (item.RetirementDate == null || item.RetirementDate > DateTime.Now)
+            {
+                <span>| </span>
+                if (item.BeginDate == null || item.BeginDate > DateTime.Now)
+                {
+                    @Html.ActionLink("Start", "SetBeginDate", new { id = item.BadgeId })
+                }
+                else
+                {
+                    @Html.ActionLink("Retire", "SetRetirementDate", new { id = item.BadgeId })
+                }
+            } 
         </td>
     </tr>
 }
