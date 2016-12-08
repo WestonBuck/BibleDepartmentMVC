@@ -21,16 +21,8 @@
             }
         }
 
-        string type;
-        if (badge.Type == BadgeType.Apple)
-        {
-            type = "apple";
-        }
-        else
-        {
-            type = "flower";
-        }
-        
+        string type = badge.Type == BadgeType.Apple ? "apple" : "flower";
+
         // Set the image to grayscale if they haven't received this badge yet
         if (contains)
         {
