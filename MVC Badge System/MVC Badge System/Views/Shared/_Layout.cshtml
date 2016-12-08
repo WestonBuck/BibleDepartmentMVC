@@ -1,5 +1,6 @@
 ﻿@using MVC_Badge_System.Models
 @using MVC_Badge_System.Controllers
+@using MVC_Badge_System.Db
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +23,6 @@
 			{
 				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
 				<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
-
 			}
 			<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
 			<!--Admin tabs-->
@@ -46,10 +46,16 @@
 				<datalist id="redirect_list" class="gst-ss-results"></datalist>
 			</span>
 		}
-		
-		
-		
-</ul>   
+	
+	    @if (isLoggedIn && curController == "Home" && curAction == "Index")
+        {
+            <span class="btn btn-primary" id="regen-shareable-link-button">Regenerate Shareable Link</span>
+            string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
+        
+            <!-- Can't believe I'm actually doing this...basically the user wasn't updateing on refresh, so pull it from the DB to make it work :\ -->
+            <span id="shareable-link">@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink</span>
+        }
+	</ul>   
 	<div class="tab-content"></div>
  
 	@Scripts.Render("~/scripts/jquery")
@@ -61,19 +67,21 @@
 	@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
 	{
 		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
-		<script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
+	    <script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
+        <script src="~/content/ShareableLink.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script type="text/javascript">
-			$(document).ready(function () {
-				window.SearchModule.init();
-				window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
-			});
+		    $(document).ready(function () {
+		        window.SearchModule.init();
+		        window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
+		        window.ShareableLinkModule.init();
+		    });
 
-			function onSelect(studentId) {
-				RedirectModule.getShareableLink(studentId,
-					function (url) {
-						window.location = url;
-					});
-			}
+		    function onSelect(studentId) {
+		        RedirectModule.getShareableLink(studentId,
+		            function (url) {
+		                window.location = url;
+		            });
+		    }
 		</script>
 	}
 
@@ -82,5 +90,8 @@
 	@RenderSection("scripts", required: false)
 	@RenderSection("scriptsIncludes", false)
 	@RenderSection("inlineScript", false)
+<script>
+    window.ShareableLinkModule.setId(@LoginController.GetSessionUser().UserId);
+</script>
 </body>
 </html>

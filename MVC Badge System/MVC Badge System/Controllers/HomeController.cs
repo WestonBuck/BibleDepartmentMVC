@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MVC_Badge_System.Models;
 
@@ -9,14 +7,23 @@ namespace MVC_Badge_System.Controllers
 {
     public class HomeController : Controller
     {
+        public static Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> GetTreeData(int? userId)
+        {
+            IEnumerable<Gift> gifts = Db.Db.GetGiftsGivenTo(userId);
+            IEnumerable<DefaultBadge> badges = Db.Db.GetAllDefaultBadges();
+            Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>> data = new Tuple<IEnumerable<Gift>, IEnumerable<DefaultBadge>>(gifts, badges);
+            return data;
+        }
+
         public ActionResult Index()
         {
             if (!LoginController.IsSessionValid())
             {
-                return RedirectToAction("Login", "Login", new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
+                return RedirectToAction("Login", "Login",
+                    new {returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery});
             }
 
-            return View();
+            return View(GetTreeData(LoginController.GetSessionUser().UserId));
         }
         public ActionResult GiveBadge()
         {
@@ -30,7 +37,7 @@ namespace MVC_Badge_System.Controllers
         {
             ConfirmationData _confData = new ConfirmationData();
             Gift _gift = new Gift();
-            User _user = new Models.User();
+            User _user = new User();
             
             
             _confData.name = studentName;

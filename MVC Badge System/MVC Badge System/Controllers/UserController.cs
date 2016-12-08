@@ -40,8 +40,8 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Create(User user)
         {
-            user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view
-            Db.Db.CreateUser(user);
+            int id = Db.Db.CreateUser(user);
+            ShareableLinkController.GenerateShareableHash(id);
             return RedirectToAction("List");
         }
 
@@ -54,11 +54,11 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Edit(User user)
         {
-            if (String.IsNullOrEmpty(user.ShareableLink))
-            {
-                user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view}
-            }
             Db.Db.UpdateUser(user);
+            if (string.IsNullOrEmpty(user.ShareableLink))
+            {
+                ShareableLinkController.GenerateShareableHash(user.UserId);
+            }
             return RedirectToAction("List");
         }
 
@@ -109,7 +109,9 @@ namespace MVC_Badge_System.Controllers
             {
                 throw new HttpException(404, "Invalid student!");
             }
-            return student.ShareableLink;
+
+            string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
+            return baseUrl + student.ShareableLink;
         }
     }
 }

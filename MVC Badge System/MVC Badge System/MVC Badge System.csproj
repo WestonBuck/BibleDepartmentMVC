@@ -166,11 +166,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PrerequisiteModule.js" />
     <Content Include="Content\SearchBarStyle.css" />
     <Content Include="Content\BadgeModalModule.js" />
     <Content Include="Content\RedirectModule.js" />
+    <Content Include="Content\ShareableLink.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SearchModule.js" />
     <Content Include="css\bootstrap-responsive.css" />
@@ -181,8 +185,12 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\apple.png" />
+    <Content Include="img\flower.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\leaf.png" />
+    <Content Include="img\tree.png" />
     <Content Include="JS\bootstrap.js" />
     <Content Include="JS\bootstrap.min.js" />
     <Content Include="JS\npm.js" />
@@ -225,6 +233,8 @@
     <Compile Include="Controllers\EmailTestController.cs" />
     <Compile Include="Controllers\GiftController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShareableLinkController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Db\Db.cs" />
@@ -236,6 +246,7 @@
     <Compile Include="Models\Badge.cs" />
     <Compile Include="Models\BadgeViewModel.cs" />
     <Compile Include="Models\ConfirmationData.cs" />
+    <Compile Include="Models\DefaultBadge.cs" />
     <Compile Include="Models\Gift.cs" />
     <Compile Include="Models\GridViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -273,6 +284,9 @@
     <Content Include="Views\Gift\GridIndex.cshtml" />
     <Content Include="Views\Gift\TreeIndex.cshtml" />
     <Content Include="Views\Badge\List.cshtml" />
+    <Content Include="Views\Badge\Create.cshtml" />
+    <Content Include="Views\Badge\Edit.cshtml" />
+    <Content Include="Views\Badge\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -282,6 +296,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Share\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleAuth_Domain\GoogleAuth_Domain.csproj">

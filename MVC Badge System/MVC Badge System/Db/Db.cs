@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -171,14 +172,14 @@ namespace MVC_Badge_System.Db
         //
         // BADGE
         //
-        public static void CreateBadge(Badge b)
+        public static int CreateBadge(Badge b)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
-                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give)" +
-                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive);";
-
-                conn.Query<Badge>(sql, b);
+                string sql = @"INSERT INTO BADGES(descript, badge_type, begin_date, retirement_date, name, self_give, student_give, staff_give, faculty_give, picture)" +
+                              "VALUES(@Description, @Type, @BeginDate, @RetirementDate, @Name, @SelfGive, @StudentGive, @StaffGive, @FacultyGive, @Picture); SELECT CAST(SCOPE_IDENTITY() as int)";
+                
+                return conn.Query<int>(sql, b).Single();
             }
         }
 
@@ -188,7 +189,8 @@ namespace MVC_Badge_System.Db
             {
                 string sql =
                     "UPDATE BADGES SET descript = @Description, badge_type = @Type, begin_date = @BeginDate, retirement_date = @RetirementDate, " +
-                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive " +
+                    "name = @Name, self_give = @SelfGive, staff_give = @StaffGive, student_give = @StudentGive, faculty_give = @FacultyGive, " +
+                    "picture = @Picture " +
                     "WHERE badge_id = @BadgeId";
                 conn.Query(sql, b);
             }
@@ -201,7 +203,7 @@ namespace MVC_Badge_System.Db
                 Badge b = conn.QueryFirstOrDefault<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                                        "retirement_date RetirementDate, begin_date BeginDate," +
                                                        "name Name, self_give SelfGive, student_give StudentGive," +
-                                                       "staff_give StaffGive, faculty_give FacultyGive FROM BADGES WHERE badge_id = @BId",
+                                                       "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES WHERE badge_id = @BId",
                     new { BId = badgeId }
                     );
 
@@ -221,8 +223,8 @@ namespace MVC_Badge_System.Db
                 string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
                              "retirement_date RetirementDate, begin_date BeginDate, " +
                              "name Name, self_give SelfGive, student_give StudentGive, " +
-                             "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
-                             "WHERE badge_type = 1;";
+                             "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES " +
+                             "WHERE badge_type = @Type;";
 
                 List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
 
@@ -238,6 +240,70 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        public static List<Badge> GetBadges(User sender, User recipient)
+        {
+            if (recipient.UserType == UserType.Student)
+            {
+                string senderType;
+
+                if (recipient.UserId == sender.UserId)
+                {
+                    senderType = "self";
+                }
+                else
+                {
+                    switch (sender.UserType)
+                    {
+                        case UserType.Student:
+                            senderType = "studnet";
+                            break;
+                        case UserType.Staff:
+                            senderType = "staff";
+                            break;
+                        case UserType.Faculty:
+                            senderType = "faculty";
+                            break;
+                        default:
+                            return GetAllBadges();
+
+                    }
+                }
+
+                using (IDbConnection conn = new SqlConnection(Connection))
+                {
+                    string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
+                                 "retirement_date RetirementDate, begin_date BeginDate, " +
+                                 "name Name, self_give SelfGive, student_give StudentGive, " +
+                                 "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
+                                 "WHERE "+ senderType + "_give = 1 and retirement_date > GETDATE() and begin_date < GETDATE();";
+
+                    List<Badge> badgeList = conn.Query<Badge>(sql).AsList();
+
+                    foreach (Badge b in badgeList)
+                    {
+                        if (b.Type == BadgeType.Apple)
+                        {
+                            b.Prerequisites = GetPrerequisites(b.BadgeId);
+                        }
+                    }
+
+                    return badgeList;
+                }
+            }
+            else
+            {
+                //cannot send badges to those who are not students
+                return null;
+            }
+        }
+
+        public static List<Badge> GetBadges(User sender)
+        {
+            User recipient = new User();
+            recipient.UserType = UserType.Student;
+            return GetBadges(sender, recipient);
+        }
+
         public static List<Badge> GetAllBadges()
         {
             using (IDbConnection conn = new SqlConnection(Connection))
@@ -245,7 +311,7 @@ namespace MVC_Badge_System.Db
                 List<Badge> badgeList = conn.Query<Badge>("SELECT badge_id BadgeId, descript Description, badge_type Type," +
                                          "retirement_date RetirementDate, begin_date BeginDate," +
                                          "name Name, self_give SelfGive, student_give StudentGive," +
-                                         "staff_give StaffGive, faculty_give FacultyGive FROM BADGES").AsList();
+                                         "staff_give StaffGive, faculty_give FacultyGive, picture Picture FROM BADGES").AsList();
                 foreach (Badge b in badgeList)
                 {
                     if (b.Type == BadgeType.Apple)
@@ -278,14 +344,14 @@ namespace MVC_Badge_System.Db
         //
         // USER
         //
-        public static void CreateUser(User u)
+        public static int CreateUser(User u)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = @"INSERT USERS (first_name, last_name, email, photo_url, user_type, shareable_link)" +
-                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink);";
+                              "VALUES(@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                conn.Query(sql, u);
+                return conn.Query<int>(sql, u).Single();
             }
         }
 
@@ -325,6 +391,20 @@ namespace MVC_Badge_System.Db
                                         "user_type UserType, shareable_link ShareableLink FROM USERS " +
                                         "WHERE last_name LIKE @Search or first_name LIKE @Search or email LIKE @Search" + typeQuery,
                                         new { Search = searchTerm, Type = type }).AsList();
+            }
+        }
+
+        public static User GetUserFromShareableHash(string ShareableLink)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                return conn.QueryFirstOrDefault<User>("SELECT user_id UserId, first_name FirstName," +
+                                                      "last_name LastName, email Email, photo_url PhotoUrl," +
+                                                      "user_type UserType, shareable_link ShareableLink FROM USERS u WHERE shareable_link = @ShareableLink",
+                    new
+                    {
+                        ShareableLink
+                    });
             }
         }
 
@@ -462,6 +542,83 @@ namespace MVC_Badge_System.Db
                     new
                     {
                         PrerequisiteId
+                    });
+            }
+        }
+
+        //
+        // DEFAULT BADGES
+        //
+        public static void CreateDefaultBadge(DefaultBadge badge)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "INSERT INTO DEFAULT_BADGES (badge_id, badge_type, tree_loc_x, tree_loc_y)" +
+                             "VALUES (@BadgeId, @Type, @TreeLocX, @TreeLocY);";
+                conn.Query(sql, badge);
+            }
+        }
+
+        public static void UpdateDefaultBadge(DefaultBadge badge)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "UPDATE DEFAULT_BADGES SET tree_loc_x = @TreeLocX, tree_loc_y = @TreeLocY badge_type @Type " +
+                             "WHERE badge_id = @BadgeId;";
+
+                conn.Query(sql, badge);
+            }
+        }
+
+        public static DefaultBadge GetDefaultBadge(int? BadgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT badge_id BadgeId, tree_loc_x TreeLocX, tree_loc_y TreeLocY, badge_type Type " +
+                             "FROM DEAFULT_BADGES WHERE badge_id = @BadgeId;";
+
+                DefaultBadge badge = conn.Query<DefaultBadge>(sql,
+                    new
+                    {
+                        BadgeId
+                    }).FirstOrDefault();
+
+                return badge;
+            }
+        }
+
+        public static List<DefaultBadge> GetAllDefaultBadges()
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                string sql = "SELECT badge_id BadgeId, tree_loc_x TreeLocX, tree_loc_y TreeLocY, badge_type Type " +
+                             "FROM DEFAULT_BADGES;";
+
+                return conn.Query<DefaultBadge>(sql).AsList();
+            }
+        }
+
+        public static void DeleteDefaultBadge(int? BadgeId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM DEFAULT_BADGES WHERE badge_id = @BadgeId;",
+                    new
+                    {
+                        BadgeId
+                    });
+            }
+        }
+
+        public static void DeletePrerequisite(int? ParentId, int? ChildId)
+        {
+            using (IDbConnection conn = new SqlConnection(Connection))
+            {
+                conn.Query("DELETE FROM PREREQUISITE WHERE parent_id = @ParentId AND child_id = @ChildId;",
+                    new
+                    {
+                        ParentId,
+                        ChildId
                     });
             }
         }
