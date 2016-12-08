@@ -11,7 +11,7 @@
                     if (Model.Any() && Model.First().BadgeGift != null)// if there is at least one gift in the list
                     {
                         <div class="modal-title" id="gifts-modal-label">
-                            <img class="img-responsive" style="max-width: 100px;display:inline-block;" src="@Model.First().BadgeGift.ImageLink" />
+                            <img class="img-responsive" style="max-width: 100px;display:inline-block;" src="@Model.First().BadgeGift.Picture" />
                             <h1 style="display:inline-block;">@Model.First().BadgeGift.Name</h1>
                         </div>
                     }
