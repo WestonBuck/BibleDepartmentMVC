@@ -221,7 +221,7 @@ namespace MVC_Badge_System.Db
                              "retirement_date RetirementDate, begin_date BeginDate, " +
                              "name Name, self_give SelfGive, student_give StudentGive, " +
                              "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
-                             "WHERE badge_type = 1;";
+                             "WHERE badge_type = @Type;";
 
                 List<Badge> badgeList = conn.Query<Badge>(sql, new { Type = (int)type }).AsList();
 
@@ -234,6 +234,63 @@ namespace MVC_Badge_System.Db
                 }
 
                 return badgeList;
+            }
+        }
+
+        public static List<Badge> GetBadges(User sender, User recipient)
+        {
+            if (recipient.UserType == UserType.Student)
+            {
+                string senderType;
+
+                if (recipient.UserId == sender.UserId)
+                {
+                    senderType = "self";
+                }
+                else
+                {
+                    switch (sender.UserType)
+                    {
+                        case UserType.Student:
+                            senderType = "studnet";
+                            break;
+                        case UserType.Staff:
+                            senderType = "staff";
+                            break;
+                        case UserType.Faculty:
+                            senderType = "faculty";
+                            break;
+                        default:
+                            return GetAllBadges();
+
+                    }
+                }
+
+                using (IDbConnection conn = new SqlConnection(Connection))
+                {
+                    string sql = "SELECT badge_id BadgeId, descript Description, badge_type Type, " +
+                                 "retirement_date RetirementDate, begin_date BeginDate, " +
+                                 "name Name, self_give SelfGive, student_give StudentGive, " +
+                                 "staff_give StaffGive, faculty_give FacultyGive FROM BADGES " +
+                                 "WHERE "+ senderType + "_give = 1 and retirement_date > GETDATE() and begin_date < GETDATE();";
+
+                    List<Badge> badgeList = conn.Query<Badge>(sql).AsList();
+
+                    foreach (Badge b in badgeList)
+                    {
+                        if (b.Type == BadgeType.Apple)
+                        {
+                            b.Prerequisites = GetPrerequisites(b.BadgeId);
+                        }
+                    }
+
+                    return badgeList;
+                }
+            }
+            else
+            {
+                //cannot send badges to those who are not students
+                return null;
             }
         }
 
