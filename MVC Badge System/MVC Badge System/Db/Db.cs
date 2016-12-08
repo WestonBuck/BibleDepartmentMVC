@@ -294,6 +294,13 @@ namespace MVC_Badge_System.Db
             }
         }
 
+        public static List<Badge> GetBadges(User sender)
+        {
+            User recipient = new User();
+            recipient.UserType = UserType.Student;
+            return GetBadges(sender, recipient);
+        }
+
         public static List<Badge> GetAllBadges()
         {
             using (IDbConnection conn = new SqlConnection(Connection))
