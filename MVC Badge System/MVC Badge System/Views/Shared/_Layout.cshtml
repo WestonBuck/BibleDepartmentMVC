@@ -1,60 +1,61 @@
 ﻿@using MVC_Badge_System.Models
+@using MVC_Badge_System.Controllers
+@using MVC_Badge_System.Db
 
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet2" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
 	<link rel="theme" href="/css/bootstrap-theme.css">
 	<link rel="JS" href="/JS/bootstrap.js">
 </head>
 <body>
 	<ul class="nav nav-tabs">
 		@{  string curController = ViewContext.RouteData.Values["Controller"].ToString();
-            string curAction = ViewContext.RouteData.Values["Action"].ToString();
-            UserType userType = UserType.Student;//FIXME:hardcoded--needs to be based on session
+			string curAction = ViewContext.RouteData.Values["Action"].ToString();
+			User curUser = LoginController.GetSessionUser();
+			bool isLoggedIn = curUser != null;
 		}
-		<!--Student tabs-->
-		@if (userType == UserType.Student)
-        {
-			<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
-			<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
+		@if (isLoggedIn)
+		{
+			<!--Student tabs-->
+			if (curUser.UserType == UserType.Student)
+			{
+				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
+				<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
+			}
+			<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
+			<!--Admin tabs-->
+			if (curUser.UserType == UserType.Admin)
+			{
+				<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
+				<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
+			}
+			<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
+		}
+		else
+		{
+			<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Index", "Home") }, new { @class = "btn btn-primary" })</span>
+		}
 
-        }
-		<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li> 
-		<!--Admin tabs-->
-		@if (userType == UserType.Admin)
-        {
-			<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
-			<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
-        }
-		
 		<!--Search bar for admin, faculty, and staff-->
-		@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
-        {
-			<div class="gst-studentsearch" id="gst-ss-redirect">
+		@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
+		{
+			<span class="gst-studentsearch" id="gst-ss-redirect">
 				<input type="search" list="redirect_list" placeholder="Search..." />
 				<datalist id="redirect_list" class="gst-ss-results"></datalist>
-			</div>
+			</span>
+		}
+	
+	    @if (isLoggedIn)
+        {
+            <span class="btn btn-primary" id="regen-shareable-link-button">Regenerate Shareable Link</span>
+            string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
+        
+            <!-- Can't believe I'm actually doing this...basically the user wasn't updateing on refresh, so pull it from the DB to make it work :\ -->
+            <span id="shareable-link">@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink</span>
         }
-		
-           
-    <div align = "right">
-        <a href="@Url.Action("Logout", "Login")" class="btn btn-primary btn-info">
-            
-            Log Out
-            <i class="fa fa-sign-out" aria-hidden="true"></i>
-        </a>
-        <a href="@Url.Action("Login", "Login")" class="btn btn-primary btn-info">
-
-            Log In
-            <i class="fa fa-sign-in" aria-hidden="true"></i>
-        </a>
-        @*<div align="right" class="inline">@Html.ActionLink("Log out", "Logout", "Login", null, new { @class="btn btn-primary btn-info", @class =  "glyphicon glyphicon-log-in">})</div>*@
-        @*<div align="right" class="inline">@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Home", "Index") }, new { @class = "btn btn-primary" })</div>*@
-    </div>
-    
-</ul>   
+	</ul>   
 	<div class="tab-content"></div>
  
 	@Scripts.Render("~/scripts/jquery")
@@ -63,13 +64,24 @@
 	<script src="~/scripts/jquery-1.10.2.min.js"></script>
 	<script src="~/scripts/bootstrap.min.js"></script>
 	<!--Search bar for admin, faculty, and staff-->
-	@if (userType == UserType.Admin || userType == UserType.Faculty || userType == UserType.Staff)
+	@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
 	{
 		<script src="~/content/SearchModule.js?Build=@Guid.NewGuid().ToString()"></script>
+	    <script src="~/content/RedirectModule.js?Build=@Guid.NewGuid().ToString()"></script>
+        <script src="~/content/ShareableLink.js?Build=@Guid.NewGuid().ToString()"></script>
 		<script type="text/javascript">
 			$(document).ready(function () {
-				window.SearchModule.init();
+			    window.SearchModule.init();
+			    window.SearchModule.setSelectHandler('gst-ss-redirect', onSelect);
+			    window.ShareableLinkModule.init();
 			});
+
+			function onSelect(studentId) {
+				RedirectModule.getShareableLink(studentId,
+					function (url) {
+						window.location = url;
+					});
+			}
 		</script>
 	}
 

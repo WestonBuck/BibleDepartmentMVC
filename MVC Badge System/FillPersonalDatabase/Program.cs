@@ -11,7 +11,8 @@ namespace FillPersonalDatabase
             bool exit = false;
             CSVReader reader = new CSVReader();
 
-            while (!exit) {
+            while (!exit)
+            {
 
                 Console.WriteLine("Select Database to be filled:\n1) Users\n2) Badge\n3) Gift\n4) Exit");
 

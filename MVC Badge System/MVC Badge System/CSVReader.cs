@@ -87,12 +87,9 @@ namespace MVC_Badge_System
                     } // end if(words.length)
                 } // end while(!= eof)
 
-                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) // Path name from Db.cs
+                foreach (User u in tempUserList)
                 {
-                    foreach (User u in tempUserList)
-                    {
-                        db.Execute("INSERT INTO USERS (FIRST_NAME, LAST_NAME, EMAIL, PHOTO_URL, USER_TYPE, SHAREABLE_LINK) VALUES (@FirstName, @LastName, @Email, @PhotoUrl, @UserType, @ShareableLink)", u);
-                    }
+                    Db.Db.CreateUser(u);
                 }
                 Console.WriteLine("User database filled");
                 file.Close();
@@ -114,7 +111,6 @@ namespace MVC_Badge_System
             string fileName;
             string line;
             int lineNumber = 0;
-            List<Badge> tempBadgeList = new List<Badge>();
 
             Console.WriteLine("Input the file name path: ");
             fileName = Console.ReadLine();
@@ -128,12 +124,13 @@ namespace MVC_Badge_System
                     lineNumber++;
                     string[] words = line.Split(',');
                     Badge tempBadge = new Badge();
+                    
 
                     if (words.Length >= 10)
                     {
                         switch (words[0])
                         {
-                            case "commendation":
+                            case "comendation":
                                 tempBadge.Type = BadgeType.Leaf;
                                 break;
                             case "competency":
@@ -165,24 +162,32 @@ namespace MVC_Badge_System
                         tempBadge.StudentGive = (words[5] == "true" || words[5] == "True" || words[5] == "T");
                         tempBadge.StaffGive = (words[6] == "true" || words[6] == "True" || words[6] == "T");
                         tempBadge.FacultyGive = (words[7] == "true" || words[7] == "True" || words[7] == "T");
-                        tempBadge.ImageLink = words[8];
+                        tempBadge.Picture = words[8];
                         tempBadge.Description = words[9];
 
-                        tempBadgeList.Add(tempBadge);
+                        int id = Db.Db.CreateBadge(tempBadge);
+
+                        if (!string.IsNullOrEmpty(words[10]) && !string.IsNullOrEmpty(words[11]))
+                        {
+                            DefaultBadge tempDefaultBadge = new DefaultBadge();
+                            int treeLocX;
+                            int treeLocY;
+                            int.TryParse(words[10], out treeLocX);
+                            int.TryParse(words[11], out treeLocY);
+
+                            tempDefaultBadge.BadgeId = id;
+                            tempDefaultBadge.TreeLocX = treeLocX;
+                            tempDefaultBadge.TreeLocY = treeLocY;
+                            tempDefaultBadge.Type = tempBadge.Type;
+
+                            Db.Db.CreateDefaultBadge(tempDefaultBadge);
+                        }
                     }
                     else
                     {
                         Console.WriteLine("Formatting error line " + lineNumber);
                     } // end if(words.length)
                 } // end while (!= eof)
-
-                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) // path name from Db.cs
-                {
-                    foreach (Badge b in tempBadgeList)
-                    {
-                        db.Execute("INSERT INTO BADGE (TYPE, RETIREMENT_DATE, BADGE_START_DATE, NAME, SELF_GIVE, STUDENT_GIVE, STAFF_GIVE, FACULTY_GIVE, IMAGE_LINK, BADGE_DESC) VALUES (@Type, @RetirementDate, @beginDate, @Name, @selfgive, @studentgive, @staffgive, @facultygive, @imagelink, @description)", b);
-                    }
-                }
 
                 Console.WriteLine("Badge database filled");
                 file.Close();
@@ -237,12 +242,10 @@ namespace MVC_Badge_System
                     } // end if(words.length)
                 } // end while (!= eof)
 
-                using (IDbConnection db = new SqlConnection(Db.Db.Connection)) //Path name from Db.cs
+    
+                foreach (Gift g in tempGiftList)
                 {
-                    foreach (Gift g in tempGiftList)
-                    {
-                        db.Execute("INSERT INTO GIFT (BADGE_ID, SENDER_ID, RECIPIENT_ID, TREE_LOC_X, TREE_LOC_Y, COMMENT) VALUES (@badgeid, @senderid, @recipientid, @treelocx, @treelocy, @comment)", g);
-                    }
+                    Db.Db.CreateGift(g);
                 }
 
                 Console.WriteLine("Gift database filled");

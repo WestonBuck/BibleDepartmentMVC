@@ -1,8 +1,80 @@
-﻿
+@model MVC_Badge_System.Models.GridViewModel
+
 @{
     ViewBag.Title = "GridIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Grid View will go here</h2>
+<h2>model.student.FirstName's Badges</h2>
 
+<span id="gst-bmm-modal"></span>
+<input id="gst-bmm-student-id" type="hidden" value=model.student.UserId />
+
+<table class="table">
+    @*@for(int i = 0; i < model.grid[0].Count; i++) { @*the list of model.grid[0] should be the longest and will therefore decide the number of rows*
+      <tr>
+      @foreach(List<BadgeViewModel> l in model.grid) {
+          <td>
+              @if(l[i].badge != null) {
+                    if(l[i].obtained) {
+                        <button type="button" height="80%" width="80%" class="gst-bmm" data-badge-id=l[i].badge.BadgeId><img src=l[i].badge.Picture /></button>
+                    else {
+                        <button type="button" height="80%" width="80%" class="gst-bmm gst-bmm-disabled" data-badge-id=l[i].badge.BadgeId><img src=l[i].badge.Picture /></button>
+                    }
+                    <center>l[i].badge.name</center>
+              }
+          </td>
+      }
+      </tr>
+    }*@
+    <tr>
+        @for (int i = 0; i <= 6; i++)
+        {
+            <td>
+                <button type="button" height="80%" width="80%" class="gst-bmm gst-bmm-disabled" data-badge-id="1"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" filter: grayscale(100%)/></button>
+                <center>words</center>
+            </td>
+        }
+    </tr>
+
+    @for (int i = 0; i <= 30;)
+    {
+        <tr>
+            @for (int j = 0; j <= 6; j++)
+            {
+                if (i <= 30)
+                {
+                <td>
+                    <button type="button" height="90%" width="90%" class="gst-bmm" data-badge-id="2"><img src="http://rs519.pbsrc.com/albums/u359/hoobity/1324749076815.gif~c200" /></button>
+                </td>
+                } else
+                {
+                    <td></td>
+                }
+                i++;
+            }
+        </tr>
+    }
+
+    
+</table>
+
+<style>
+    .gst-bmm-disabled {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+</style>
+
+@section scriptsIncludes {
+    <script src="~/content/BadgeModalModule.js?Build=@Guid.NewGuid().ToString()"></script>
+}
+
+@section inlineScript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.BadgeModalModule.init();
+        });
+    </script>
+}

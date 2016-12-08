@@ -1,4 +1,7 @@
 ﻿using GoogleAuth_Domain;
+using MVC_Badge_System.Models;
+using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MVC_Badge_System.Controllers
@@ -14,7 +17,7 @@ namespace MVC_Badge_System.Controllers
     public class LoginController : Controller
     {
 
-        private const string _scope = "profile";
+        private const string _scope = "email";
         private const string _homeDomain = "oc.edu";
         
         /// <summary>
@@ -60,7 +63,7 @@ namespace MVC_Badge_System.Controllers
         public ActionResult Logout(string returnUrl = null)
         {
             GoogleInterface.RevokeToken(GetSessionToken());
-            SetSessionToken(null);
+            SetSession(null);
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -79,7 +82,7 @@ namespace MVC_Badge_System.Controllers
         {
             string redirectUri = Url.Action("Token", null, null, Request.Url.Scheme);
             TokenJson token = GoogleInterface.GetToken(code, redirectUri);
-            SetSessionToken(token);
+            SetSession(token);
             return Redirect(state);
         }
 
@@ -113,7 +116,7 @@ namespace MVC_Badge_System.Controllers
                     return true;
                 }
                 //clear out the invalid token
-                SetSessionToken(null);
+                SetSession(null);
             }
             return false;
         }
@@ -128,12 +131,47 @@ namespace MVC_Badge_System.Controllers
         }
 
         /// <summary>
-        /// Set the current session's Google OAuth 2.0 token
+        /// Set the current session's Google OAuth 2.0 token and the corresponding user in the database
         /// </summary>
         /// <param name="token"></param>
-        private static void SetSessionToken(TokenJson token)
+        private static void SetSession(TokenJson token)
         {
             System.Web.HttpContext.Current.Session["token"] = token;
+            if (token != null)
+            {
+                UserJson googleUser = GoogleInterface.GetUserInfo(token);
+                if (String.IsNullOrEmpty(googleUser.email))
+                {
+                    throw new ArgumentNullException("Could not get user's email from Google.");   
+                }
+                List<User> dbUsers = Db.Db.GetUsersSearch(googleUser.email, null);
+                if (dbUsers.Count == 0)
+                {
+                    throw new ArgumentException("User with email (" + googleUser.email + ") could not be found in the database.");
+                }
+                User curUser = dbUsers[0];//current user for this session
+
+                //update the user's picture in the database if needed
+                if (!String.IsNullOrEmpty(googleUser.picture) && (String.IsNullOrEmpty(curUser.PhotoUrl) || !curUser.PhotoUrl.Equals(googleUser.picture)))
+                {
+                    curUser.PhotoUrl = googleUser.picture;
+                    Db.Db.UpdateUser(curUser);
+                }
+
+                System.Web.HttpContext.Current.Session["user"] = curUser;
+            }
+            else
+            {
+                System.Web.HttpContext.Current.Session["user"] = null;
+            }
+        }
+        /// <summary>
+        /// Get the User from the database that is currently logged in
+        /// </summary>
+        /// <returns></returns>
+        public static User GetSessionUser()
+        {
+            return System.Web.HttpContext.Current.Session["user"] as User;
         }
     }
 }

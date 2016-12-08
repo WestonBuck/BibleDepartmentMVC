@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using Dapper;
+using System.Web;
 
 namespace MVC_Badge_System.Controllers
 {
@@ -39,8 +40,8 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Create(User user)
         {
-            user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view
-            Db.Db.CreateUser(user);
+            int id = Db.Db.CreateUser(user);
+            ShareableLinkController.GenerateShareableHash(id);
             return RedirectToAction("List");
         }
 
@@ -53,11 +54,11 @@ namespace MVC_Badge_System.Controllers
         [HttpPost]
         public ActionResult Edit(User user)
         {
-            if (String.IsNullOrEmpty(user.ShareableLink))
-            {
-                user.ShareableLink = "https://fake.com";//FIXME: generate shareable link later that directs to the tree view}
-            }
             Db.Db.UpdateUser(user);
+            if (string.IsNullOrEmpty(user.ShareableLink))
+            {
+                ShareableLinkController.GenerateShareableHash(user.UserId);
+            }
             return RedirectToAction("List");
         }
 
@@ -83,25 +84,14 @@ namespace MVC_Badge_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetUser(string filter)
+        public ActionResult GetStudent(string filter)
         {
             var range = 5; // number of elements we show in the drop down
             var result = new SearchViewModel();
 
             result.SearchTerm = filter; // the data in the search bar
             result.SearchResults = new List<User>();
-            List<User> allResults;
-
-            // collect the results that match the filter from the data base
-            using (IDbConnection db = new SqlConnection(Db.Db.Connection))
-            {                                                                                                                                                                                                                               // Case insensitive
-                allResults = db.Query<User>("SELECT first_name FirstName, last_name LastName, email Email, photo_url PhotoUrl, user_type UserType, shareable_link ShareableLink FROM USERS WHERE first_name LIKE @firstName+'%' COLLATE SQL_Latin1_General_CP1_CI_AS",
-                    new
-                    {
-                        firstName = filter
-                    }).AsList();
-            }
-            
+            List<User> allResults = Db.Db.GetUsersSearch(filter, UserType.Student);
             // sort the items alphabetically
             result.SearchResults = allResults.OrderBy(user=>user.FirstName).ToList<User>();
             // show only the first [insert range here] items of that list
@@ -109,6 +99,19 @@ namespace MVC_Badge_System.Controllers
                 result.SearchResults = result.SearchResults.GetRange(0, range);
 
             return View("SearchResult", result);
+        }
+
+        [HttpPost]
+        public string GetShareableLink(int studentId)
+        {
+            User student = Db.Db.GetUser(studentId);
+            if (student == null || student.UserType != UserType.Student)
+            {
+                throw new HttpException(404, "Invalid student!");
+            }
+
+            string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
+            return baseUrl + student.ShareableLink;
         }
     }
 }
