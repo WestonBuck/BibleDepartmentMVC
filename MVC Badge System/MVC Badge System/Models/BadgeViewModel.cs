@@ -7,7 +7,7 @@ namespace MVC_Badge_System.Models
 {
     public class BadgeViewModel
     {
-        public Badge badges { get; set; }
+        public Badge badge { get; set; }
         public bool obtained = false;
     }
 }
