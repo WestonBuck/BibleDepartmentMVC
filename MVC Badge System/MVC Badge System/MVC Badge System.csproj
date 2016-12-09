@@ -295,6 +295,7 @@
     <Content Include="Views\Badge\Create.cshtml" />
     <Content Include="Views\Badge\Edit.cshtml" />
     <Content Include="Views\Badge\Details.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

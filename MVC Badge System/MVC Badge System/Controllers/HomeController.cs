@@ -28,6 +28,23 @@ namespace MVC_Badge_System.Controllers
 
             return View(GetTreeData(LoginController.GetSessionUser().UserId));
         }
+
+        public ActionResult Home()
+        {
+            if (!LoginController.IsSessionValid())
+            {
+                return RedirectToAction("Login", "Login",
+                    new { returnUrl = System.Web.HttpContext.Current.Request.Url.PathAndQuery });
+            }
+            User curUser = LoginController.GetSessionUser();
+            //go to the tree view if it's a student
+            if (curUser.UserType == UserType.Student)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(curUser);
+        }
+
         public ActionResult GiveBadge()
         {
             User signedin = new Models.User();
