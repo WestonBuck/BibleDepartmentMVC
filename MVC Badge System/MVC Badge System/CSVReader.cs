@@ -11,34 +11,22 @@ namespace MVC_Badge_System
 
     public class CSVReader
     {
-        // contains the path of the database
-        //private string wPath()
-        //{
-        //    string pathName = "Data Source=.\\SQLEXPRESS;Initial Catalog=GSTdata;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        //    return pathName;
-        //}
-
 
         ////////////////////////////////////////////////////////
         // Reads a CSV containing users into the database
         // format should be in fname,lname,email,url,link order
         ////////////////////////////////////////////////////////
-        public void InputUserList() {
+        public void InputUserList(string choice) {
             StreamReader file;
             string fileName;
             string line;
             int lineNumber = 0;
-            //const string CSV = ".csv";
             List<User> tempUserList = new List<User>();
 
-            Console.WriteLine("Input the file name path: ");
-            fileName = Console.ReadLine();
+            //Console.WriteLine("Input the file name path: ");
+            //fileName = Console.ReadLine();
 
-            //if(fileName.Substring(fileName.Length-4,4) != CSV)
-            //{
-            //    fileName = fileName + CSV;
-            //}
-
+            fileName = choice + "\\BadgeSystemPeople.csv";
 
             if (File.Exists(fileName))
             {
@@ -105,15 +93,17 @@ namespace MVC_Badge_System
         // Reads a CSV containing badges into the database
         // format should be in type,retire,start,name,self,student,staff,faculty order
         ////////////////////////////////////////////////////////
-        public void InputBadgeList()
+        public void InputBadgeList(string choice)
         {
             StreamReader file;
             string fileName;
             string line;
             int lineNumber = 0;
 
-            Console.WriteLine("Input the file name path: ");
-            fileName = Console.ReadLine();
+            //Console.WriteLine("Input the file name path: ");
+            //fileName = Console.ReadLine();
+
+            fileName = choice + "\\BadgeBank.csv";
 
             if (File.Exists(fileName))
             {
@@ -203,7 +193,7 @@ namespace MVC_Badge_System
         // Reads a CSV containing badges into the database
         // format should be in badge,sender,recipient,loc_x,loc_y,comment order
         ////////////////////////////////////////////////////////
-        public void InputGiftList()
+        public void InputGiftList(string choice)
         {
             StreamReader file;
             string fileName;
@@ -211,9 +201,10 @@ namespace MVC_Badge_System
             int lineNumber = 0;
             List<Gift> tempGiftList = new List<Gift>();
 
-            Console.WriteLine("Input the file name path: ");
-            fileName = Console.ReadLine();
+            //Console.WriteLine("Input the file name path: ");
+            //fileName = Console.ReadLine();
 
+            fileName = choice + "\\BadgeGiftLog.csv";
 
             if (File.Exists(fileName))
             {

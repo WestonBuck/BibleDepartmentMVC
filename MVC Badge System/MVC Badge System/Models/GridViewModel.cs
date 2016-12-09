@@ -9,5 +9,6 @@ namespace MVC_Badge_System.Models
     {
         public List<List<BadgeViewModel>> grid { get; set; }
         public User student; // all users shown in this view will be students
+        public int longest;  // the index of the longest list of badge view models in the grid
     }
 }

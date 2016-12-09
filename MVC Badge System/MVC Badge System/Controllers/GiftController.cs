@@ -15,19 +15,20 @@ namespace MVC_Badge_System.Controllers
             return View();
         }
 
-		public ActionResult GridIndex(int studentId)
+		public ActionResult GridIndex()
         {
-            User student = Db.Db.GetUser(studentId);
+            User student = LoginController.GetSessionUser();
             int shortList = 0;
             int nextList = 0;
-            int i = 0;
+            int longest = 0; // keeps track of the longest list of badges
 
             GridViewModel GVM = new GridViewModel();
             List<List<BadgeViewModel>> allBadgesList = new List<List<BadgeViewModel>>();
             
             List<Badge> tempCoreList = Db.Db.GetBadges(BadgeType.Apple);
 
-            foreach(Badge b in tempCoreList) {
+            int i = 0;
+            foreach (Badge b in tempCoreList) {
                 BadgeViewModel tempBVM = new BadgeViewModel();
 
                 tempBVM.badge = b;
@@ -45,18 +46,24 @@ namespace MVC_Badge_System.Controllers
                     allBadgesList[i].Add(tempCompBadge);  // add all of a core's prereqs to its list
                 } // end foreach c
 
-                // keep track of shortest list
-                if(allBadgesList[i].Count < allBadgesList[shortList].Count) {
-                    nextList = shortList;
-                    shortList = i;
-                } // end if count
-
                 i++; // move to the next list
             } // end foreach b
-            
+
+            // keep track of shortest list
+            for (int j = 0; j < allBadgesList.Count; j++)
+            {
+                if (allBadgesList[j].Count < allBadgesList[shortList].Count)
+                {
+                    nextList = shortList;
+                    shortList = j;
+                } // end if count
+            }
 
 
-            List<Gift> tempGiftList = Db.Db.GetGiftsGivenTo(studentId);
+            ////////////////////////////////////
+            // The badges the user actually has
+            ////////////////////////////////////
+            List<Gift> tempGiftList = Db.Db.GetGiftsGivenTo(student.UserId);
 
             List<Badge> tempGCores = new List<Badge>();
             List<Badge> tempGComps = new List<Badge>();
@@ -106,7 +113,10 @@ namespace MVC_Badge_System.Controllers
                 {
                     foreach (BadgeViewModel bvm in relList)
                     {
-                        bvm.obtained = true;
+                        if (bvm.badge.BadgeId == comp.BadgeId)
+                        {
+                            bvm.obtained = true;
+                        }
                     } // end foreach bvm
                 } // end foreach relList
             } // end foreach comp
@@ -121,24 +131,32 @@ namespace MVC_Badge_System.Controllers
                 allBadgesList[shortList].Add(tempCBVM);
 
                 // keep track of the shortest list
-                if (allBadgesList[shortList].Count <= allBadgesList[nextList].Count)
+                if (allBadgesList[shortList].Count >= allBadgesList[0].Count)
                 {
-                    shortList = nextList;
-                    nextList = 0; // we want the badges to be added at the lowest length list from left to right
-
+                    shortList = 0;
                     for (int index = 0; index < allBadgesList.Count; index++)
                     {
-                        if (allBadgesList[nextList].Count > allBadgesList[index].Count)
+
+                        if (allBadgesList[shortList].Count > allBadgesList[index].Count)
                         {
-                            nextList = index;
+                            shortList = index;
                         } // end if
                     } // end for
                 } // end if
             } // end foreach comend
             // at this point, we have a list of lists w/ counts that are w/i 1 element of each other in length
 
+            for(int j = 0; j < allBadgesList.Count; j++)
+            {
+                if(allBadgesList[j].Count > allBadgesList[longest].Count)
+                {
+                    longest = j;
+                }
+            }
+
             GVM.student = student;
             GVM.grid = allBadgesList;
+            GVM.longest = longest;
 
             return View(GVM);
         }
