@@ -26,10 +26,15 @@ namespace MVC_Badge_System.Controllers
         {
             string hash = GenerateShareableHash(id);
 
-            string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
+            string baseUrl = ShareLinkBaseURL();
 
             var data = new  { Url = baseUrl + hash };
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public static string ShareLinkBaseURL()
+        {
+            return System.Web.HttpContext.Current.Request.Url?.Scheme + "://" + System.Web.HttpContext.Current.Request.Url?.Authority + System.Web.HttpContext.Current.Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
         }
     }
 }

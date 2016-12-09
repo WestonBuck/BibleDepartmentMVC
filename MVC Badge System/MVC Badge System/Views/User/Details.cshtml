@@ -1,4 +1,5 @@
 ﻿@model MVC_Badge_System.Models.User
+@using MVC_Badge_System.Controllers
 
 @{
     ViewBag.Title = Model.FirstName + " " + Model.LastName + " Details";
@@ -59,7 +60,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ShareableLink)
+            @if (!String.IsNullOrEmpty(Model.ShareableLink))
+            {
+                <a href="@ShareableLinkController.ShareLinkBaseURL()@Model.ShareableLink">@ShareableLinkController.ShareLinkBaseURL()@Model.ShareableLink</a>
+            }
         </dd>
 
     </dl>
