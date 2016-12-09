@@ -18,14 +18,14 @@ namespace MVC_Badge_System.Db
         //
         // GIFT
         //
-        public static void CreateGift(Gift gift)
+        public static int CreateGift(Gift gift)
         {
             using (IDbConnection conn = new SqlConnection(Connection))
             {
                 string sql = "INSERT INTO BADGE_GIFTS(gift_date, badge_id, sender_id, recipient_id, tree_loc_x, tree_loc_y, comment)" +
-                             "VALUES (@GiftDate, @BadgeId, @SenderId, @RecipientId, @TreeLocX, @TreeLocY, @Comment)";
+                             "VALUES (@GiftDate, @BadgeId, @SenderId, @RecipientId, @TreeLocX, @TreeLocY, @Comment); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                conn.Query(sql, gift);
+                return conn.Query<int>(sql, gift).Single();
             }
         }
 
@@ -255,7 +255,7 @@ namespace MVC_Badge_System.Db
                     switch (sender.UserType)
                     {
                         case UserType.Student:
-                            senderType = "studnet";
+                            senderType = "student";
                             break;
                         case UserType.Staff:
                             senderType = "staff";

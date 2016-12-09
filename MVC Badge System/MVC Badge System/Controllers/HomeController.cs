@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection.Emit;
 using System.Web.Mvc;
 using MVC_Badge_System.Models;
 
@@ -64,8 +62,19 @@ namespace MVC_Badge_System.Controllers
             newGift.SenderId = sender.UserId;
             newGift.RecipientId = Recepient.UserId;
             newGift.Comment = comment;
-            MVC_Badge_System.Db.Db.CreateGift(newGift);         //add gift to db
 
+            try
+            {
+                Point location = GetNewBadgeLocation(Recepient);
+                newGift.TreeLocX = location.X;
+                newGift.TreeLocY = location.Y;
+            }
+            catch (Exception e)
+            {
+                // ignore for now
+            }
+
+            Db.Db.CreateGift(newGift);         //add gift to db
 
             //create a confdata model for the view
             ConfirmationData confdata = new ConfirmationData();
@@ -87,7 +96,7 @@ namespace MVC_Badge_System.Controllers
         /// <returns></returns>
         public Point GetNewBadgeLocation(User user)
         {
-            List<Gift> gifts = Db.Db.GetGiftsGivenTo(user);
+            var treeData = GetTreeData(user.UserId);
 
             // Bounding triangle
             int triLeftX = 182;
@@ -115,25 +124,30 @@ namespace MVC_Badge_System.Controllers
 
             int counter = 0;
 
-            Point p;
+            Point? p = null;
             while (true)
             {
+                if (++counter > 10000)
+                {
+                    break;
+                }
+
                 int x = random.Next(182, 849);
                 int y = random.Next(200, 601);
                 p = new Point(x, y);
 
-                if (!IsInTriangle(p, triLeftPoint, triRightPoint, triTopPoint))
+                if (!IsInTriangle(p.Value, triLeftPoint, triRightPoint, triTopPoint))
                 {
                     continue;
                 }
 
-                if (IsInBox(p, excBottomLeftPoint, excTopRightPoint))
+                if (IsInBox(p.Value, excBottomLeftPoint, excTopRightPoint))
                 {
                     continue;
                 }
 
                 bool good = true;
-                foreach (Gift gift in gifts)
+                foreach (Gift gift in treeData.Item1)
                 {
                     if (gift.TreeLocX == null || gift.TreeLocY == null || gift.TreeLocX == 0 || gift.TreeLocY == 0)
                     {
@@ -141,7 +155,7 @@ namespace MVC_Badge_System.Controllers
                     }
 
                     Point giftPoint = new Point(gift.TreeLocX.Value, gift.TreeLocY.Value);
-                    double distance = Distance(p, giftPoint);
+                    double distance = Distance(p.Value, giftPoint);
 
                     if (distance < acceptableDistance)
                     {
@@ -155,7 +169,24 @@ namespace MVC_Badge_System.Controllers
                     break;
                 }
 
-                if (++counter > 10000)
+                foreach (DefaultBadge badge in treeData.Item2)
+                {
+                    if (badge.TreeLocX == null || badge.TreeLocY == null || badge.TreeLocX == 0 || badge.TreeLocY == 0)
+                    {
+                        continue;
+                    }
+
+                    Point badgePoint = new Point(badge.TreeLocX.Value, badge.TreeLocY.Value);
+                    double distance = Distance(p.Value, badgePoint);
+
+                    if (distance < acceptableDistance)
+                    {
+                        good = false;
+                        break;
+                    }
+                }
+
+                if (good)
                 {
                     break;
                 }
@@ -166,7 +197,7 @@ namespace MVC_Badge_System.Controllers
                 throw new Exception("No suitable place on the tree was found.");
             }
 
-            return p;
+            return p.Value;
         }
 
         /// <summary>
@@ -179,10 +210,10 @@ namespace MVC_Badge_System.Controllers
         /// <returns>True if the point is in the triangle</returns>
         public bool IsInTriangle(Point p, Point p0, Point p1, Point p2)
         {
-            var a = 1 / 2 * (-p1.Y * p2.X + p0.Y * (-p1.X + p2.X) + p0.X * (p1.Y - p2.Y) + p1.X * p2.Y);
-            var sign = a < 0 ? -1 : 1;
-            var s = (p0.Y * p2.X - p0.X * p2.Y + (p2.Y - p0.Y) * p.X + (p0.X - p2.X) * p.Y) * sign;
-            var t = (p0.X * p1.Y - p0.Y * p1.X + (p0.Y - p1.Y) * p.X + (p1.X - p0.X) * p.Y) * sign;
+            double a = (1.0 / 2.0) * (-p1.Y * p2.X + p0.Y * (-p1.X + p2.X) + p0.X * (p1.Y - p2.Y) + p1.X * p2.Y);
+            double sign = a < 0 ? -1 : 1;
+            double s = (p0.Y * p2.X - p0.X * p2.Y + (p2.Y - p0.Y) * p.X + (p0.X - p2.X) * p.Y) * sign;
+            double t = (p0.X * p1.Y - p0.Y * p1.X + (p0.Y - p1.Y) * p.X + (p1.X - p0.X) * p.Y) * sign;
 
             return s > 0 && t > 0 && (s + t) < 2 * a * sign;
         }
