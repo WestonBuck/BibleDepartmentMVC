@@ -301,6 +301,7 @@ namespace MVC_Badge_System.Db
         {
             User recipient = new User();
             recipient.UserType = UserType.Student;
+            recipient.UserId = -1;
             return GetBadges(sender, recipient);
         }
 

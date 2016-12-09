@@ -7,7 +7,13 @@
 <head>
 	<link rel="stylesheet" href="/css/bootstrap.css">
 	<link rel="theme" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet2" href="/css/font-awesome.min.css">
 	<link rel="JS" href="/JS/bootstrap.js">
+    <style>
+        ex1{
+        max-width:500px;
+        }
+    </style>
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -23,20 +29,35 @@
 			{
 				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
 				<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
-			}
-			<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
+
+            }
+            <li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
 			<!--Admin tabs-->
 			if (curUser.UserType == UserType.Admin)
 			{
 				<li class="@(curController == "User" ? "active" : "")">@Html.ActionLink("Users", "List", "User")</li>
 				<li class="@(curController == "Badge" ? "active" : "")">@Html.ActionLink("Badge Bank", "List", "Badge")</li>
-			}
-			<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
-		}
-		else
-		{
-			<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Index", "Home") }, new { @class = "btn btn-primary" })</span>
-		}
+            }
+            //<span>@Html.ActionLink("Log out", "Logout", "Login", null, new { @class = "btn btn-primary" })</span>
+         <span align="right"> <a href="@Url.Action("Logout", "Login")" class="btn btn-primary btn-info">
+
+                Log Out
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a> </span>
+
+        }
+        else
+        {
+            //<span>@Html.ActionLink("Sign in", "Login", "Login", new { returnUrl = Url.Action("Index", "Home") }, new { @class = "btn btn-primary" })</span>
+            <div align="right">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-info">
+
+                    Log In
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                </a>
+            </div>
+
+        }
 
 		<!--Search bar for admin, faculty, and staff-->
 		@if (isLoggedIn && (curUser.UserType == UserType.Admin || curUser.UserType == UserType.Faculty || curUser.UserType == UserType.Staff))
@@ -53,7 +74,12 @@
             string baseUrl = Request.Url?.Scheme + "://" + Request.Url?.Authority + Request.ApplicationPath?.TrimEnd('/') + "/Share/Index/";
         
             <!-- Can't believe I'm actually doing this...basically the user wasn't updateing on refresh, so pull it from the DB to make it work :\ -->
-            <span id="shareable-link">@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink</span>
+             <span id="shareable-link" class="ex1">@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink</span>
+
+            //<div id="shareable-link" >@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink</div>
+
+
+            // <input class="readMe" type="text" name="firstname" value=@baseUrl@Db.GetUser(LoginController.GetSessionUser().UserId).ShareableLink readonly="" id="shareable-link">
         }
 	</ul>   
 	<div class="tab-content"></div>
