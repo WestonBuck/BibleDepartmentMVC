@@ -21,7 +21,7 @@
 			<!--Student tabs-->
 			if (curUser.UserType == UserType.Student)
 			{
-				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "TreeIndex", "Gift")</li>
+				<li class="@(curAction == "TreeIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Tree", "Index", "Home")</li>
 				<li class="@(curAction == "GridIndex" && curController == "Gift" ? "active" : "")">@Html.ActionLink("Grid", "GridIndex", "Gift")</li>
 			}
 			<li class="@(curAction == "GiveBadge" && curController == "Home" ? "active" : "")">@Html.ActionLink("Give Badge", "GiveBadge", "Home")</li>
