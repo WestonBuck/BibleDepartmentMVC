@@ -2,6 +2,13 @@ This is a repository for Team TacoCatBagelWaffle's project in Software tools.
 
 We are making a "badge" system for the Graduate School of Theology.
 
+Collaborators:
+              Kyle Wood: https://github.com/DemonWav
+              Tim Shimp: https://github.com/valcus
+              Emily Pielemeier: https://github.com/epielemeier
+              Keenan Gates: https://github.com/dinosaurSenses
+              Colby Dial: https://github.com/CrudenDarkeyes
+              Weston Buck: https://github.com/WestonBuck
 
 SETUP
 -----
